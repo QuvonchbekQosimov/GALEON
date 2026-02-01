@@ -38,3 +38,26 @@
   cards.forEach((card) => observer.observe(card));
   updateNavigationColors();
 })();
+
+// Checkbox elementini ID orqali tanlab olamiz
+const customCheckbox = document.getElementById('customCheckbox');
+// SVG elementini uning ichidan tanlab olamiz
+const checkboxSVG = customCheckbox.querySelector('svg');
+
+// Aktiv holatni kuzatib borish uchun o'zgaruvchi
+let isChecked = false;
+const activeColor = '#23A8B3';
+const defaultColor = '#AFAFAF';
+
+// Klik hodisasini tinglaymiz
+customCheckbox.addEventListener('click', function() {
+    // Holatni o'zgartiramiz (true -> false yoki false -> true)
+    isChecked = !isChecked;
+
+    // SVG fon rangini holatga qarab o'zgartiramiz
+    if (isChecked) {
+        checkboxSVG.style.backgroundColor = activeColor;
+    } else {
+        checkboxSVG.style.backgroundColor = defaultColor;
+    }
+});

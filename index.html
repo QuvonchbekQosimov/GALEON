@@ -6,6 +6,7 @@
     <title>GALEON</title>
     <link rel="stylesheet" href="/css/main.css" />
   </head>
+
   <body>
     <!--Header-top-->
     <div class="header-top">
@@ -81,7 +82,20 @@
           <img src="/img/logo.png" alt="" />
         </div>
         <div class="header-menu">
-          <img src="/img/menu.png" alt="" />
+          <button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="22"
+              height="22"
+              viewBox="0 0 22 22"
+              fill="none"
+            >
+              <rect y="2" width="22" height="2" fill="white" />
+              <rect y="10" width="16" height="2" fill="white" />
+              <rect y="18" width="22" height="2" fill="white" />
+            </svg>
+            Меню
+          </button>
         </div>
         <div class="header-search">
           <svg
@@ -424,9 +438,9 @@
           <div class="about-info">
             <div class="about-subtitle">Преимущества производства</div>
             <div class="about-description">
-              Контролируем каждый этап создания вашей продукции. Полный
-              производственный цикл на собственных мощностях позволяет нам
-              гарантировать качество, соблюдать сроки и брать на себя всю
+              Контролируем каждый этап создания вашей продукции. <br />
+              Полный производственный цикл на собственных мощностях позволяет
+              нам гарантировать качество, соблюдать сроки и брать на себя всю
               ответственность за конечный результат.
             </div>
             <div class="button">
@@ -542,8 +556,153 @@
         </div>
       </div>
     </div>
+    <!--Coontact-->
+    <div class="contact-banner__area">
+      <div class="container">
+        <div class="contact">
+          <div class="contact-img">
+            <img src="/img/Галеон 1.svg" alt="" class="contact-svg__img" />
+            <img src="/img/contact-img.jpg" alt="" />
+          </div>
+          <div class="contact-info">
+            <div class="contact-info__subtitle">Свяжитесь с нами</div>
+            <div class="contact-info__description">
+              Заполните форму, мы свяжемся и проконсультируем Вас в кратчайшие
+              сроки
+            </div>
+            <div class="contact-info__name">
+              <input type="text" placeholder="Ваше Имя*" />
+            </div>
+            <div class="contact-info__number">
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  border: 1px solid #ccc;
+                  padding: 5px;
+                  border-radius: 4px;
+                  width: fit-content;
+                "
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="27"
+                  height="18"
+                  viewBox="0 0 27 18"
+                  fill="none"
+                  style="margin-right: 8px"
+                >
+                  <g clip-path="url(#clip0_105_290)">
+                    <path d="M27 0H0V6H27V0Z" fill="white" />
+                    <path d="M27 6H0V12H27V6Z" fill="#0039A6" />
+                    <path d="M27 12H0V18H27V12Z" fill="#D52B1E" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_105_290">
+                      <rect width="27" height="18" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
 
+                <input
+                  type="tel"
+                  placeholder=" +7 999 999 99 99*"
+                  style="border: none; outline: none; font-size: 14px"
+                  required
+                />
+              </div>
+            </div>
+            <div class="contact-info__message">
+              <input type="text" placeholder="Сообщение*" />
+            </div>
+            <div class="button">
+              <button>Оставить заявку</button>
+            </div>
+            <div class="contact-info__select" id="customCheckbox">
+              <svg
+                xmlns="http://www.w3.org"
+                width="14"
+                height="14"
+                viewBox="0 0 14 14"
+                fill="none"
+              >
+                <path
+                  d="M12.1454 1.55566L5.01225 8.17318L1.99555 4.95386L0 6.82382L4.87359 12.0248L14 3.56598L12.1454 1.55566Z"
+                  fill="white"
+                />
+              </svg>
+              Нажимая на кнопку «Отправить», вы даете согласие на обработку
+              своих персональных данных
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Footer-->
+    <footer id="footer">
+      <div class="footer-top">
+        <div class="footer-top1">
+          <div class="footer-top1__img">
+            <img src="/img/footer-img.svg" alt="" />
+          </div>
+          <div class="footer-top1__description">
+            Российское производство ударопрочных кейсов для критически важного
+            оборудования
+          </div>
+        </div>
+        <div class="footer-top2">
+          <div class="footer-top2__title">Каталог</div>
+          <div class="footer-top2__items">
+            <div class="footer-top2__item">Мини кейсы</div>
+            <div class="footer-top2__item">Средние кейсы</div>
+            <div class="footer-top2__item">Большие кейсы</div>
+            <div class="footer-top2__item">Длинные кейсы</div>
+            <div class="footer-top2__item">Кейсы для ноутбуков</div>
+            <div class="footer-top2__item">Контейнеры</div>
+          </div>
+        </div>
+        <div class="footer-top3">
+          <div class="footer-top3__title">Разделы</div>
+          <div class="footer-top3__items">
+            <div class="footer-top3__item">Главная</div>
+            <div class="footer-top3__item">Информация</div>
+            <div class="footer-top3__item">Производство</div>
+            <div class="footer-top3__item">Контакты</div>
+          </div>
+        </div>
+        <div class="footer-top4">
+          <div class="footer-top4__title">Контакты</div>
+          <div class="footer-top4__location">
+            г. Москва ул. Плеханова д.7, эт. 1, пом. I ком 25
+          </div>
+          <div class="footer-top4__number">+7 495 023 67 93</div>
+          <div class="footer-top4__date">Пн-Пт: с 10:00 до 18:00</div>
+          <div class="footer-top4__email">info@galeoncase.ru</div>
+        </div>
+      </div>
+      <div class="footer-line"></div>
+      <div class="footer-bottom">
+        <div class="footer-bottom">
+          <div class="footer-bottom1">Все права защищены 2025©</div>
+          <div class="footer-bottom2">Политика конфедициальности</div>
+          <div class="footer-bottom__link">
+            Наверх
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 14 14"
+              fill="none"
+            >
+              <path
+                d="M7.58072 4.2811L7.58072 11.3815L6.41423 11.3815L6.41381 4.28151L3.28516 7.41016L2.4602 6.58521L6.99747 2.04794L11.5347 6.58521L10.7098 7.41016L7.58072 4.2811Z"
+                fill="#8D8D8D"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </footer>
     <script src="/js/script.js"></script>
-    
   </body>
 </html>
