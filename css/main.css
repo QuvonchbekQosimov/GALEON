@@ -1,0 +1,548 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Manrope", sans-serif;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 12px;
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-family: "Manrope";
+  src: url("/fonts/Manrope-Regular.ttf");
+}
+
+.header-top {
+  width: 100%;
+  background: #142434;
+  height: 43px;
+  display: flex;
+  align-items: center;
+}
+
+.header-top__wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.header-top__left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-top__number,
+.header-top__location,
+.header-top__link {
+  display: flex;
+  align-items: center;
+  gap: 6.4px;
+}
+
+.header-top__number {
+  color: #fff;
+  font-family: "Manrope";
+  font-size: 12.8px;
+  font-weight: 700;
+}
+
+.header-top__date {
+  color: #afafaf;
+  font-family: "Manrope";
+  font-size: 12.8px;
+  font-weight: 400;
+}
+
+.header-top__location {
+  color: #fff;
+  font-family: "Manrope";
+  font-size: 12.8px;
+  font-weight: 400;
+}
+
+.header-top__link {
+  color: #fff;
+  font-family: "Manrope";
+  font-size: 12.8px;
+  font-weight: 400;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6.4px;
+  background-image: linear-gradient(
+    to right,
+    white 60%,
+    rgba(255, 255, 255, 0) 0%
+  );
+  background-position: bottom;
+  background-size: 6.4px 0.8px;
+  background-repeat: repeat-x;
+  text-decoration: none;
+}
+
+.header-top__link:hover {
+  background-image: linear-gradient(
+    to right,
+    white 100%,
+    rgba(255, 255, 255, 0) 0%
+  );
+}
+
+#header {
+  height: 70px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.header__wrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.header-logo {
+  width: 158px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.header-menu {
+  flex-shrink: 0;
+  margin-left: 30px;
+}
+
+.header-menu img {
+  width: 103px;
+  height: auto;
+  padding: 16px 32px;
+  cursor: pointer;
+  display: block;
+}
+
+.header-search {
+  display: flex;
+  flex: 1;
+  height: 48px;
+  padding: 0 16px;
+  align-items: center;
+  gap: 9.6px;
+  background: #efefef;
+  border-radius: 3.2px;
+  transition: all 0.3s ease;
+}
+
+.header-search input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-family: "Manrope", sans-serif;
+  font-size: 12.8px;
+  font-weight: 400;
+  color: #142434;
+}
+
+.header-search input::placeholder {
+  color: #8d8d8d;
+}
+
+.header-icons {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-shrink: 0;
+  margin-left: 30px;
+}
+
+.header-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.header-icon:hover {
+  transform: translateY(-2px);
+}
+
+.main-banner__area {
+  background:
+    linear-gradient(
+      270deg,
+      rgba(19, 26, 35, 0) 0%,
+      rgba(19, 26, 35, 0.5) 58.31%,
+      rgba(19, 26, 35, 0.8) 100%
+    ),
+    url("/img/banner-bacground.png") lightgray 0px -35.4px / 100% 110.241%
+      no-repeat;
+}
+
+.main {
+  padding: 64px 0;
+}
+
+.main-title {
+  color: #fff;
+  font-family: "Manrope";
+  font-size: 41.6px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
+  width: 60%;
+}
+
+.main-description {
+  color: #fff;
+  font-family: "Manrope";
+  font-size: 12.8px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 144%;
+  width: 429.6px;
+  margin: 51.2px 0px;
+}
+
+.main-button {
+  display: inline-flex;
+  padding: 16px 32px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  color: #1f4567;
+  font-family: "Manrope";
+  font-size: 12.8px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.main-button:hover {
+  background-color: #1f4567;
+  color: #fff;
+}
+
+.chance-banner {
+  background: #f3f6f9;
+  width: 100%;
+}
+
+.chance-header-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-top: 80px;
+  margin-bottom: 32px;
+}
+
+.chance-subtitle {
+  color: #131a23;
+  font-family: "Manrope", sans-serif;
+  font-size: 35px;
+  font-weight: 700;
+  line-height: 120%;
+}
+
+.chance-card__navigation {
+  display: flex;
+  gap: 8px;
+}
+
+.chance-card__navigation .left,
+.chance-card__navigation .right {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: #fff;
+  user-select: none;
+}
+
+.chance-card__navigation .left {
+  background-color: #8d8d8d;
+}
+
+.chance-card__navigation .right {
+  background-color: #1f4567;
+}
+
+.chance-cards {
+  display: flex;
+  gap: 24px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding-bottom: 20px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.chance-cards::-webkit-scrollbar {
+  display: none;
+}
+
+.chance-card {
+  flex: 0 0 auto;
+  width: 44%;
+  cursor: pointer;
+  scroll-snap-align: start;
+}
+
+.chance-card__img img {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  display: block;
+}
+
+.chance-card__title {
+  color: #131a23;
+  font-family: "Manrope", sans-serif;
+  font-size: 16px;
+  margin: 10px 0;
+  font-weight: 700;
+  line-height: 150%;
+}
+
+.chance-card__description {
+  color: #8d8d8d;
+  font-family: "Manrope", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 150%;
+}
+
+.product-cards {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.card-3 {
+  grid-column: span 2;
+}
+.card-2 {
+  grid-column: span 3;
+}
+.card-1 {
+  grid-column: span 6;
+}
+
+.product-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 60px;
+}
+
+.product-subtitle {
+  color: #131a23;
+  font-family: "Manrope", sans-serif;
+  font-size: 44px;
+  font-weight: 700;
+  line-height: 120%;
+}
+
+.product-link {
+  color: #23a8b3;
+  font-family: "Manrope", sans-serif;
+  font-size: 12.8px;
+  font-weight: 400;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6.4px;
+  text-decoration: none;
+  background-image: linear-gradient(to right, #23a8b3 60%, transparent 0%);
+  background-position: bottom;
+  background-size: 6.4px 1px;
+  background-repeat: repeat-x;
+  transition: background-size 0.3s ease;
+}
+
+.product-link:hover {
+  background-image: linear-gradient(to right, #23a8b3 100%, transparent 0%);
+  background-size: 100% 1px;
+}
+
+.product-card {
+  background: #f0f0f0;
+  padding: 30px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  transition: all 0.4s ease;
+}
+
+.product-card:hover{
+    transform: scale(0.99);
+}
+
+.product-card__title {
+  color: #131a23;
+  font-family: "Manrope", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 144%;
+  z-index: 2;
+}
+
+.product-card__link {
+  position: absolute;
+  left: 30px;
+  bottom: 30px;
+  width: 40px;
+  height: 40px;
+  background-color: #23a8b3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 5;
+  transition: all 0.4s ease;
+  border: 1px solid #23a8b3;
+}
+
+.product-card__link svg {
+  transition: transform 0.4s ease;
+}
+
+.product-card__link svg path {
+  fill: #ffffff;
+  transition: fill 0.4s ease;
+}
+
+.product-card__link:hover {
+  background-color: #ffffff;
+}
+
+.product-card__link:hover svg {
+  transform: rotate(45deg);
+}
+
+.product-card__link:hover svg path {
+  fill: #23a8b3;
+}
+
+.product-card__img {
+  align-self: flex-end;
+  margin-top: auto;
+}
+
+.product-card__img img {
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+}
+
+.card-2 .product-card__img img {
+  width: 250px;
+}
+
+.card-1 .product-card__img img {
+  width: 436px;
+  height: 240px;
+}
+.card-1 {
+  grid-column: span 6;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 32px 48px;
+  min-height: 280px;
+  position: relative;
+}
+
+.card-1 .product-card__title {
+  font-size: 20px;
+  margin-bottom: 30px;
+  max-width: 60%;
+}
+
+.card-1 .product-card__types {
+  max-width: 50%; 
+  margin-top: 0;
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 50px;
+  gap: 8px 20px;
+  z-index: 2;
+}
+
+.card-1 .product-card__type {
+  font-size: 14px;
+  flex: 0 1 auto;
+}
+
+.card-1 .product-card__link {
+  position: static;
+  margin-top: 24px;
+  z-index: 3;
+}
+
+.card-1 .product-card__img {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.card-1 .product-card__img img {
+  width: 420px; 
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+
+.product-card__types {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  margin-top: 60px;
+  max-width: 60%;
+  z-index: 2;
+  position: relative;
+}
+
+.product-card__type {
+  color: #8d8d8d;
+  font-family: "Manrope", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 150%;
+  flex: 1 1 30%;
+  min-width: 140px;
+  cursor: pointer;
+  transition: all 0.4s ease;
+}
+
+.product-card__type:hover {
+    color: #23a8b3;
+}
