@@ -112,22 +112,40 @@
   // =========================
   const setConsent = (val) => {
     state.consent = !!val;
+
     if (!checkboxRow || !checkboxIcon) return;
+
     checkboxIcon.style.opacity = state.consent ? "1" : "0";
-    checkboxIcon.style.backgroundColor = state.consent ? "#23A8B3" : "#AFAFAF";
+
+    // CSS uchun class
+    checkboxRow.classList.toggle("active", state.consent);
   };
 
   const bindConsent = () => {
     if (!checkboxRow) return;
+
+    const toggle = () => setConsent(!state.consent);
+
+    // start holat
     setConsent(true);
-    checkboxRow.addEventListener("click", () => setConsent(!state.consent));
+
+    checkboxRow.addEventListener("click", (e) => {
+      e.preventDefault();
+      toggle();
+    });
+
+    // keyboard support
+    checkboxRow.setAttribute("tabindex", "0");
+    checkboxRow.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        toggle();
+      }
+    });
   };
 
   // =========================
   // STICKY/FIXED HEADER ON SCROLL (WORKING)
-  // ✅ fixed on scroll
-  // ✅ spacer (no jump)
-  // ✅ NO duplicate, NO scope issues
   // =========================
   const stickyHeader = () => {
     if (!header) return;
@@ -155,7 +173,6 @@
     background: transparent !important;
     box-shadow: none !important;
 
-    /* ❗ transform animatsiyasini o‘chiramiz */
     transition: box-shadow 200ms ease, background-color 200ms ease !important;
   }
 
@@ -174,7 +191,6 @@
     z-index: -1 !important;
   }
 `;
-
       document.head.appendChild(st);
     }
 
@@ -349,191 +365,190 @@
   };
 
   const buildMegaMenu = () => {
-  if (state.megaRoot) return state.megaRoot;
+    if (state.megaRoot) return state.megaRoot;
 
-  const mega = document.createElement("div");
-  mega.id = "galeon-mega";
+    const mega = document.createElement("div");
+    mega.id = "galeon-mega";
 
-  const inner = document.createElement("div");
-  inner.className = "container mega-inner";
+    const inner = document.createElement("div");
+    inner.className = "container mega-inner";
 
-  // =========================
-  // LEFT (rasmdek)
-  // =========================
-  const left = document.createElement("div");
-  left.className = "mega-left";
+    const left = document.createElement("div");
+    left.className = "mega-left";
 
-  const leftTitle = document.createElement("div");
-  leftTitle.className = "mega-left__title";
-  leftTitle.textContent = "Разделы";
+    const leftTitle = document.createElement("div");
+    leftTitle.className = "mega-left__title";
+    leftTitle.textContent = "Разделы";
 
-  left.appendChild(leftTitle);
-  left.appendChild(makeLeftLink("Главная", "#header"));
-  left.appendChild(makeLeftLink("Информация", ".about-banner__area"));
+    left.appendChild(leftTitle);
+    left.appendChild(makeLeftLink("Главная", "#header"));
+    left.appendChild(makeLeftLink("Информация", ".about-banner__area"));
 
-  // ✅ Производство => toggle + sub (rasmdagi kabi)
-  const prodBtn = document.createElement("button");
-  prodBtn.type = "button";
-  prodBtn.className = "mega-left__toggle";
-  prodBtn.innerHTML = `
+    const prodBtn = document.createElement("button");
+    prodBtn.type = "button";
+    prodBtn.className = "mega-left__toggle";
+    prodBtn.innerHTML = `
     <span>Производство</span>
     <span class="mega-left__chev">▾</span>
   `;
 
-  const sub = document.createElement("div");
-  sub.className = "mega-left__sub";
+    const sub = document.createElement("div");
+    sub.className = "mega-left__sub";
 
-  const prodItems = [
-    { text: "Кейсы и контейнеры", target: ".chance-banner" },
-    { text: "Ложементы любой сложности", target: ".chance-banner" },
-    { text: "Кастомные MOLLE-панели", target: ".chance-banner" },
-    { text: "Интерьерные (I/O) панели", target: ".chance-banner" },
-    { text: "Приборные панели, Конструктивные элементы из металла", target: ".chance-banner" },
-    { text: "Пульты управления", target: ".chance-banner" },
-    { text: "Системы охлаждения и системы нагрева", target: ".chance-banner" },
-    { text: "Шкафы металлические и аксессуары для кейсов и панелей", target: ".chance-banner" },
-  ];
+    const prodItems = [
+      { text: "Кейсы и контейнеры", target: ".chance-banner" },
+      { text: "Ложементы любой сложности", target: ".chance-banner" },
+      { text: "Кастомные MOLLE-панели", target: ".chance-banner" },
+      { text: "Интерьерные (I/O) панели", target: ".chance-banner" },
+      {
+        text: "Приборные панели, Конструктивные элементы из металла",
+        target: ".chance-banner",
+      },
+      { text: "Пульты управления", target: ".chance-banner" },
+      {
+        text: "Системы охлаждения и системы нагрева",
+        target: ".chance-banner",
+      },
+      {
+        text: "Шкафы металлические и аксессуары для кейсов и панелей",
+        target: ".chance-banner",
+      },
+    ];
 
-  prodItems.forEach((it) => {
-    const a = document.createElement("a");
-    a.href = it.target || "#";
-    a.textContent = it.text;
+    prodItems.forEach((it) => {
+      const a = document.createElement("a");
+      a.href = it.target || "#";
+      a.textContent = it.text;
 
-    a.addEventListener("click", (e) => {
+      a.addEventListener("click", (e) => {
+        e.preventDefault();
+        smoothScrollTo(it.target);
+        setMegaMenu(false);
+      });
+
+      sub.appendChild(a);
+    });
+
+    prodBtn.addEventListener("click", () => {
+      left.classList.toggle("is-open");
+    });
+
+    left.appendChild(prodBtn);
+    left.appendChild(sub);
+
+    left.appendChild(makeLeftLink("Контакты", ".contact-banner__area"));
+
+    const right = document.createElement("div");
+    right.className = "mega-right";
+
+    const rightTop = document.createElement("div");
+    rightTop.className = "mega-right__top";
+
+    const rtTitle = document.createElement("div");
+    rtTitle.className = "mega-right__title";
+    rtTitle.textContent = "Каталог";
+
+    const rtAll = document.createElement("a");
+    rtAll.className = "mega-right__all";
+    rtAll.href = "#";
+    rtAll.textContent = "Все кейсы";
+    rtAll.addEventListener("click", (e) => {
       e.preventDefault();
-      smoothScrollTo(it.target);
+      smoothScrollTo(".all-products");
       setMegaMenu(false);
     });
 
-    sub.appendChild(a);
-  });
+    rightTop.appendChild(rtTitle);
+    rightTop.appendChild(rtAll);
 
-  // toggle open/close
-  prodBtn.addEventListener("click", () => {
-    left.classList.toggle("is-open");
-  });
+    const grid = document.createElement("div");
+    grid.id = "galeon-mega-grid";
 
-  left.appendChild(prodBtn);
-  left.appendChild(sub);
+    const from = getFromAllProducts();
 
-  left.appendChild(makeLeftLink("Контакты", ".contact-banner__area"));
+    const data = from
+      ? [
+          { ...from.a0, sizeClass: "mm-card--sm" },
+          { ...from.a1, sizeClass: "mm-card--sm" },
+          { ...from.a2, sizeClass: "mm-card--sm" },
+          { ...(from.a3 || from.a0), sizeClass: "mm-card--md" },
+          { ...(from.a4 || from.a1), sizeClass: "mm-card--md" },
+          {
+            ...(from.a5 || from.a2),
+            sizeClass: "mm-card--lg",
+            sub: [
+              { text: "Контейнеры СМС", href: "#" },
+              { text: "Контейнеры RACK", href: "#" },
+              { text: "Контейнеры ПСС", href: "#" },
+              { text: "Контейнеры СТС", href: "#" },
+              { text: "Рабочие мобильные места", href: "#" },
+              { text: "Мобильный госпиталь", href: "#" },
+            ],
+          },
+        ]
+      : [
+          {
+            title: "Мини кейсы",
+            img: "/img/all-products1.png",
+            href: "#",
+            sizeClass: "mm-card--sm",
+          },
+          {
+            title: "Средние кейсы",
+            img: "/img/all-products2.png",
+            href: "#",
+            sizeClass: "mm-card--sm",
+          },
+          {
+            title: "Большие кейсы",
+            img: "/img/all-products3.png",
+            href: "#",
+            sizeClass: "mm-card--sm",
+          },
+          {
+            title: "Длинные кейсы",
+            img: "/img/all-products4.png",
+            href: "#",
+            sizeClass: "mm-card--md",
+          },
+          {
+            title: "Кейсы для ноутбуков",
+            img: "/img/all-products5.png",
+            href: "#",
+            sizeClass: "mm-card--md",
+          },
+          {
+            title: "Контейнеры",
+            img: "/img/all-products6.png",
+            href: "#",
+            sizeClass: "mm-card--lg",
+            sub: [
+              { text: "Контейнеры СМС", href: "#" },
+              { text: "Контейнеры RACK", href: "#" },
+              { text: "Контейнеры ПСС", href: "#" },
+              { text: "Контейнеры СТС", href: "#" },
+              { text: "Рабочие мобильные места", href: "#" },
+              { text: "Мобильный госпиталь", href: "#" },
+            ],
+          },
+        ];
 
-  // =========================
-  // RIGHT (o‘zgarmagan)
-  // =========================
-  const right = document.createElement("div");
-  right.className = "mega-right";
+    data.forEach((cfg) => grid.appendChild(buildCard(cfg)));
 
-  const rightTop = document.createElement("div");
-  rightTop.className = "mega-right__top";
+    right.appendChild(rightTop);
+    right.appendChild(grid);
 
-  const rtTitle = document.createElement("div");
-  rtTitle.className = "mega-right__title";
-  rtTitle.textContent = "Каталог";
+    inner.appendChild(left);
+    inner.appendChild(right);
 
-  const rtAll = document.createElement("a");
-  rtAll.className = "mega-right__all";
-  rtAll.href = "#";
-  rtAll.textContent = "Все кейсы";
-  rtAll.addEventListener("click", (e) => {
-    e.preventDefault();
-    smoothScrollTo(".all-products");
-    setMegaMenu(false);
-  });
+    mega.appendChild(inner);
+    mega.addEventListener("click", (e) => e.stopPropagation());
 
-  rightTop.appendChild(rtTitle);
-  rightTop.appendChild(rtAll);
+    document.body.appendChild(mega);
+    state.megaRoot = mega;
+    return mega;
+  };
 
-  const grid = document.createElement("div");
-  grid.id = "galeon-mega-grid";
-
-  const from = getFromAllProducts();
-
-  const data = from
-    ? [
-        { ...from.a0, sizeClass: "mm-card--sm" },
-        { ...from.a1, sizeClass: "mm-card--sm" },
-        { ...from.a2, sizeClass: "mm-card--sm" },
-        { ...(from.a3 || from.a0), sizeClass: "mm-card--md" },
-        { ...(from.a4 || from.a1), sizeClass: "mm-card--md" },
-        {
-          ...(from.a5 || from.a2),
-          sizeClass: "mm-card--lg",
-          sub: [
-            { text: "Контейнеры СМС", href: "#" },
-            { text: "Контейнеры RACK", href: "#" },
-            { text: "Контейнеры ПСС", href: "#" },
-            { text: "Контейнеры СТС", href: "#" },
-            { text: "Рабочие мобильные места", href: "#" },
-            { text: "Мобильный госпиталь", href: "#" },
-          ],
-        },
-      ]
-    : [
-        {
-          title: "Мини кейсы",
-          img: "/img/all-products1.png",
-          href: "#",
-          sizeClass: "mm-card--sm",
-        },
-        {
-          title: "Средние кейсы",
-          img: "/img/all-products2.png",
-          href: "#",
-          sizeClass: "mm-card--sm",
-        },
-        {
-          title: "Большие кейсы",
-          img: "/img/all-products3.png",
-          href: "#",
-          sizeClass: "mm-card--sm",
-        },
-        {
-          title: "Длинные кейсы",
-          img: "/img/all-products4.png",
-          href: "#",
-          sizeClass: "mm-card--md",
-        },
-        {
-          title: "Кейсы для ноутбуков",
-          img: "/img/all-products5.png",
-          href: "#",
-          sizeClass: "mm-card--md",
-        },
-        {
-          title: "Контейнеры",
-          img: "/img/all-products6.png",
-          href: "#",
-          sizeClass: "mm-card--lg",
-          sub: [
-            { text: "Контейнеры СМС", href: "#" },
-            { text: "Контейнеры RACK", href: "#" },
-            { text: "Контейнеры ПСС", href: "#" },
-            { text: "Контейнеры СТС", href: "#" },
-            { text: "Рабочие мобильные места", href: "#" },
-            { text: "Мобильный госпиталь", href: "#" },
-          ],
-        },
-      ];
-
-  data.forEach((cfg) => grid.appendChild(buildCard(cfg)));
-
-  right.appendChild(rightTop);
-  right.appendChild(grid);
-
-  inner.appendChild(left);
-  inner.appendChild(right);
-
-  mega.appendChild(inner);
-  mega.addEventListener("click", (e) => e.stopPropagation());
-
-  document.body.appendChild(mega);
-  state.megaRoot = mega;
-  return mega;
-};
-
-
-  // ✅ MENU BUTTON UI (SVG + BG) helpers
   const saveMenuOpenSvgOnce = () => {
     if (!menuBtn) return;
     if (state.menuSvgOpen !== null) return;
@@ -564,7 +579,6 @@
     }
   };
 
-  // ✅ FIXED setMegaMenu (NO DUPLICATE)
   const setMegaMenu = (open) => {
     const overlay = ensureMegaOverlay();
     const mega = buildMegaMenu();
@@ -911,115 +925,427 @@
   };
 
   // =========================
-  // CALLBACK MODAL
+  // LEAD MODAL (Оставить заявку) — 1:1 like screenshot
   // =========================
-  const openCallbackModal = () => {
+  const ensureLeadModalStyles = () => {
+    const STYLE_ID = "galeon-lead-modal-style";
+    if (document.getElementById(STYLE_ID)) return;
+
+    const st = document.createElement("style");
+    st.id = STYLE_ID;
+    st.textContent = `
+/* overlay */
+.galeon-lead-overlay{
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  background: rgba(0,0,0,.45);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+
+/* modal */
+.galeon-lead-modal{
+  width: min(760px, 92vw);
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 18px 55px rgba(0,0,0,.25);
+  position: relative;
+  padding: 28px 28px 22px;
+}
+
+/* close button */
+.galeon-lead-close{
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: 1px solid #e9eef2;
+  background: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+.galeon-lead-close:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(0,0,0,.10);
+}
+.galeon-lead-close svg{ display:block; }
+
+/* title/subtitle */
+.galeon-lead-title{
+  font-size: 56px;
+  line-height: 1.05;
+  font-weight: 800;
+  color: #0f1822;
+  margin: 0 54px 10px 0;
+  letter-spacing: -0.5px;
+}
+.galeon-lead-subtitle{
+  font-size: 16px;
+  line-height: 1.5;
+  color: #9aa3ab;
+  margin: 0 0 18px 0;
+}
+
+/* fields */
+.galeon-lead-field{
+  width: 100%;
+  background: #f3f6f8;
+  border: 1px solid #eef2f5;
+  border-radius: 10px;
+  padding: 16px 18px;
+  font-size: 16px;
+  outline: none;
+  color: #0f1822;
+  box-sizing: border-box;
+}
+.galeon-lead-field::placeholder{ color: #aab2ba; }
+.galeon-lead-field:focus{
+  border-color: rgba(35,168,179,.55);
+  box-shadow: 0 0 0 4px rgba(35,168,179,.12);
+}
+
+/* phone with flag */
+.galeon-lead-phone{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #f3f6f8;
+  border: 1px solid #eef2f5;
+  border-radius: 10px;
+  padding: 10px 14px;
+  box-sizing: border-box;
+}
+.galeon-lead-flag{
+  width: 26px;
+  height: 18px;
+  border-radius: 3px;
+  overflow: hidden;
+  flex: 0 0 auto;
+  box-shadow: 0 6px 14px rgba(0,0,0,.10);
+}
+.galeon-lead-phone input{
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 16px;
+  width: 100%;
+  padding: 10px 0;
+  color: #0f1822;
+}
+.galeon-lead-phone input::placeholder{ color:#aab2ba; }
+
+/* textarea */
+.galeon-lead-textarea{
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* submit */
+.galeon-lead-submit{
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  padding: 18px 16px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  background: #23A8B3;
+  color: #fff;
+  margin-top: 14px;
+  transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+}
+.galeon-lead-submit:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px rgba(35,168,179,.25);
+}
+.galeon-lead-submit:active{ transform: translateY(0); }
+
+/* consent row */
+.galeon-lead-consent{
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 14px;
+  color: #8f98a1;
+  font-size: 14px;
+  line-height: 1.45;
+}
+.galeon-lead-consent a{
+  color: #8f98a1;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.galeon-lead-check{
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  border: 1px solid #dbe5eb;
+  background: #fff;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-top: 1px;
+}
+.galeon-lead-check.is-on{
+  background: #23A8B3;
+  border-color: #23A8B3;
+}
+.galeon-lead-check svg{
+  width: 14px;
+  height: 14px;
+  opacity: 0;
+}
+.galeon-lead-check.is-on svg{ opacity: 1; }
+
+@media (max-width: 640px){
+  .galeon-lead-modal{ padding: 20px 18px 16px; }
+  .galeon-lead-title{ font-size: 36px; }
+}
+`;
+    document.head.appendChild(st);
+  };
+
+  const ruFlagSvg = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2" width="26" height="18" preserveAspectRatio="none">
+  <rect width="3" height="2" fill="#fff"/>
+  <rect width="3" height="0.6667" y="0.6667" fill="#1C57A7"/>
+  <rect width="3" height="0.6667" y="1.3334" fill="#D52B1E"/>
+</svg>`;
+
+  const openLeadModal = (prefill = {}) => {
+    ensureLeadModalStyles();
+
     const overlay = document.createElement("div");
-    overlay.style.position = "fixed";
-    overlay.style.inset = "0";
-    overlay.style.background = "rgba(0,0,0,.45)";
-    overlay.style.backdropFilter = "blur(2px)";
-    overlay.style.zIndex = "100000";
-    overlay.style.display = "flex";
-    overlay.style.alignItems = "center";
-    overlay.style.justifyContent = "center";
-    overlay.style.padding = "16px";
+    overlay.className = "galeon-lead-overlay";
 
     const modal = document.createElement("div");
-    modal.style.width = "min(520px, 92vw)";
-    modal.style.background = "#fff";
-    modal.style.borderRadius = "16px";
-    modal.style.boxShadow = "0 18px 50px rgba(0,0,0,.25)";
-    modal.style.padding = "18px";
+    modal.className = "galeon-lead-modal";
+    modal.setAttribute("role", "dialog");
+    modal.setAttribute("aria-modal", "true");
+    modal.setAttribute("aria-label", "Оставить заявку");
 
-    const h = document.createElement("div");
-    h.textContent = "Заказать звонок";
-    h.style.fontSize = "18px";
-    h.style.fontWeight = "800";
-    h.style.marginBottom = "10px";
-    h.style.color = "#131A23";
+    const closeBtn = document.createElement("button");
+    closeBtn.type = "button";
+    closeBtn.className = "galeon-lead-close";
+    closeBtn.setAttribute("aria-label", "Close");
+    closeBtn.innerHTML = `
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+  <path d="M12.5 3.5L3.5 12.5" stroke="#8FA0AE" stroke-width="2" stroke-linecap="round"/>
+  <path d="M3.5 3.5L12.5 12.5" stroke="#8FA0AE" stroke-width="2" stroke-linecap="round"/>
+</svg>`;
 
-    const p = document.createElement("div");
-    p.textContent = "Оставьте номер телефона — мы перезвоним в рабочее время.";
-    p.style.color = "#8D8D8D";
-    p.style.fontSize = "13px";
-    p.style.marginBottom = "12px";
-    p.style.lineHeight = "1.4";
+    const title = document.createElement("h2");
+    title.className = "galeon-lead-title";
+    title.textContent = "Оставить заявку";
 
-    const input = document.createElement("input");
-    input.type = "tel";
-    input.placeholder = "+7 999 999 99 99";
-    input.style.width = "100%";
-    input.style.boxSizing = "border-box";
-    input.style.padding = "14px 14px";
-    input.style.border = "1px solid #eee";
-    input.style.borderRadius = "12px";
-    input.style.outline = "none";
-    input.style.fontSize = "14px";
+    const subtitle = document.createElement("p");
+    subtitle.className = "galeon-lead-subtitle";
+    subtitle.textContent =
+      "Заполните форму – мы свяжемся с вами в кратчайшие сроки и предоставим консультацию";
 
-    const row = document.createElement("div");
-    row.style.display = "flex";
-    row.style.gap = "10px";
-    row.style.marginTop = "14px";
-    row.style.justifyContent = "flex-end";
+    const nameInput = document.createElement("input");
+    nameInput.className = "galeon-lead-field";
+    nameInput.type = "text";
+    nameInput.placeholder = "Ваше имя*";
+    nameInput.value = prefill.name || "";
 
-    const btn = (txt, primary, onClick) => {
-      const b = document.createElement("button");
-      b.type = "button";
-      b.textContent = txt;
-      b.style.padding = "12px 14px";
-      b.style.borderRadius = "12px";
-      b.style.cursor = "pointer";
-      b.style.fontWeight = "700";
-      b.style.border = primary ? "1px solid #23A8B3" : "1px solid #e8e8e8";
-      b.style.background = primary ? "#23A8B3" : "#fff";
-      b.style.color = primary ? "#fff" : "#131A23";
-      b.addEventListener("click", onClick);
-      return b;
+    const phoneWrap = document.createElement("div");
+    phoneWrap.className = "galeon-lead-phone";
+
+    const flag = document.createElement("div");
+    flag.className = "galeon-lead-flag";
+    flag.innerHTML = ruFlagSvg;
+
+    const phoneInput = document.createElement("input");
+    phoneInput.type = "tel";
+    phoneInput.placeholder = "+7 999 999 99 99*";
+    phoneInput.value = prefill.phone || "";
+
+    phoneWrap.appendChild(flag);
+    phoneWrap.appendChild(phoneInput);
+
+    const msg = document.createElement("textarea");
+    msg.className = "galeon-lead-field galeon-lead-textarea";
+    msg.placeholder = "Комментарий";
+    msg.value = prefill.message || "";
+
+    const submit = document.createElement("button");
+    submit.type = "button";
+    submit.className = "galeon-lead-submit";
+    submit.textContent = "Оставить заявку";
+
+    let consentOn = true;
+
+    const consentRow = document.createElement("div");
+    consentRow.className = "galeon-lead-consent";
+
+    const check = document.createElement("div");
+    check.className = "galeon-lead-check is-on";
+    check.setAttribute("role", "checkbox");
+    check.setAttribute("tabindex", "0");
+    check.setAttribute("aria-checked", "true");
+    check.innerHTML = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none">
+  <path d="M3 8.5L6.2 11.7L13 4.9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>`;
+
+    const consentText = document.createElement("div");
+    consentText.innerHTML = `Нажимая кнопку «Отправить», вы даете согласие на <a href="#" onclick="return false;">обработку персональных данных</a>`;
+
+    const setConsentUI = (on) => {
+      consentOn = !!on;
+      check.classList.toggle("is-on", consentOn);
+      check.setAttribute("aria-checked", consentOn ? "true" : "false");
     };
 
-    const close = () => document.body.removeChild(overlay);
+    const toggleConsent = () => setConsentUI(!consentOn);
 
-    row.appendChild(btn("Отмена", false, close));
-    row.appendChild(
-      btn("Отправить", true, () => {
-        if (!isPhoneValid(input.value)) {
-          toast("Введите корректный номер");
-          input.focus();
-          return;
+    check.addEventListener("click", toggleConsent);
+    check.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        toggleConsent();
+      }
+    });
+
+    consentRow.appendChild(check);
+    consentRow.appendChild(consentText);
+
+    const setErr = (el, on) => {
+      if (!el) return;
+      el.style.outline = on ? "2px solid rgba(213,43,30,.55)" : "none";
+      el.style.borderRadius = "6px";
+    };
+
+    const onPhoneInput = () => {
+      const digits = phoneInput.value.replace(/\D/g, "");
+      if (!digits) return;
+
+      let out = "";
+      if (digits[0] === "7" || digits[0] === "8") out = maskRUPhone(digits);
+      else out = "+" + digits;
+
+      phoneInput.value = out;
+    };
+
+    phoneInput.addEventListener("input", onPhoneInput);
+    phoneInput.addEventListener("blur", onPhoneInput);
+    phoneInput.addEventListener("focus", () => {
+      if (!phoneInput.value) phoneInput.value = "+7 ";
+    });
+
+    const close = () => {
+      document.removeEventListener("keydown", onEsc);
+      if (overlay && overlay.parentNode)
+        overlay.parentNode.removeChild(overlay);
+      lockBody(false);
+    };
+
+    const onEsc = (e) => {
+      if (e.key === "Escape") close();
+      if (e.key === "Tab") {
+        const focusables = Array.from(
+          modal.querySelectorAll(
+            `button,input,textarea,[tabindex]:not([tabindex="-1"])`,
+          ),
+        ).filter((x) => x.offsetParent !== null);
+
+        if (!focusables.length) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
         }
-        toast("Заявка отправлена");
-        close();
-      }),
-    );
+      }
+    };
 
-    modal.appendChild(h);
-    modal.appendChild(p);
-    modal.appendChild(input);
-    modal.appendChild(row);
+    submit.addEventListener("click", () => {
+      const n = (nameInput.value || "").trim();
+      const p = (phoneInput.value || "").trim();
+      const m = (msg.value || "").trim();
+
+      setErr(nameInput, false);
+      setErr(phoneWrap, false);
+      setErr(msg, false);
+
+      let ok = true;
+
+      if (n.length < 2) {
+        setErr(nameInput, true);
+        ok = false;
+      }
+      if (!isPhoneValid(p)) {
+        setErr(phoneWrap, true);
+        ok = false;
+      }
+
+      // msg optional (sizda majburiy bo‘lmasa qoldiramiz)
+      if (!consentOn) ok = false;
+
+      if (!ok) {
+        if (!consentOn) toast("Нужно согласие на обработку данных");
+        else toast("Заполните все поля корректно");
+        return;
+      }
+
+      toast("Заявка отправлена");
+      close();
+    });
+
+    modal.appendChild(closeBtn);
+    modal.appendChild(title);
+    modal.appendChild(subtitle);
+
+    modal.appendChild(nameInput);
+    modal.appendChild(document.createElement("div")).style.height = "14px";
+
+    modal.appendChild(phoneWrap);
+    modal.appendChild(document.createElement("div")).style.height = "14px";
+
+    modal.appendChild(msg);
+    modal.appendChild(submit);
+    modal.appendChild(consentRow);
+
     overlay.appendChild(modal);
+    document.body.appendChild(overlay);
 
     overlay.addEventListener("click", (e) => {
       if (e.target === overlay) close();
     });
+    closeBtn.addEventListener("click", close);
 
-    document.addEventListener(
-      "keydown",
-      (e) => {
-        if (e.key === "Escape") close();
-      },
-      { once: true },
-    );
+    document.addEventListener("keydown", onEsc);
 
-    document.body.appendChild(overlay);
-    setTimeout(() => input.focus(), 0);
+    lockBody(true);
+    setTimeout(() => nameInput.focus(), 0);
   };
 
+  // =========================
+  // OPEN MODAL TRIGGERS (header-top__link + form button)
+  // =========================
   const bindCallLink = () => {
     if (!callLink) return;
     callLink.addEventListener("click", (e) => {
       e.preventDefault();
-      openCallbackModal();
+      // ✅ RASMDAGI modal
+      openLeadModal();
     });
   };
 
@@ -1161,7 +1487,16 @@
         else toast("Заполните все поля корректно");
         return;
       }
-      toast("Заявка отправлена");
+
+      // ✅ Valid bo‘lsa: RASMDAGI modal ochiladi (prefill bilan)
+      openLeadModal({
+        name: (formName?.value || "").trim(),
+        phone: (formTel?.value || "").trim(),
+        message: (formMsg?.value || "").trim(),
+      });
+
+      // Sizdagi eski yuborish logikasi o‘zgarmasin desangiz, pastdagilarni olib tashlamadik:
+      // (Lekin modal ochilgandan keyin fieldlarni tozalash keraksiz bo‘lsa — shu blokni o‘chirishingiz mumkin)
       if (formName) formName.value = "";
       if (formTel) formTel.value = "";
       if (formMsg) formMsg.value = "";
@@ -1234,22 +1569,20 @@
     const link = $(".main-bottom__link");
     if (!link) return;
 
-    const getScrollTarget = () =>
-      $(".chance-banner") ||
-      $(".product-top") ||
-      $(".about-banner__area") ||
-      $(".contact-banner__area");
-
-    const scrollToNext = () => {
-      const target = getScrollTarget();
-      if (target)
-        return target.scrollIntoView({ behavior: "smooth", block: "start" });
-      window.scrollTo({ top: window.innerHeight, behavior: "smooth" });
+    const scrollToBottom = () => {
+      const footer =
+        document.querySelector("footer") || document.querySelector("#footer");
+      if (footer) footer.scrollIntoView({ behavior: "smooth", block: "start" });
+      else
+        window.scrollTo({
+          top: document.documentElement.scrollHeight,
+          behavior: "smooth",
+        });
     };
 
     link.addEventListener("click", (e) => {
       e.preventDefault();
-      scrollToNext();
+      scrollToBottom();
     });
 
     const updateVisibility = () => {
@@ -1265,6 +1598,163 @@
 
     window.addEventListener("resize", updateVisibility);
     updateVisibility();
+  };
+
+  // =========================
+  // MAIN ANIMATIONS (RIPPLE + TOOLTIP + POSITIONS)
+  // =========================
+  const bindMainAnimations = () => {
+    const wrap = $(".main-animations");
+    if (!wrap) return;
+
+    const items = $$(".main-animations .main-animation", wrap);
+    if (!items.length) return;
+
+    const STYLE_ID = "galeon-main-animations-style";
+    if (!document.getElementById(STYLE_ID)) {
+      const st = document.createElement("style");
+      st.id = STYLE_ID;
+      st.textContent = `
+.main-animations{
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 6 !important;
+  pointer-events: none !important;
+}
+
+.main-animations .main-animation{
+  position: absolute !important;
+  width: 26px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  cursor: default;
+  pointer-events: auto !important;
+}
+
+.main-animations .main-animation svg{
+  display: block;
+  position: relative;
+  z-index: 2;
+  cursor:pointer;
+}
+
+.main-animations .main-animation::before,
+.main-animations .main-animation::after{
+  content: "";
+  position: absolute;
+  inset: 50%;
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  transform: translate(-50%, -50%) scale(1);
+  background: rgba(35,168,179,.22);
+  z-index: 1;
+  animation: galeonRipple 2.4s ease-out infinite;
+  pointer-events: none;
+}
+
+.main-animations .main-animation::after{
+  animation-delay: 1.2s;
+  background: rgba(35,168,179,.16);
+}
+
+@keyframes galeonRipple{
+  0%{ transform: translate(-50%, -50%) scale(1); opacity: .9; }
+  70%{ transform: translate(-50%, -50%) scale(2.8); opacity: .15; }
+  100%{ transform: translate(-50%, -50%) scale(3.1); opacity: 0; }
+}
+
+/* ✅ tooltip: 2 satr + width kattaroq */
+.main-animations .main-animation .galeon-tip{
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 10px);
+  transform: translateX(-50%) translateY(6px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease, transform 180ms ease;
+  z-index: 20;
+
+  background: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+
+  color: #fff;
+  font-size: 14px;
+  line-height: 1.25;
+  font-weight: 500;
+
+  text-shadow: 0 10px 24px rgba(0,0,0,.55), 0 2px 6px rgba(0,0,0,.5);
+  min-width: 260px;
+  max-width: 360px;
+
+  white-space: normal;
+  text-align: center;
+}
+
+.main-animations .main-animation .galeon-tip::after{
+  display: none !important;
+}
+
+.main-animations .main-animation:hover .galeon-tip,
+.main-animations .main-animation:focus-within .galeon-tip{
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.main-animations .main-animation:focus{
+  outline: none;
+}
+.main-animations .main-animation:focus-visible{
+  outline: 2px solid rgba(35,168,179,.65);
+  outline-offset: 4px;
+  border-radius: 999px;
+}
+`;
+      document.head.appendChild(st);
+    }
+
+    const pos = [
+      { top: "100px", right: "200px" },
+      { bottom: "100px", right: "270px" },
+      { bottom: "80px", right: "400px" },
+      { bottom: "140px", right: "560px" },
+    ];
+
+    const texts2Lines = [
+      "Мягкий поропласт<br>для надежной фиксации груза",
+      "Класс защиты IP67 и выше",
+      "Созданы из высокопрочных полимеров",
+      "Производятся в России",
+    ];
+
+    items.slice(0, 4).forEach((item, i) => {
+      item.style.top = "";
+      item.style.right = "";
+      item.style.bottom = "";
+      item.style.left = "";
+
+      const p = pos[i];
+      if (p.top) item.style.top = p.top;
+      if (p.bottom) item.style.bottom = p.bottom;
+      if (p.right) item.style.right = p.right;
+      if (p.left) item.style.left = p.left;
+
+      if (!item.hasAttribute("tabindex")) item.setAttribute("tabindex", "0");
+
+      let tip = item.querySelector(".galeon-tip");
+      if (!tip) {
+        tip = document.createElement("div");
+        tip.className = "galeon-tip";
+        item.appendChild(tip);
+      }
+
+      tip.innerHTML = texts2Lines[i] || "";
+    });
   };
 
   // =========================
@@ -1286,12 +1776,11 @@
     bindFooterNav();
     bindMainBottomLink();
 
+    bindMainAnimations();
+
     stickyHeader();
 
-    // start state UI (menu yopiq)
     setMenuBtnUI(false);
-
-    // start state (menu yopiq) => class bo‘lmasin
     document.body.classList.remove("mega-open");
   };
 
