@@ -2040,57 +2040,166 @@ body.mega-open .mm-card--lg .mm-card__img img {
   height: 130px;
 }
 
-/* =========================
-   MEGA RESPONSIVE
-========================= */
 @media (max-width: 1024px) {
-  #galeon-mega {
-    max-height: 92vh;
+  /* overlay ham full ishlasin */
+  #galeon-mega-overlay {
+    z-index: 9997;
   }
 
-  #galeon-mega .mega-inner {
-    flex-direction: column;
-    gap: 16px;
-    padding: 16px 14px 18px;
-    max-height: 92vh;
+  /* TABLET/MOBILE MENU: screenshot like */
+  #galeon-mega.mega--tablet {
+    position: fixed;
+    inset: 0;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+
+    width: 100% !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+
+    background: #fff;
+    z-index: 9998;
+    display: none; /* JS open qilganda display:block bo'ladi */
+    overflow: hidden;
+    box-shadow: none;
   }
 
-  #galeon-mega .mega-left {
-    flex: none;
-    width: 100%;
-    border-right: none;
-    border-bottom: 1px solid #eee;
-    padding-right: 0;
-    padding-bottom: 12px;
-    max-height: 220px;
+  #galeon-mega.mega--tablet .mega-inner {
+    height: 100vh !important;
+    max-height: 100vh !important;
+
+    display: block !important;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+
+    padding: 18px 16px 22px !important;
+    gap: 0 !important;
   }
 
-  #galeon-mega-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 16px !important;
+  /* desktopdagi right qism kerak emas */
+  #galeon-mega.mega--tablet .mega-right {
+    display: none !important;
   }
 
-  .mm-card--sm {
-    grid-column: span 2;
+  /* left - full width */
+  #galeon-mega.mega--tablet .mega-left {
+    width: 100% !important;
+    max-height: none !important;
+    overflow: visible !important;
+
+    border: 0 !important;
+    padding: 0 !important;
   }
 
-  .mm-card--md {
-    grid-column: span 4;
+  /* ===== Links ===== */
+  #galeon-mega.mega--tablet .mega-mob__link {
+    display: block;
+    padding: 10px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #131a23;
+    text-decoration: none;
   }
 
-  .mm-card--lg {
-    grid-column: span 4;
+  #galeon-mega.mega--tablet .mega-mob__link--strong {
+    font-weight: 800;
+    margin-top: 6px;
   }
 
-  body.mega-open .mm-card {
-    min-height: 145px;
+  #galeon-mega.mega--tablet .mega-mob__link:hover {
+    color: #23a8b3;
   }
 
-  body.mega-open .mm-card__img {
-    height: 105px;
+  /* ===== Catalog row (toggle) ===== */
+  #galeon-mega.mega--tablet .mega-mob__row {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    padding: 10px 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    cursor: pointer;
+
+    color: #23a8b3;
+    font-size: 14px;
+    font-weight: 800;
+  }
+
+  #galeon-mega.mega--tablet .mega-mob__chev {
+    display: inline-block;
+    transition: transform 160ms ease;
+    opacity: 0.85;
+  }
+
+  #galeon-mega.mega--tablet .mega-mob__sub {
+    display: none;
+    margin: 6px 0 10px;
+    padding-left: 0;
+  }
+
+  #galeon-mega.mega--tablet .mega-mob__sublink {
+    display: block;
+    padding: 6px 0;
+    font-size: 12.8px;
+    font-weight: 400;
+    color: #afafaf;
+    text-decoration: none;
+  }
+
+  #galeon-mega.mega--tablet .mega-mob__sublink:hover {
+    color: #23a8b3;
+  }
+
+  /* open state */
+  #galeon-mega.mega--tablet .mega-left.is-cat-open .mega-mob__sub {
+    display: block;
+  }
+
+  #galeon-mega.mega--tablet .mega-left.is-cat-open .mega-mob__chev {
+    transform: rotate(180deg);
+  }
+
+  /* ===== Contacts block ===== */
+  #galeon-mega.mega--tablet .mega-mob__contacts {
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid #efefef;
+  }
+
+  #galeon-mega.mega--tablet .mega-mob__ctitle {
+    font-size: 14px;
+    font-weight: 900;
+    color: #131a23;
+    margin-bottom: 10px;
+  }
+
+  #galeon-mega.mega--tablet .mega-mob__citem {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 8px 0;
+
+    color: #131a23;
+    text-decoration: none;
+    font-size: 13px;
+    line-height: 1.35;
+  }
+
+  #galeon-mega.mega--tablet .mega-mob__citem--muted {
+    color: #8d8d8d;
+  }
+
+  #galeon-mega.mega--tablet .mega-mob__icon {
+    width: 18px;
+    flex: 0 0 18px;
+    transform: translateY(1px);
   }
 }
+
 
 @media (max-width: 768px) {
   #galeon-mega {

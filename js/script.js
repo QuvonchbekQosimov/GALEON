@@ -365,209 +365,267 @@
   };
 
   const buildMegaMenu = () => {
-  if (state.megaRoot) return state.megaRoot;
+    if (state.megaRoot) return state.megaRoot;
 
-  const mega = document.createElement("div");
-  mega.id = "galeon-mega";
+    const isTabletOrMobile = () =>
+      window.matchMedia("(max-width: 1024px)").matches;
 
-  const inner = document.createElement("div");
-  inner.className = "container mega-inner";
+    const mega = document.createElement("div");
+    mega.id = "galeon-mega";
 
-  const left = document.createElement("div");
-  left.className = "mega-left";
+    const inner = document.createElement("div");
+    inner.className = "container mega-inner";
 
-  const leftTitle = document.createElement("div");
-  leftTitle.className = "mega-left__title";
-  leftTitle.textContent = "Разделы";
+    const buildTabletMenu = () => {
+      mega.classList.add("mega--tablet");
 
-  left.appendChild(leftTitle);
+      const left = document.createElement("div");
+      left.className = "mega-left mega-left--tablet";
 
-  // ✅ Главная -> index.html (siz aytgandek)
-  const home = document.createElement("a");
-  home.className = "mega-left__link";
-  home.href = "/html/index.html";
-  home.textContent = "Главная";
-  home.addEventListener("click", () => setMegaMenu(false));
-  left.appendChild(home);
+      const mkLink = (text, href, onClick) => {
+        const a = document.createElement("a");
+        a.className = "mega-mob__link";
+        a.href = href || "#";
+        a.textContent = text;
+        a.addEventListener("click", (e) => {
+          if (typeof onClick === "function") onClick(e);
+        });
+        return a;
+      };
 
-  // ✅ Информация (agar bu sahifada bor bo‘lsa scroll qiladi, bo‘lmasa index.html ga yuboradi)
-  const info = document.createElement("a");
-  info.className = "mega-left__link";
-  info.href = ".about-banner__area";
-  info.textContent = "Информация";
-  info.addEventListener("click", (e) => {
-    const target = document.querySelector(".about-banner__area");
-    if (target) {
-      e.preventDefault();
-      smoothScrollTo(".about-banner__area");
-      setMegaMenu(false);
-    } else {
-      // agar product.html da bo‘lmasa, indexda bor bo‘lishi mumkin
-      info.href = "/html/index.html#about";
-      setMegaMenu(false);
-    }
-  });
-  left.appendChild(info);
+      const aHome = mkLink("Главная", "./index.html", () => setMegaMenu(false));
 
-  // ====== PRODUCION ROW (link + chev toggle) ======
-  const prodRow = document.createElement("div");
-  prodRow.className = "mega-left__prodrow";
-
-  // ✅ "Производство" -> product.html
-  const prodLink = document.createElement("a");
-  prodLink.className = "mega-left__toggle";
-  prodLink.href = "/html/product.html";
-  prodLink.innerHTML = `<span>Производство</span>`;
-  prodLink.addEventListener("click", () => setMegaMenu(false));
-
-  // ✅ Chev button (faqat shuni bossangiz ro'yxat ochiladi)
-  const chevBtn = document.createElement("button");
-  chevBtn.type = "button";
-  chevBtn.className = "mega-left__chevbtn";
-  chevBtn.setAttribute("aria-label", "Toggle submenu");
-  chevBtn.innerHTML = `<span class="mega-left__chev">▾</span>`;
-
-  // Sub menu
-  const sub = document.createElement("div");
-  sub.className = "mega-left__sub";
-
-  const prodItems = [
-    { text: "Кейсы и контейнеры", target: ".chance-banner" },
-    { text: "Ложементы любой сложности", target: ".chance-banner" },
-    { text: "Кастомные MOLLE-панели", target: ".chance-banner" },
-    { text: "Интерьерные (I/O) панели", target: ".chance-banner" },
-    {
-      text: "Приборные панели, Конструктивные элементы из металла",
-      target: ".chance-banner",
-    },
-    { text: "Пульты управления", target: ".chance-banner" },
-    { text: "Системы охлаждения и системы нагрева", target: ".chance-banner" },
-    {
-      text: "Шкафы металлические и аксессуары для кейсов и панелей",
-      target: ".chance-banner",
-    },
-  ];
-
-  prodItems.forEach((it) => {
-    const a = document.createElement("a");
-    a.href = it.target || "#";
-    a.textContent = it.text;
-
-    a.addEventListener("click", (e) => {
-      const targetEl = document.querySelector(it.target);
-
-      // agar shu sahifada bo‘lsa scroll
-      if (targetEl) {
+      // ✅ FIX: scroll emas, to'g'ridan-to'g'ri additional.html
+      const aInfo = mkLink("Информация", "./additional.html", (e) => {
         e.preventDefault();
-        smoothScrollTo(it.target);
+        window.location.href = "./additional.html";
         setMegaMenu(false);
-        return;
-      }
+      });
 
-      // agar product.html da yo‘q bo‘lsa product.html#chance-banner ga yuboramiz
-      e.preventDefault();
-      setMegaMenu(false);
-      const hash = it.target?.startsWith(".") ? it.target.slice(1) : "chance";
-      window.location.href = `/html/product.html#${hash}`;
-    });
+      const catRow = document.createElement("button");
+      catRow.type = "button";
+      catRow.className = "mega-mob__row";
+      catRow.innerHTML = `
+      <span class="mega-mob__rowtxt">Каталог</span>
+      <span class="mega-mob__chev">▾</span>
+    `;
 
-    sub.appendChild(a);
-  });
+      const catSub = document.createElement("div");
+      catSub.className = "mega-mob__sub";
 
-  // ✅ faqat strelka bosilganda submenu ochilsin
-  const setSubOpen = (open) => {
-    left.classList.toggle("is-open", !!open);
-    chevBtn.setAttribute("aria-expanded", !!open ? "true" : "false");
-  };
+      const catItems = [
+        { text: "Все кейсы", target: ".all-products" },
+        { text: "Мини кейсы", target: ".all-products" },
+        { text: "Средние кейсы", target: ".all-products" },
+        { text: "Большие кейсы", target: ".all-products" },
+        { text: "Длинные кейсы", target: ".all-products" },
+        { text: "Кейсы для ноутбуков", target: ".all-products" },
+        { text: "Контейнеры", target: ".all-products" },
+        { text: "• Контейнеры СМС", target: ".all-products" },
+        { text: "• Контейнеры RACK", target: ".all-products" },
+        { text: "• Контейнеры ПСС", target: ".all-products" },
+        { text: "• Контейнеры СТС", target: ".all-products" },
+        { text: "• Рабочие мобильные места", target: ".all-products" },
+        { text: "• Мобильный госпиталь", target: ".all-products" },
+      ];
 
-  chevBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setSubOpen(!left.classList.contains("is-open"));
-  });
+      catItems.forEach((it) => {
+        const a = document.createElement("a");
+        a.className = "mega-mob__sublink";
+        a.href = it.target || "#";
+        a.textContent = it.text;
 
-  // prodRow append
-  prodRow.appendChild(prodLink);
-  prodRow.appendChild(chevBtn);
+        a.addEventListener("click", (e) => {
+          const targetEl =
+            typeof it.target === "string"
+              ? document.querySelector(it.target)
+              : null;
+          if (targetEl) {
+            e.preventDefault();
+            smoothScrollTo(it.target);
+          }
+          setMegaMenu(false);
+        });
 
-  left.appendChild(prodRow);
-  left.appendChild(sub);
+        catSub.appendChild(a);
+      });
 
-  // ✅ Контакты (scroll bo‘lsa scroll, bo‘lmasa product.html#contact)
-  const contacts = document.createElement("a");
-  contacts.className = "mega-left__link";
-  contacts.href = ".contact-banner__area";
-  contacts.textContent = "Контакты";
-  contacts.addEventListener("click", (e) => {
-    const target = document.querySelector(".contact-banner__area");
-    if (target) {
-      e.preventDefault();
-      smoothScrollTo(".contact-banner__area");
-      setMegaMenu(false);
-    } else {
-      e.preventDefault();
-      setMegaMenu(false);
-      window.location.href = "/html/product.html#contact";
-    }
-  });
-  left.appendChild(contacts);
+      catRow.addEventListener("click", (e) => {
+        e.preventDefault();
+        left.classList.toggle("is-cat-open");
+      });
 
-  // ====== RIGHT PART ======
-  const right = document.createElement("div");
-  right.className = "mega-right";
+      const aProd = mkLink("Производство", "./product.html", () =>
+        setMegaMenu(false),
+      );
+      aProd.classList.add("mega-mob__link--strong");
 
-  const rightTop = document.createElement("div");
-  rightTop.className = "mega-right__top";
+      const aContacts = mkLink("Контакты", ".contact-banner__area", (e) => {
+        const target = document.querySelector(".contact-banner__area");
+        if (target) {
+          e.preventDefault();
+          smoothScrollTo(".contact-banner__area");
+        }
+        setMegaMenu(false);
+      });
+      aContacts.classList.add("mega-mob__link--strong");
 
-  const rtTitle = document.createElement("div");
-  rtTitle.className = "mega-right__title";
-  rtTitle.textContent = "Каталог";
+      const info = document.createElement("div");
+      info.className = "mega-mob__contacts";
+      info.innerHTML = `
+      <div class="mega-mob__ctitle">Контакты</div>
 
-  const rtAll = document.createElement("a");
-  rtAll.className = "mega-right__all";
-  rtAll.href = "#";
-  rtAll.textContent = "Все кейсы";
-  rtAll.addEventListener("click", (e) => {
-    e.preventDefault();
-    const target = document.querySelector(".all-products");
-    if (target) {
-      smoothScrollTo(".all-products");
-      setMegaMenu(false);
-    } else {
-      setMegaMenu(false);
-      window.location.href = "/html/index.html#all-products";
-    }
-  });
+      <a class="mega-mob__citem" href="tel:+74950236793">
+        <span class="mega-mob__icon">📞</span>
+        <span>+7 495 023 67 93</span>
+      </a>
 
-  rightTop.appendChild(rtTitle);
-  rightTop.appendChild(rtAll);
+      <div class="mega-mob__citem mega-mob__citem--muted">
+        <span class="mega-mob__icon">🕒</span>
+        <span>ПН–ПТ: с 10:00 до 18:00</span>
+      </div>
 
-  const grid = document.createElement("div");
-  grid.id = "galeon-mega-grid";
+      <div class="mega-mob__citem mega-mob__citem--muted">
+        <span class="mega-mob__icon">📍</span>
+        <span>г.Москва ул. Плеханова д.7, эт 1, пом. I ком 25</span>
+      </div>
+    `;
 
-  const from = typeof getFromAllProducts === "function" ? getFromAllProducts() : null;
+      left.appendChild(aHome);
+      left.appendChild(aInfo);
+      left.appendChild(catRow);
+      left.appendChild(catSub);
+      left.appendChild(aProd);
+      left.appendChild(aContacts);
+      left.appendChild(info);
 
-  const data = from
-    ? [
-        { ...from.a0, sizeClass: "mm-card--sm" },
-        { ...from.a1, sizeClass: "mm-card--sm" },
-        { ...from.a2, sizeClass: "mm-card--sm" },
-        { ...(from.a3 || from.a0), sizeClass: "mm-card--md" },
-        { ...(from.a4 || from.a1), sizeClass: "mm-card--md" },
+      inner.appendChild(left);
+    };
+
+    // =========================================================
+    // DESKTOP (>1024) — left + right cards (AVVALGIDAY)
+    // =========================================================
+    const buildDesktopMenu = () => {
+      const left = document.createElement("div");
+      left.className = "mega-left";
+
+      const leftTitle = document.createElement("div");
+      leftTitle.className = "mega-left__title";
+      leftTitle.textContent = "Разделы";
+      left.appendChild(leftTitle);
+
+      const home = document.createElement("a");
+      home.className = "mega-left__link";
+      home.href = "./index.html";
+      home.textContent = "Главная";
+      home.addEventListener("click", () => setMegaMenu(false));
+      left.appendChild(home);
+
+      // ✅ FIX: desktopda ham Информация additional.html ga o'tadi (scroll emas)
+      const info = document.createElement("a");
+      info.className = "mega-left__link";
+      info.href = "./additional.html";
+      info.textContent = "Информация";
+      info.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.location.href = "./additional.html";
+        setMegaMenu(false);
+      });
+      left.appendChild(info);
+
+      const prodRow = document.createElement("div");
+      prodRow.className = "mega-left__prodrow";
+
+      const prodLink = document.createElement("a");
+      prodLink.className = "mega-left__toggle";
+      prodLink.href = "./product.html";
+      prodLink.innerHTML = `<span>Производство</span>`;
+      prodLink.addEventListener("click", () => setMegaMenu(false));
+
+      const chevBtn = document.createElement("button");
+      chevBtn.type = "button";
+      chevBtn.className = "mega-left__chevbtn";
+      chevBtn.setAttribute("aria-label", "Toggle submenu");
+      chevBtn.innerHTML = `<span class="mega-left__chev">▾</span>`;
+
+      const sub = document.createElement("div");
+      sub.className = "mega-left__sub";
+
+      const prodItems = [
+        { text: "Кейсы и контейнеры", target: ".chance-banner" },
+        { text: "Ложементы любой сложности", target: ".chance-banner" },
+        { text: "Кастомные MOLLE-панели", target: ".chance-banner" },
+        { text: "Интерьерные (I/O) панели", target: ".chance-banner" },
         {
-          ...(from.a5 || from.a2),
-          sizeClass: "mm-card--lg",
-          sub: [
-            { text: "Контейнеры СМС", href: "#" },
-            { text: "Контейнеры RACK", href: "#" },
-            { text: "Контейнеры ПСС", href: "#" },
-            { text: "Контейнеры СТС", href: "#" },
-            { text: "Рабочие мобильные места", href: "#" },
-            { text: "Мобильный госпиталь", href: "#" },
-          ],
+          text: "Приборные панели, Конструктивные элементы из металла",
+          target: ".chance-banner",
         },
-      ]
-    : [
+        { text: "Пульты управления", target: ".chance-banner" },
+        {
+          text: "Системы охлаждения и системы нагрева",
+          target: ".chance-banner",
+        },
+        {
+          text: "Шкафы металлические и аксессуары для кейсов и панелей",
+          target: ".chance-banner",
+        },
+      ];
+
+      prodItems.forEach((it) => {
+        const a = document.createElement("a");
+        a.href = it.target || "#";
+        a.textContent = it.text;
+        a.addEventListener("click", (e) => {
+          e.preventDefault();
+          smoothScrollTo(it.target);
+          setMegaMenu(false);
+        });
+        sub.appendChild(a);
+      });
+
+      chevBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        left.classList.toggle("is-open");
+      });
+
+      prodRow.appendChild(prodLink);
+      prodRow.appendChild(chevBtn);
+
+      left.appendChild(prodRow);
+      left.appendChild(sub);
+
+      left.appendChild(makeLeftLink("Контакты", ".contact-banner__area"));
+
+      const right = document.createElement("div");
+      right.className = "mega-right";
+
+      const rightTop = document.createElement("div");
+      rightTop.className = "mega-right__top";
+
+      const rtTitle = document.createElement("div");
+      rtTitle.className = "mega-right__title";
+      rtTitle.textContent = "Каталог";
+
+      const rtAll = document.createElement("a");
+      rtAll.className = "mega-right__all";
+      rtAll.href = "#";
+      rtAll.textContent = "Все кейсы";
+      rtAll.addEventListener("click", (e) => {
+        e.preventDefault();
+        smoothScrollTo(".all-products");
+        setMegaMenu(false);
+      });
+
+      rightTop.appendChild(rtTitle);
+      rightTop.appendChild(rtAll);
+
+      const grid = document.createElement("div");
+      grid.id = "galeon-mega-grid";
+
+      const from = getFromAllProducts();
+
+      const fallback = [
         {
           title: "Мини кейсы",
           img: "/img/all-products1.png",
@@ -614,29 +672,61 @@
         },
       ];
 
-  data.forEach((cfg) => grid.appendChild(buildCard(cfg)));
+      const data = from
+        ? [
+            { ...from.a0, sizeClass: "mm-card--sm" },
+            { ...from.a1, sizeClass: "mm-card--sm" },
+            { ...from.a2, sizeClass: "mm-card--sm" },
+            { ...(from.a3 || from.a0), sizeClass: "mm-card--md" },
+            { ...(from.a4 || from.a1), sizeClass: "mm-card--md" },
+            {
+              ...(from.a5 || from.a2),
+              sizeClass: "mm-card--lg",
+              sub: fallback[5].sub,
+            },
+          ]
+        : fallback;
 
-  right.appendChild(rightTop);
-  right.appendChild(grid);
+      data.forEach((cfg) => grid.appendChild(buildCard(cfg)));
 
-  inner.appendChild(left);
-  inner.appendChild(right);
+      right.appendChild(rightTop);
+      right.appendChild(grid);
 
-  mega.appendChild(inner);
+      inner.appendChild(left);
+      inner.appendChild(right);
+    };
 
-  // mega ichiga bosilganda yopilib ketmasin
-  mega.addEventListener("click", (e) => e.stopPropagation());
+    if (isTabletOrMobile()) buildTabletMenu();
+    else buildDesktopMenu();
 
-  document.body.appendChild(mega);
-  state.megaRoot = mega;
+    mega.appendChild(inner);
+    mega.addEventListener("click", (e) => e.stopPropagation());
 
-  // default: submenu yopiq
-  setSubOpen(false);
+    document.body.appendChild(mega);
+    state.megaRoot = mega;
 
-  return mega;
-};
+    if (!state.__megaResizeBound) {
+      state.__megaResizeBound = true;
 
+      const getMode = () => (isTabletOrMobile() ? "tm" : "desk");
+      let lastMode = getMode();
 
+      window.addEventListener("resize", () => {
+        const mode = getMode();
+        if (mode === lastMode) return;
+        lastMode = mode;
+
+        if (state.megaRoot) {
+          state.megaRoot.remove();
+          state.megaRoot = null;
+        }
+        buildMegaMenu();
+        if (state.megaOpen) setMegaMenu(true);
+      });
+    }
+
+    return mega;
+  };
 
   const saveMenuOpenSvgOnce = () => {
     if (!menuBtn) return;
@@ -872,7 +962,7 @@
       // clientX + bo‘lsa: scrollLeft - bo‘ladi => velocity teskari
       let v = -velocity * 28; // kuch (tune)
       const friction = 0.95;
-      const minV = 0.10;
+      const minV = 0.1;
 
       const tick = () => {
         const max = chanceWrap.scrollWidth - chanceWrap.clientWidth;
@@ -1497,7 +1587,8 @@
 
     const close = () => {
       document.removeEventListener("keydown", onEsc);
-      if (overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay);
+      if (overlay && overlay.parentNode)
+        overlay.parentNode.removeChild(overlay);
       lockBody(false);
     };
 
