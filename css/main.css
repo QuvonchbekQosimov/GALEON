@@ -1,3 +1,6 @@
+/* =========================
+   BASE
+========================= */
 body {
   margin: 0;
   padding: 0;
@@ -9,7 +12,6 @@ body {
   overflow-x: hidden;
 }
 
-/* ✅ container faqat bitta bo‘lsin */
 .container {
   max-width: 1280px;
   margin: 0 auto;
@@ -28,6 +30,9 @@ body {
   src: url(/fonts/Montserrat-Light.ttf);
 }
 
+/* =========================
+   HEADER TOP
+========================= */
 .header-top {
   width: 100%;
   background: #142434;
@@ -62,6 +67,7 @@ body {
   font-family: "Manrope";
   font-size: 12.8px;
   font-weight: 700;
+  cursor: pointer;
 }
 
 .header-top__date {
@@ -107,6 +113,9 @@ body {
   );
 }
 
+/* =========================
+   HEADER
+========================= */
 #header {
   height: 70px;
   background: #fff;
@@ -183,7 +192,6 @@ body {
   color: #142434;
 }
 
-/* ✅ Desktopda modal kerak emas => yopiq turadi */
 .search-modal {
   display: none;
 }
@@ -205,19 +213,14 @@ body {
   transition: transform 0.3s ease;
 }
 
-.header-icon:hover {
-  transform: translateY(-2px);
-}
-
+/* =========================
+   MAIN
+========================= */
 .main-banner__area {
-  /* doimiy markazda turadi */
   width: 100%;
-  max-width: 1280px; /* xohlasangiz 1440px ham qilsa bo‘ladi */
+  max-width: 1280px;
   margin: 0 auto;
-
-  /* sizdagi mavjudlari */
   position: relative;
-
   background:
     linear-gradient(
       270deg,
@@ -227,8 +230,6 @@ body {
     ),
     url("/img/banner-bacground.png") lightgray 0px -35.4px / 100% 110.241%
       no-repeat;
-
-  /* rasm kesilib ketmasin */
   background-size: cover;
   background-position: center;
 }
@@ -303,9 +304,7 @@ body {
 
 .main-bottom__link svg {
   transform: rotate(90deg);
-  transition:
-    stroke 0.3s ease,
-    fill 0.3s ease;
+  transition: stroke 0.3s ease, fill 0.3s ease;
 }
 
 .main-bottom__link svg path {
@@ -316,6 +315,9 @@ body {
   color: #23a8b3;
 }
 
+/* =========================
+   CHANCE
+========================= */
 .chance-banner {
   background: #f3f6f9;
   width: 100%;
@@ -374,6 +376,14 @@ body {
   padding-bottom: 20px;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  cursor: grab;
+  touch-action: pan-y;
+}
+
+.chance-cards.is-dragging {
+  cursor: grabbing;
+  scroll-snap-type: none;
+  scroll-behavior: auto;
 }
 
 .chance-cards::-webkit-scrollbar {
@@ -411,6 +421,9 @@ body {
   line-height: 150%;
 }
 
+/* =========================
+   PRODUCTS GRID
+========================= */
 .product-cards {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -421,15 +434,16 @@ body {
 .card-3 {
   grid-column: span 2;
 }
-
 .card-2 {
   grid-column: span 3;
 }
-
 .card-1 {
   grid-column: span 6;
 }
 
+/* =========================
+   PRODUCTS TOP
+========================= */
 .product-top {
   display: flex;
   justify-content: space-between;
@@ -445,6 +459,9 @@ body {
   line-height: 120%;
 }
 
+/* =========================
+   PRODUCT LINK
+========================= */
 .product-link {
   color: #23a8b3;
   font-family: "Manrope", sans-serif;
@@ -467,6 +484,9 @@ body {
   background-size: 100% 1px;
 }
 
+/* =========================
+   PRODUCT CARD
+========================= */
 .product-card {
   background: #f0f0f0;
   padding: 30px;
@@ -475,7 +495,7 @@ body {
   flex-direction: column;
   justify-content: space-between;
   overflow: hidden;
-  transition: all 0.4s ease;
+  transition: background-color 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease;
 }
 
 .product-card__title {
@@ -487,43 +507,54 @@ body {
   z-index: 2;
 }
 
+/* link icon button */
 .product-card__link {
   position: absolute;
   left: 30px;
   bottom: 30px;
   width: 40px;
   height: 40px;
-  background-color: #23a8b3;
+  background: #23a8b3;
+  border: 1px solid #23a8b3;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 5;
-  transition: all 0.4s ease;
-  border: 1px solid #23a8b3;
-}
-
-.product-card__link svg {
-  transition: transform 0.4s ease;
-}
-
-.product-card__link svg path {
-  fill: #ffffff;
-  transition: fill 0.4s ease;
+  transition: background-color 0.4s ease, border-color 0.4s ease;
+  overflow: hidden;
 }
 
 .product-card__link:hover {
-  background-color: #ffffff;
+  background: #ffffff;
+  border-color: #23a8b3;
+}
+
+.product-card__link svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+  transform-box: fill-box;
+  transform-origin: center;
+  backface-visibility: hidden;
+  will-change: transform;
+  transition: transform 0.35s ease;
 }
 
 .product-card__link:hover svg {
   transform: rotate(45deg);
 }
 
+.product-card__link svg path {
+  fill: #ffffff;
+  transition: fill 0.35s ease;
+}
+
 .product-card__link:hover svg path {
   fill: #23a8b3;
 }
 
+/* image */
 .product-card__img {
   align-self: flex-end;
   margin-top: auto;
@@ -544,6 +575,7 @@ body {
   height: 240px;
 }
 
+/* card-1 special */
 .card-1 {
   grid-column: span 6;
   display: flex;
@@ -597,6 +629,7 @@ body {
   display: block;
 }
 
+/* types */
 .product-card__types {
   display: flex;
   flex-wrap: wrap;
@@ -616,13 +649,16 @@ body {
   flex: 1 1 30%;
   min-width: 140px;
   cursor: pointer;
-  transition: all 0.4s ease;
+  transition: color 0.4s ease;
 }
 
 .product-card__type:hover {
   color: #23a8b3;
 }
 
+/* =========================
+   ABOUT
+========================= */
 .about-banner__area {
   width: 100%;
   margin-top: 56px;
@@ -650,28 +686,6 @@ body {
   margin-bottom: 40px;
   font-weight: 400;
   line-height: 144%;
-}
-
-.button button {
-  display: inline-flex;
-  padding: 16px 32px;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  background: #23a8b3;
-  cursor: pointer;
-  color: #fff;
-  font-family: Manrope;
-  font-size: 13px;
-  font-weight: 700;
-  line-height: normal;
-  border: none;
-  transition: all 0.4s ease;
-}
-
-.button button:hover {
-  background-color: #fff;
-  color: #23a8b3;
 }
 
 .about-cards {
@@ -733,6 +747,35 @@ body {
   line-height: normal;
 }
 
+/* button */
+.button button {
+  display: inline-flex;
+  padding: 16px 32px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  background: #23a8b3;
+  cursor: pointer;
+  color: #fff;
+  font-family: Manrope, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: normal;
+  border: none;
+  transition: all 0.4s ease;
+  border-radius: 4px;
+  width: fit-content;
+  margin-top: 8px;
+}
+
+.button button:hover {
+  background-color: #fff;
+  color: #23a8b3;
+}
+
+/* =========================
+   CONTACT
+========================= */
 .contact-banner__area {
   width: 100%;
   background-color: #f3f6f9;
@@ -843,20 +886,7 @@ body {
   padding: 12px 16px 12px 0;
 }
 
-.button button {
-  background: #23a8b3;
-  color: #fff;
-  cursor: pointer;
-  font-weight: 700;
-  border-radius: 4px;
-  padding: 10px 16px;
-  border: none;
-  width: fit-content;
-  font-family: Manrope, sans-serif;
-  font-size: 13px;
-  margin-top: 8px;
-}
-
+/* checkbox row */
 .contact-info__select {
   display: flex;
   align-items: flex-start;
@@ -869,26 +899,36 @@ body {
   transition: all 0.4s ease;
 }
 
+/* default */
 .contact-info__select svg {
   padding: 2px;
-  background-color: #afafaf;
-  border: 1px solid #23a8b3; /* ✅ border shu yerda ishlaydi */
+  background-color: #ffffff;
+  border: 1px solid #afafaf;
   border-radius: 2px;
   transition: all 0.4s ease;
   flex-shrink: 0;
 }
 
-/* icon */
+.contact-info__select svg:active {
+  transform: scale(0.95);
+  color: #23a8b3;
+}
+
 .contact-info__select svg path {
   fill: white;
   transition: opacity 0.4s ease;
 }
 
+/* active */
 .contact-info__select.active svg {
   background-color: #23a8b3;
   border-color: #23a8b3;
+  fill: #23a8b3;
 }
 
+/* =========================
+   FOOTER
+========================= */
 .footer-banner__area {
   width: 100%;
   background: #131a23;
@@ -899,9 +939,6 @@ body {
 #footer {
   padding: 32px 0 16px;
 }
-
-/* ✅ bu yerda .container qayta yozilmasin! */
-/* (Sizda 1200 qilib qayta yozilgan edi — olib tashlandi) */
 
 .footer-top {
   display: flex;
@@ -1099,7 +1136,7 @@ body {
     cursor: pointer;
   }
 
-  /* ✅ Modal faqat mobile’da ishlaydi */
+  /* modal mobile */
   .search-modal {
     position: fixed;
     inset: 0;
@@ -1111,9 +1148,7 @@ body {
     padding: 16px;
     opacity: 0;
     transform: scale(0.98);
-    transition:
-      opacity 0.18s ease,
-      transform 0.18s ease;
+    transition: opacity 0.18s ease, transform 0.18s ease;
   }
 
   .search-modal.open {
@@ -1681,9 +1716,7 @@ body {
     gap: 10px;
   }
 }
-/* =========================
-   MEGA MENU LAYOUT
-========================= */
+
 /* =========================
    MEGA MENU OVERLAY
 ========================= */
@@ -1704,43 +1737,37 @@ body {
   position: fixed;
   left: 0;
   right: 0;
-  top: 0; /* JS setMegaMenu() top ni header ostiga qo‘yadi */
+  top: 0;
   width: 100%;
   background: #fff;
   z-index: 9998;
   box-shadow: 0 18px 50px rgba(0, 0, 0, 0.12);
   display: none;
   overflow: hidden;
-
-  /* ✅ mega oynaning maksimum balandligi */
   max-height: 90vh;
 }
 
 /* =========================
-   MAIN INNER (2 column)
+   MAIN INNER
 ========================= */
 #galeon-mega .mega-inner {
   display: flex;
   gap: 28px;
   padding: 22px 16px 26px;
   box-sizing: border-box;
-
-  /* ✅ eng MUHIM: mega ichida scroll ishlashi uchun */
   height: 100%;
   max-height: 90vh;
-  overflow: hidden; /* umumiy scroll yo‘q, har column o‘zi scroll qiladi */
+  overflow: hidden;
   min-height: 0;
 }
 
 /* =========================
-   LEFT SIDE (SCROLL)
+   LEFT SIDE
 ========================= */
 #galeon-mega .mega-left {
   flex: 0 0 320px;
   border-right: 1px solid #eee;
   padding-right: 18px;
-
-  /* ✅ LEFT scroll bo‘lishi uchun */
   overflow-y: auto;
   max-height: 100%;
   min-height: 0;
@@ -1767,7 +1794,14 @@ body {
   color: #23a8b3;
 }
 
-/* Toggle (agar ishlatsangiz) */
+/* ====== ✅ NEW: prod row (link + chevron button) ====== */
+#galeon-mega .mega-left__prodrow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
 #galeon-mega .mega-left__toggle {
   width: 100%;
   border: 0;
@@ -1780,6 +1814,25 @@ body {
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
+  text-decoration: none;
+}
+
+/* separate chevron button */
+#galeon-mega .mega-left__chevbtn {
+  border: 0;
+  background: transparent;
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+#galeon-mega .mega-left__chevbtn:hover {
+  background: rgba(35, 168, 179, 0.08);
 }
 
 #galeon-mega .mega-left__chev {
@@ -1805,6 +1858,7 @@ body {
   color: #afafaf;
   text-decoration: none;
 }
+
 #galeon-mega .mega-left__sub a:hover {
   color: #23a8b3;
 }
@@ -1812,6 +1866,7 @@ body {
 #galeon-mega .mega-left.is-open .mega-left__sub {
   display: block;
 }
+
 #galeon-mega .mega-left.is-open .mega-left__chev {
   transform: rotate(180deg);
 }
@@ -1822,15 +1877,10 @@ body {
 #galeon-mega .mega-right {
   flex: 1;
   min-width: 0;
-
   display: flex;
   flex-direction: column;
-
-  /* ✅ MUHIM: grid scroll ishlashi uchun */
   min-height: 0;
   overflow: hidden;
-
-  /* ❌ margin-bottom: 50px olib tashlandi */
 }
 
 #galeon-mega .mega-right__top {
@@ -1839,7 +1889,7 @@ body {
   justify-content: space-between;
   gap: 12px;
   margin-bottom: 12px;
-  flex: 0 0 auto; /* top qismi o‘zgarmas */
+  flex: 0 0 auto;
 }
 
 #galeon-mega .mega-right__title {
@@ -1855,7 +1905,7 @@ body {
 }
 
 /* =========================
-   GRID (RIGHT SCROLL)
+   GRID
 ========================= */
 #galeon-mega-grid {
   display: grid;
@@ -1863,13 +1913,10 @@ body {
   gap: 20px 16px !important;
   align-content: start;
   align-items: start;
-
-  /* ✅ RIGHT scroll */
   overflow-y: auto;
   min-height: 0;
   max-height: 100%;
   padding-bottom: 14px;
-
   -webkit-overflow-scrolling: touch;
 }
 
@@ -1883,7 +1930,6 @@ body {
   position: relative;
   display: flex;
   flex-direction: column;
-
   min-height: 190px;
   height: auto;
   overflow: hidden;
@@ -1940,9 +1986,11 @@ body {
 .mm-card--sm {
   grid-column: span 2;
 }
+
 .mm-card--md {
   grid-column: span 3;
 }
+
 .mm-card--lg {
   grid-column: span 6;
   min-height: 210px;
@@ -1956,11 +2004,13 @@ body {
   z-index: 2;
   max-width: 60%;
 }
+
 .mm-card__sub a {
   font-size: 11px;
   color: #8d8d8d;
   text-decoration: none;
 }
+
 .mm-card__sub a:hover {
   color: #23a8b3;
 }
@@ -1971,24 +2021,27 @@ body {
 }
 
 /* =========================
-   WHEN MENU OPEN (compact)
+   WHEN MENU OPEN
 ========================= */
 body.mega-open .mm-card {
   min-height: 150px;
   padding: 12px 12px;
 }
+
 body.mega-open .mm-card__img {
   height: 110px;
 }
+
 body.mega-open .mm-card--lg {
   min-height: 175px;
 }
+
 body.mega-open .mm-card--lg .mm-card__img img {
   height: 130px;
 }
 
 /* =========================
-   RESPONSIVE
+   MEGA RESPONSIVE
 ========================= */
 @media (max-width: 1024px) {
   #galeon-mega {
@@ -2009,7 +2062,6 @@ body.mega-open .mm-card--lg .mm-card__img img {
     border-bottom: 1px solid #eee;
     padding-right: 0;
     padding-bottom: 12px;
-
     max-height: 220px;
     overflow-y: auto;
   }
@@ -2022,9 +2074,11 @@ body.mega-open .mm-card--lg .mm-card__img img {
   .mm-card--sm {
     grid-column: span 2;
   }
+
   .mm-card--md {
     grid-column: span 4;
   }
+
   .mm-card--lg {
     grid-column: span 4;
   }
@@ -2032,6 +2086,7 @@ body.mega-open .mm-card--lg .mm-card__img img {
   body.mega-open .mm-card {
     min-height: 145px;
   }
+
   body.mega-open .mm-card__img {
     height: 105px;
   }
@@ -2059,12 +2114,8 @@ body.mega-open .mm-card--lg .mm-card__img img {
     gap: 12px !important;
   }
 
-  .mm-card--sm {
-    grid-column: span 2;
-  }
-  .mm-card--md {
-    grid-column: span 2;
-  }
+  .mm-card--sm,
+  .mm-card--md,
   .mm-card--lg {
     grid-column: span 2;
   }
@@ -2076,6 +2127,7 @@ body.mega-open .mm-card--lg .mm-card__img img {
   body.mega-open .mm-card {
     min-height: 140px;
   }
+
   body.mega-open .mm-card__img {
     height: 100px;
   }
@@ -2096,6 +2148,7 @@ body.mega-open .mm-card--lg .mm-card__img img {
     min-height: 180px;
     padding: 12px;
   }
+
   .mm-card__img {
     height: 130px;
   }
@@ -2103,6 +2156,7 @@ body.mega-open .mm-card--lg .mm-card__img img {
   body.mega-open .mm-card {
     min-height: 150px;
   }
+
   body.mega-open .mm-card__img {
     height: 95px;
   }
