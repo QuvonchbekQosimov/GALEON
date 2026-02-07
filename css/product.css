@@ -89,12 +89,12 @@ img {
   border: 1px solid #23a8b3;
   width: fit-content;
   font-size: 14px;
-  transition: all 0.3s ease;
+  transition: all 0.5s ease;
 }
 
 .product-main__button:hover {
-  color: #23a8b3;
-  background-color: #fff;
+  color: #fff;
+  background-color: #137780;
 }
 
 .product-favourite__grid {
@@ -195,8 +195,8 @@ img {
 }
 
 .favourite-img__button:hover {
-  color: #23a8b3;
-  background-color: #fff;
+  color: #fff;
+  background-color: #137780;
 }
 
 .product-favourite__subtitle {

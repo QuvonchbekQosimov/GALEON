@@ -1,0 +1,238 @@
+:root {
+  --header-offset-desktop: 20px;   
+  --header-offset-tablet: 80px;    
+  --header-offset-mobile: 110px;   
+}
+
+.banner{
+  background-color: #fff;
+}
+
+.contact-main {
+  padding-top: var(--header-offset-desktop);
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column; 
+  gap: 24px;
+}
+
+.contact-main__left {
+  width: 100%;
+}
+
+.contact-main__right {
+  display: flex;
+  flex-wrap: wrap; /* Elementlar sig'masa keyingi qatorga o'tishi uchun */
+  justify-content: space-between; /* Matnlarni chapga, tugmani o'ngga suradi */
+  align-items: flex-end; /* Tugmani tavsifning pastki chizig'iga moslaydi */
+  gap: 20px;
+  width: 100%;
+}
+
+.contact-main__title {
+  flex: 1 1 100%; 
+  color: #131a23;
+  font-family: Manrope, sans-serif;
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 120%;
+}
+
+.contact-main__description {
+  flex: 0 1 auto;
+  color: #8d8d8d;
+  font-family: Manrope, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 140%;
+  margin: 0;
+  max-width: 560px;
+}
+
+.contact-main__button {
+  margin-left: auto; 
+}
+
+.contact-main__button-link {
+  background: #23a8b3;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 700;
+  border-radius: 4px;
+  padding: 12px 30px;
+  border: 1px solid #23a8b3;
+  width: fit-content;
+  font-size: 14px;
+  transition: all 0.25s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.contact-main__button-link:hover {
+  background: #1e8e98;
+  box-shadow: 0 4px 12px rgba(35, 168, 179, 0.2);
+}
+
+
+.contact-main__button-link:hover {
+  color: #fff;
+  background-color: #137780;
+}
+
+.contact-main__button-link:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 12px rgba(35, 168, 179, 0.12);
+}
+
+.contact-main__button-link:focus-visible {
+  outline: 3px solid rgba(35, 168, 179, 0.35);
+  outline-offset: 3px;
+}
+.contact-map {
+  margin-top: 60px;
+}
+.contact-map__left,
+.contact-map__right {
+  width: 50%;
+  float: left;
+  margin-top: 40px;
+  padding: 0 14px;
+  margin-bottom: 40px;
+}
+
+.contact-map__left iframe,
+.contact-map__right iframe {
+  width: 100%;
+  height: 280px;
+  border: 0;
+  display: block;
+  background: #f2f4f5;
+}
+
+.contact-map__title {
+  color: #131a23;
+  font-family: Manrope, sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.contact-map__location {
+  color: #8d8d8d;
+  font-family: Manrope, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%;
+  margin: 0 0 10px;
+  max-width: 540px;
+}
+
+.contact-map__number,
+.contact-map__email {
+  color: #23a8b3;
+  font-family: Manrope, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-decoration: none;
+  display: block;
+  margin-top: 6px;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.contact-map__number:hover,
+.contact-map__email:hover {
+  color: #1c8f99;
+  text-decoration: underline;
+  text-decoration-color: rgba(28, 143, 153, 0.35);
+}
+
+.contact-map__number:focus-visible,
+.contact-map__email:focus-visible {
+  outline: 3px solid rgba(35, 168, 179, 0.35);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.contact-map::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+@media (max-width: 1024px) {
+  .contact-main {
+    gap: 20px;
+    padding-top: var(--header-offset-tablet);
+  }
+
+  .contact-main__title {
+    font-size: 30px;
+  }
+}
+
+/* ✅ Tablet (600px–900px): title yonida button turadi, button 100% EMAS */
+@media (max-width: 900px) {
+  .contact-main {
+    /* column qilmaymiz! shunda title yonida qoladi */
+    flex-direction: row;
+    flex-wrap: nowrap;
+    padding-top: var(--header-offset-tablet);
+  }
+
+  .contact-main__left {
+    flex: 1 1 auto;
+    max-width: none;
+  }
+
+  .contact-main__right {
+    flex: 0 0 auto;
+  }
+
+  .contact-main__button-link {
+    width: fit-content; /* ✅ 100% emas */
+  }
+
+  /* maplar tablet-da ham 2ta bo‘lib tursin (xohlasangiz) */
+}
+
+/* ✅ Mobile: faqat kichik ekranda column + button 100% */
+@media (max-width: 600px) {
+  .contact-main {
+    flex-direction: column;
+    gap: 16px;
+    padding-top: var(--header-offset-mobile);
+  }
+
+  .contact-main__right {
+    width: 100%;
+  }
+
+  .contact-main__button-link {
+    width: 100%;
+  }
+
+  .contact-map__left,
+  .contact-map__right {
+    width: 100%;
+    float: none;
+    padding: 0;
+    margin-bottom: 28px;
+  }
+
+  .contact-map__left iframe,
+  .contact-map__right iframe {
+    height: 260px;
+  }
+
+  .product-main__location{
+    display: none;
+  }
+}
+

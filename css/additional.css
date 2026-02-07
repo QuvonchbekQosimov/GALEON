@@ -42,6 +42,7 @@
 .additional-card__right {
   width: 50%;
   min-width: 0;
+  margin: 20px 0px;
 }
 
 .additional-card__left {
@@ -83,7 +84,7 @@
   line-height: 140%;
 }
 
-.additional-card__button {
+.additional-card__button, .button1{
   background: #23a8b3;
   color: #fff;
   cursor: pointer;
@@ -94,11 +95,12 @@
   width: fit-content;
   font-size: 14px;
   transition: all 0.3s ease;
+  text-decoration: none;
 }
 
 .additional-card__button:hover {
-  color: #23a8b3;
-  background-color: #fff;
+  color: #fff;
+  background-color: #137780;
 }
 
 .additional-card__bottom-wrapper {
@@ -106,7 +108,8 @@
   flex-wrap: wrap;
   gap: 20px;
   width: 100%;
-  margin-top: 20px;
+  margin-top: 60px;
+  margin-bottom: 30px;
 }
 
 .additional-card__bottom {
@@ -119,6 +122,7 @@
   border-radius: 10px;
   box-sizing: border-box;
   width: calc((100% - 40px) / 3);
+  margin-bottom: 50px;
 }
 
 .additional-card__bottom-title {

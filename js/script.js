@@ -3,10 +3,9 @@
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
 
   const header = $("#header");
-  const menuBtn =
-    $(".header-menu button") || $("#menuToggle") || $(".menu-btn");
-  const searchInput = $(".header-search input"); // desktop input
-  const searchBtn = $(".header-search"); // mobile icon/button
+  const menuBtn = $(".header-menu button") || $("#menuToggle") || $(".menu-btn");
+  const searchInput = $(".header-search input");
+  const searchBtn = $(".header-search");
   const callLink = $(".header-top__link");
   const mainCatalogBtn = $(".main-button");
   const productCatalogBtn = $(".product-link");
@@ -24,26 +23,17 @@
   const formMsg = $(".contact-info__message input");
   const formSubmit = $(".contact-info .button button");
 
-  // =========================
-  // STATE
-  // =========================
   const state = {
     consent: true,
     toastEl: null,
     searchTimer: null,
-
-    // mobile search modal
     searchModal: null,
     searchOverlay: null,
     searchOpen: false,
     releaseTrap: null,
-
-    // mega menu state
     megaOpen: false,
     megaOverlay: null,
     megaRoot: null,
-
-    // menu button svg swap
     menuSvgOpen: null,
     menuSvgClose: `
 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
@@ -52,12 +42,8 @@
 </svg>`,
   };
 
-  // =========================
-  // HELPERS
-  // =========================
   const smoothScrollTo = (elOrSelector) => {
-    const el =
-      typeof elOrSelector === "string" ? $(elOrSelector) : elOrSelector;
+    const el = typeof elOrSelector === "string" ? $(elOrSelector) : elOrSelector;
     if (!el) return;
     el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
@@ -96,8 +82,7 @@
   const isPhoneValid = (v) => {
     const n = normalizePhone(v);
     const digits = n.replace(/[^\d]/g, "");
-    if (n.startsWith("+7") || n.startsWith("7") || n.startsWith("8"))
-      return digits.length === 11;
+    if (n.startsWith("+7") || n.startsWith("7") || n.startsWith("8")) return digits.length === 11;
     if (n.startsWith("+")) return digits.length >= 10 && digits.length <= 15;
     return digits.length >= 10 && digits.length <= 15;
   };
@@ -107,26 +92,26 @@
     document.body.style.overflow = on ? "hidden" : "";
   };
 
-  // =========================
-  // CONSENT (Checkbox)
-  // =========================
+  const stickyHeader = () => {
+    if (!header) return;
+    const onScroll = () => {
+      const y = window.scrollY || 0;
+      header.classList.toggle("is-sticky", y > 10);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+  };
+
   const setConsent = (val) => {
     state.consent = !!val;
-
     if (!checkboxRow || !checkboxIcon) return;
-
     checkboxIcon.style.opacity = state.consent ? "1" : "0";
-
-    // CSS uchun class
     checkboxRow.classList.toggle("active", state.consent);
   };
 
   const bindConsent = () => {
     if (!checkboxRow) return;
-
     const toggle = () => setConsent(!state.consent);
-
-    // start holat
     setConsent(true);
 
     checkboxRow.addEventListener("click", (e) => {
@@ -134,7 +119,6 @@
       toggle();
     });
 
-    // keyboard support
     checkboxRow.setAttribute("tabindex", "0");
     checkboxRow.addEventListener("keydown", (e) => {
       if (e.key === "Enter" || e.key === " ") {
@@ -144,117 +128,6 @@
     });
   };
 
-  // =========================
-  // STICKY/FIXED HEADER ON SCROLL (WORKING)
-  // =========================
-  const stickyHeader = () => {
-    if (!header) return;
-
-    // Inject FORCE CSS once
-    const STYLE_ID = "galeon-fixed-header-style";
-    if (!document.getElementById(STYLE_ID)) {
-      const st = document.createElement("style");
-      st.id = STYLE_ID;
-      st.textContent = `
-  #header{
-    transition: box-shadow 200ms ease, background-color 200ms ease !important;
-  }
-
-  #header.galeon-header-fixed{
-    position: fixed !important;
-    top: 0 !important;
-
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-
-    width: min(100%, 1280px) !important;
-
-    z-index: 9996 !important;
-    background: transparent !important;
-    box-shadow: none !important;
-
-    transition: box-shadow 200ms ease, background-color 200ms ease !important;
-  }
-
-  #header.galeon-header-fixed::before{
-    content: "" !important;
-    position: absolute !important;
-    top: 0 !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-
-    width: 100vw !important;
-    height: 100% !important;
-
-    background: #fff !important;
-    box-shadow: 0 10px 28px rgba(0,0,0,.12) !important;
-    z-index: -1 !important;
-  }
-`;
-      document.head.appendChild(st);
-    }
-
-    // spacer
-    let spacer = document.getElementById("galeon-header-spacer");
-    if (!spacer) {
-      spacer = document.createElement("div");
-      spacer.id = "galeon-header-spacer";
-      spacer.style.width = "100%";
-      spacer.style.height = "0px";
-      spacer.style.display = "none";
-      header.insertAdjacentElement("afterend", spacer);
-    }
-
-    const setSpacer = (on) => {
-      if (on) {
-        const h = Math.round(
-          header.getBoundingClientRect().height || header.offsetHeight || 0,
-        );
-        spacer.style.height = `${h}px`;
-        spacer.style.display = "block";
-      } else {
-        spacer.style.height = "0px";
-        spacer.style.display = "none";
-      }
-    };
-
-    const THRESHOLD = 60;
-
-    const update = () => {
-      const y = window.pageYOffset || document.documentElement.scrollTop || 0;
-      if (y > THRESHOLD) {
-        setSpacer(true);
-        header.classList.add("galeon-header-fixed");
-      } else {
-        header.classList.remove("galeon-header-fixed");
-        setSpacer(false);
-      }
-    };
-
-    update();
-
-    let raf = null;
-    window.addEventListener(
-      "scroll",
-      () => {
-        if (raf) return;
-        raf = requestAnimationFrame(() => {
-          raf = null;
-          update();
-        });
-      },
-      { passive: true },
-    );
-
-    window.addEventListener("resize", () => {
-      if ((window.pageYOffset || 0) > THRESHOLD) setSpacer(true);
-      update();
-    });
-  };
-
-  // =========================
-  // MEGA MENU (LEFT + RIGHT CARDS)
-  // =========================
   const ensureMegaOverlay = () => {
     if (state.megaOverlay) return state.megaOverlay;
 
@@ -342,11 +215,7 @@
         c.querySelector("h3,h4")?.textContent?.trim() ||
         "Категория";
 
-      const img =
-        c.querySelector("img")?.getAttribute("src") ||
-        c.querySelector("img")?.src ||
-        "";
-
+      const img = c.querySelector("img")?.getAttribute("src") || c.querySelector("img")?.src || "";
       const href = c.querySelector("a")?.getAttribute("href") || "#";
 
       return { title, img, href };
@@ -367,8 +236,9 @@
   const buildMegaMenu = () => {
     if (state.megaRoot) return state.megaRoot;
 
-    const isTabletOrMobile = () =>
-      window.matchMedia("(max-width: 1024px)").matches;
+    const isTabletOrMobile = () => window.matchMedia("(max-width: 1024px)").matches;
+
+    const CATALOG_PAGE_HREF = "./catalog.html";
 
     const mega = document.createElement("div");
     mega.id = "galeon-mega";
@@ -395,7 +265,6 @@
 
       const aHome = mkLink("Главная", "./index.html", () => setMegaMenu(false));
 
-      // ✅ FIX: scroll emas, to'g'ridan-to'g'ri additional.html
       const aInfo = mkLink("Информация", "./additional.html", (e) => {
         e.preventDefault();
         window.location.href = "./additional.html";
@@ -414,36 +283,30 @@
       catSub.className = "mega-mob__sub";
 
       const catItems = [
-        { text: "Все кейсы", target: ".all-products" },
-        { text: "Мини кейсы", target: ".all-products" },
-        { text: "Средние кейсы", target: ".all-products" },
-        { text: "Большие кейсы", target: ".all-products" },
-        { text: "Длинные кейсы", target: ".all-products" },
-        { text: "Кейсы для ноутбуков", target: ".all-products" },
-        { text: "Контейнеры", target: ".all-products" },
-        { text: "• Контейнеры СМС", target: ".all-products" },
-        { text: "• Контейнеры RACK", target: ".all-products" },
-        { text: "• Контейнеры ПСС", target: ".all-products" },
-        { text: "• Контейнеры СТС", target: ".all-products" },
-        { text: "• Рабочие мобильные места", target: ".all-products" },
-        { text: "• Мобильный госпиталь", target: ".all-products" },
+        { text: "Все кейсы", href: CATALOG_PAGE_HREF },
+        { text: "Мини кейсы", href: CATALOG_PAGE_HREF },
+        { text: "Средние кейсы", href: CATALOG_PAGE_HREF },
+        { text: "Большие кейсы", href: CATALOG_PAGE_HREF },
+        { text: "Длинные кейсы", href: CATALOG_PAGE_HREF },
+        { text: "Кейсы для ноутбуков", href: CATALOG_PAGE_HREF },
+        { text: "Контейнеры", href: CATALOG_PAGE_HREF },
+        { text: "• Контейнеры СМС", href: CATALOG_PAGE_HREF },
+        { text: "• Контейнеры RACK", href: CATALOG_PAGE_HREF },
+        { text: "• Контейнеры ПСС", href: CATALOG_PAGE_HREF },
+        { text: "• Контейнеры СТС", href: CATALOG_PAGE_HREF },
+        { text: "• Рабочие мобильные места", href: CATALOG_PAGE_HREF },
+        { text: "• Мобильный госпиталь", href: CATALOG_PAGE_HREF },
       ];
 
       catItems.forEach((it) => {
         const a = document.createElement("a");
-        a.className = "mega-mob__sublink";
-        a.href = it.target || "#";
+        a.className = "mega-mob__sublink all-products__link";
+        a.href = it.href || CATALOG_PAGE_HREF;
         a.textContent = it.text;
 
         a.addEventListener("click", (e) => {
-          const targetEl =
-            typeof it.target === "string"
-              ? document.querySelector(it.target)
-              : null;
-          if (targetEl) {
-            e.preventDefault();
-            smoothScrollTo(it.target);
-          }
+          e.preventDefault();
+          window.location.href = it.href || CATALOG_PAGE_HREF;
           setMegaMenu(false);
         });
 
@@ -455,24 +318,19 @@
         left.classList.toggle("is-cat-open");
       });
 
-      const aProd = mkLink("Производство", "./product.html", () =>
-        setMegaMenu(false),
-      );
+      const aProd = mkLink("Производство", "./product.html", () => setMegaMenu(false));
       aProd.classList.add("mega-mob__link--strong");
 
-      const aContacts = mkLink("Контакты", ".contact-banner__area", (e) => {
-        const target = document.querySelector(".contact-banner__area");
-        if (target) {
-          e.preventDefault();
-          smoothScrollTo(".contact-banner__area");
-        }
+      const aContacts = mkLink("Контакты", "./contact.html", (e) => {
+        e.preventDefault();
+        window.location.href = "./contact.html";
         setMegaMenu(false);
       });
       aContacts.classList.add("mega-mob__link--strong");
 
-      const info = document.createElement("div");
-      info.className = "mega-mob__contacts";
-      info.innerHTML = `
+      const infoBlock = document.createElement("div");
+      infoBlock.className = "mega-mob__contacts";
+      infoBlock.innerHTML = `
       <div class="mega-mob__ctitle">Контакты</div>
 
       <a class="mega-mob__citem" href="tel:+74950236793">
@@ -497,14 +355,11 @@
       left.appendChild(catSub);
       left.appendChild(aProd);
       left.appendChild(aContacts);
-      left.appendChild(info);
+      left.appendChild(infoBlock);
 
       inner.appendChild(left);
     };
 
-    // =========================================================
-    // DESKTOP (>1024) — left + right cards (AVVALGIDAY)
-    // =========================================================
     const buildDesktopMenu = () => {
       const left = document.createElement("div");
       left.className = "mega-left";
@@ -521,7 +376,6 @@
       home.addEventListener("click", () => setMegaMenu(false));
       left.appendChild(home);
 
-      // ✅ FIX: desktopda ham Информация additional.html ga o'tadi (scroll emas)
       const info = document.createElement("a");
       info.className = "mega-left__link";
       info.href = "./additional.html";
@@ -556,19 +410,10 @@
         { text: "Ложементы любой сложности", target: ".chance-banner" },
         { text: "Кастомные MOLLE-панели", target: ".chance-banner" },
         { text: "Интерьерные (I/O) панели", target: ".chance-banner" },
-        {
-          text: "Приборные панели, Конструктивные элементы из металла",
-          target: ".chance-banner",
-        },
+        { text: "Приборные панели, Конструктивные элементы из металла", target: ".chance-banner" },
         { text: "Пульты управления", target: ".chance-banner" },
-        {
-          text: "Системы охлаждения и системы нагрева",
-          target: ".chance-banner",
-        },
-        {
-          text: "Шкафы металлические и аксессуары для кейсов и панелей",
-          target: ".chance-banner",
-        },
+        { text: "Системы охлаждения и системы нагрева", target: ".chance-banner" },
+        { text: "Шкафы металлические и аксессуары для кейсов и панелей", target: ".chance-banner" },
       ];
 
       prodItems.forEach((it) => {
@@ -595,7 +440,16 @@
       left.appendChild(prodRow);
       left.appendChild(sub);
 
-      left.appendChild(makeLeftLink("Контакты", ".contact-banner__area"));
+      const contacts = document.createElement("a");
+      contacts.className = "mega-left__link";
+      contacts.href = "./contact.html";
+      contacts.textContent = "Контакты";
+      contacts.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.location.href = "./contact.html";
+        setMegaMenu(false);
+      });
+      left.appendChild(contacts);
 
       const right = document.createElement("div");
       right.className = "mega-right";
@@ -609,11 +463,11 @@
 
       const rtAll = document.createElement("a");
       rtAll.className = "mega-right__all";
-      rtAll.href = "#";
+      rtAll.href = CATALOG_PAGE_HREF;
       rtAll.textContent = "Все кейсы";
       rtAll.addEventListener("click", (e) => {
         e.preventDefault();
-        smoothScrollTo(".all-products");
+        window.location.href = CATALOG_PAGE_HREF;
         setMegaMenu(false);
       });
 
@@ -626,36 +480,11 @@
       const from = getFromAllProducts();
 
       const fallback = [
-        {
-          title: "Мини кейсы",
-          img: "/img/all-products1.png",
-          href: "#",
-          sizeClass: "mm-card--sm",
-        },
-        {
-          title: "Средние кейсы",
-          img: "/img/all-products2.png",
-          href: "#",
-          sizeClass: "mm-card--sm",
-        },
-        {
-          title: "Большие кейсы",
-          img: "/img/all-products3.png",
-          href: "#",
-          sizeClass: "mm-card--sm",
-        },
-        {
-          title: "Длинные кейсы",
-          img: "/img/all-products4.png",
-          href: "#",
-          sizeClass: "mm-card--md",
-        },
-        {
-          title: "Кейсы для ноутбуков",
-          img: "/img/all-products5.png",
-          href: "#",
-          sizeClass: "mm-card--md",
-        },
+        { title: "Мини кейсы", img: "/img/all-products1.png", href: "#", sizeClass: "mm-card--sm" },
+        { title: "Средние кейсы", img: "/img/all-products2.png", href: "#", sizeClass: "mm-card--sm" },
+        { title: "Большие кейсы", img: "/img/all-products3.png", href: "#", sizeClass: "mm-card--sm" },
+        { title: "Длинные кейсы", img: "/img/all-products4.png", href: "#", sizeClass: "mm-card--md" },
+        { title: "Кейсы для ноутбуков", img: "/img/all-products5.png", href: "#", sizeClass: "mm-card--md" },
         {
           title: "Контейнеры",
           img: "/img/all-products6.png",
@@ -679,11 +508,7 @@
             { ...from.a2, sizeClass: "mm-card--sm" },
             { ...(from.a3 || from.a0), sizeClass: "mm-card--md" },
             { ...(from.a4 || from.a1), sizeClass: "mm-card--md" },
-            {
-              ...(from.a5 || from.a2),
-              sizeClass: "mm-card--lg",
-              sub: fallback[5].sub,
-            },
+            { ...(from.a5 || from.a2), sizeClass: "mm-card--lg", sub: fallback[5].sub },
           ]
         : fallback;
 
@@ -807,9 +632,7 @@
     document.addEventListener("click", (e) => {
       if (!state.megaOpen) return;
       const mega = state.megaRoot;
-      const inside =
-        (mega && mega.contains(e.target)) ||
-        (menuBtn && menuBtn.contains(e.target));
+      const inside = (mega && mega.contains(e.target)) || (menuBtn && menuBtn.contains(e.target));
       if (!inside) setMegaMenu(false);
     });
 
@@ -819,9 +642,6 @@
     });
   };
 
-  // =========================
-  // CHANCE SLIDER NAV
-  // =========================
   const bindChanceNav = () => {
     if (!chanceWrap || !chancePrev || !chanceNext) return;
 
@@ -862,25 +682,19 @@
     window.addEventListener("resize", updateNav);
     updateNav();
 
-    // =========================
-    // ✅ DRAG / SWIPE (SMOOTH + MOMENTUM + SNAP)
-    // =========================
     let isDown = false;
     let startX = 0;
     let startLeft = 0;
     let moved = false;
 
-    // smooth rendering (RAF)
     let raf = 0;
     let targetLeft = 0;
 
-    // momentum
     let lastX = 0;
     let lastT = 0;
-    let velocity = 0; // px/ms
+    let velocity = 0;
     let momentumRaf = 0;
 
-    // ✅ ixtiyoriy: qo‘yib yuborganda yaqin cardga “snap”
     const SNAP_ENABLED = true;
 
     const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
@@ -949,7 +763,6 @@
       targetLeft = clamp(startLeft - dx, 0, max);
       scheduleScroll();
 
-      // velocity (px/ms) + smoothing
       const dt = now - lastT || 16;
       const vx = (e.clientX - lastX) / dt;
       velocity = velocity * 0.8 + vx * 0.2;
@@ -959,8 +772,7 @@
     };
 
     const startMomentum = () => {
-      // clientX + bo‘lsa: scrollLeft - bo‘ladi => velocity teskari
-      let v = -velocity * 28; // kuch (tune)
+      let v = -velocity * 28;
       const friction = 0.95;
       const minV = 0.1;
 
@@ -1011,10 +823,9 @@
         }
         moved = false;
       },
-      true,
+      true
     );
 
-    // observer (sizdagi holicha)
     const cards = $$(".chance-card");
     const observer = new IntersectionObserver(
       (entries) => {
@@ -1029,15 +840,12 @@
           }
         });
       },
-      { root: chanceWrap, threshold: 0.95 },
+      { root: chanceWrap, threshold: 0.95 }
     );
 
     cards.forEach((card) => observer.observe(card));
   };
 
-  // =========================
-  // DESKTOP SEARCH
-  // =========================
   const bindDesktopSearch = () => {
     if (!searchInput) return;
 
@@ -1112,9 +920,7 @@
         return;
       }
 
-      if (shouldScroll) {
-        firstHit.scrollIntoView({ behavior: "smooth", block: "center" });
-      }
+      if (shouldScroll) firstHit.scrollIntoView({ behavior: "smooth", block: "center" });
     };
 
     searchInput.addEventListener("input", () => {
@@ -1135,9 +941,6 @@
     });
   };
 
-  // =========================
-  // MOBILE SEARCH MODAL
-  // =========================
   const initSearchModal = () => {
     if (!searchBtn) return;
 
@@ -1152,8 +955,8 @@
       const focusables = () =>
         Array.from(
           root.querySelectorAll(
-            `a[href],button:not([disabled]),input:not([disabled]),textarea:not([disabled]),select:not([disabled]),[tabindex]:not([tabindex="-1"])`,
-          ),
+            `a[href],button:not([disabled]),input:not([disabled]),textarea:not([disabled]),select:not([disabled]),[tabindex]:not([tabindex="-1"])`
+          )
         ).filter((x) => x.offsetParent !== null);
 
       const onKey = (e) => {
@@ -1208,9 +1011,7 @@
         if (e.target === o) set(false);
       });
 
-      panel
-        .querySelector(".search-modal__close")
-        .addEventListener("click", () => set(false));
+      panel.querySelector(".search-modal__close").addEventListener("click", () => set(false));
     };
 
     const set = (val) => {
@@ -1265,185 +1066,30 @@
     const st = document.createElement("style");
     st.id = STYLE_ID;
     st.textContent = `
-/* overlay */
-.galeon-lead-overlay{
-  position: fixed;
-  inset: 0;
-  z-index: 100000;
-  background: rgba(0,0,0,.45);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 18px;
-}
-
-/* modal */
-.galeon-lead-modal{
-  width: min(760px, 92vw);
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 18px 55px rgba(0,0,0,.25);
-  position: relative;
-  padding: 28px 28px 22px;
-}
-
-/* close button */
-.galeon-lead-close{
-  position: absolute;
-  top: 18px;
-  right: 18px;
-  width: 34px;
-  height: 34px;
-  border-radius: 999px;
-  border: 1px solid #e9eef2;
-  background: #fff;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 120ms ease, box-shadow 120ms ease;
-}
-.galeon-lead-close:hover{
-  transform: translateY(-1px);
-  box-shadow: 0 10px 22px rgba(0,0,0,.10);
-}
-.galeon-lead-close svg{ display:block; }
-
-/* title/subtitle */
-.galeon-lead-title{
-  font-size: 56px;
-  line-height: 1.05;
-  font-weight: 800;
-  color: #0f1822;
-  margin: 0 54px 10px 0;
-  letter-spacing: -0.5px;
-}
-.galeon-lead-subtitle{
-  font-size: 16px;
-  line-height: 1.5;
-  color: #9aa3ab;
-  margin: 0 0 18px 0;
-}
-
-/* fields */
-.galeon-lead-field{
-  width: 100%;
-  background: #f3f6f8;
-  border: 1px solid #eef2f5;
-  border-radius: 10px;
-  padding: 16px 18px;
-  font-size: 16px;
-  outline: none;
-  color: #0f1822;
-  box-sizing: border-box;
-}
-.galeon-lead-field::placeholder{ color: #aab2ba; }
-.galeon-lead-field:focus{
-  border-color: rgba(35,168,179,.55);
-  box-shadow: 0 0 0 4px rgba(35,168,179,.12);
-}
-
-/* phone with flag */
-.galeon-lead-phone{
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: #f3f6f8;
-  border: 1px solid #eef2f5;
-  border-radius: 10px;
-  padding: 10px 14px;
-  box-sizing: border-box;
-}
-.galeon-lead-flag{
-  width: 26px;
-  height: 18px;
-  border-radius: 3px;
-  overflow: hidden;
-  flex: 0 0 auto;
-  box-shadow: 0 6px 14px rgba(0,0,0,.10);
-}
-.galeon-lead-phone input{
-  border: none;
-  outline: none;
-  background: transparent;
-  font-size: 16px;
-  width: 100%;
-  padding: 10px 0;
-  color: #0f1822;
-}
-.galeon-lead-phone input::placeholder{ color:#aab2ba; }
-
-/* textarea */
-.galeon-lead-textarea{
-  min-height: 120px;
-  resize: vertical;
-}
-
-/* submit */
-.galeon-lead-submit{
-  width: 100%;
-  border: none;
-  border-radius: 10px;
-  padding: 18px 16px;
-  font-size: 18px;
-  font-weight: 700;
-  cursor: pointer;
-  background: #23A8B3;
-  color: #fff;
-  margin-top: 14px;
-  transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
-}
-.galeon-lead-submit:hover{
-  transform: translateY(-1px);
-  box-shadow: 0 14px 28px rgba(35,168,179,.25);
-}
-.galeon-lead-submit:active{ transform: translateY(0); }
-
-/* consent row */
-.galeon-lead-consent{
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  margin-top: 14px;
-  color: #8f98a1;
-  font-size: 14px;
-  line-height: 1.45;
-}
-.galeon-lead-consent a{
-  color: #8f98a1;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-.galeon-lead-check{
-  width: 22px;
-  height: 22px;
-  border-radius: 4px;
-  border: 1px solid #dbe5eb;
-  background: #fff;
-  flex: 0 0 auto;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  margin-top: 1px;
-}
-.galeon-lead-check.is-on{
-  background: #23A8B3;
-  border-color: #23A8B3;
-}
-.galeon-lead-check svg{
-  width: 14px;
-  height: 14px;
-  opacity: 0;
-}
-.galeon-lead-check.is-on svg{ opacity: 1; }
-
-@media (max-width: 640px){
-  .galeon-lead-modal{ padding: 20px 18px 16px; }
-  .galeon-lead-title{ font-size: 36px; }
-}
+.galeon-lead-overlay{position:fixed;inset:0;z-index:100000;background:rgba(0,0,0,.45);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);display:flex;align-items:center;justify-content:center;padding:18px;}
+.galeon-lead-modal{width:min(660px,82vw);background:#fff;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.15);position:relative;padding:10px 15px;box-sizing:border-box;height:auto;display:flex;flex-direction:column;gap:8px;}
+.galeon-lead-modal *{margin-top:0!important;margin-bottom:0!important;}
+.galeon-lead-close{position:absolute;top:18px;right:18px;width:34px;height:34px;border-radius:999px;border:1px solid #e9eef2;background:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:transform 120ms ease,box-shadow 120ms ease;}
+.galeon-lead-close:hover{box-shadow:0 10px 22px rgba(0,0,0,.10);}
+.galeon-lead-close svg{display:block;}
+.galeon-lead-title{font-size:56px;line-height:1.05;font-weight:800;color:#0f1822;margin:0 54px 10px 0;letter-spacing:-0.5px;}
+.galeon-lead-subtitle{font-size:16px;line-height:1.5;color:#9aa3ab;margin:0 0 18px 0;}
+.galeon-lead-field{width:100%;background:#f3f6f8;border:1px solid #eef2f5;border-radius:10px;padding:16px 18px;font-size:16px;outline:none;color:#0f1822;box-sizing:border-box;}
+.galeon-lead-field::placeholder{color:#aab2ba;}
+.galeon-lead-phone{display:flex;align-items:center;gap:12px;background:#f3f6f8;border:1px solid #eef2f5;border-radius:10px;padding:10px 14px;box-sizing:border-box;}
+.galeon-lead-flag{width:26px;height:18px;border-radius:3px;overflow:hidden;flex:0 0 auto;box-shadow:0 6px 14px rgba(0,0,0,.10);}
+.galeon-lead-phone input{border:none;outline:none;background:transparent;font-size:16px;width:100%;padding:10px 0;color:#0f1822;}
+.galeon-lead-phone input::placeholder{color:#aab2ba;}
+.galeon-lead-textarea{min-height:120px;resize:none;}
+.galeon-lead-submit{width:100%;border:none;border-radius:10px;padding:18px 16px;font-size:18px;font-weight:700;cursor:pointer;background:#23A8B3;color:#fff;transition:all .3s ease;margin-top:14px;}
+.galeon-lead-submit:hover{background:#1e8f97;}
+.galeon-lead-consent{display:flex;align-items:flex-start;gap:12px;margin-top:14px;color:#8f98a1;font-size:14px;line-height:1.45;}
+.galeon-lead-consent a{color:#8f98a1;text-decoration:underline;text-underline-offset:3px;}
+.galeon-lead-check{width:22px;height:22px;border-radius:4px;border:1px solid #dbe5eb;background:#fff;flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;margin-top:1px;}
+.galeon-lead-check.is-on{background:#23A8B3;border-color:#23A8B3;}
+.galeon-lead-check svg{width:14px;height:14px;opacity:0;}
+.galeon-lead-check.is-on svg{opacity:1;}
+@media (max-width:640px){.galeon-lead-modal{padding:20px 18px 16px;}.galeon-lead-title{font-size:36px;}}
 `;
     document.head.appendChild(st);
   };
@@ -1454,6 +1100,18 @@
   <rect width="3" height="0.6667" y="0.6667" fill="#1C57A7"/>
   <rect width="3" height="0.6667" y="1.3334" fill="#D52B1E"/>
 </svg>`;
+
+  const maskRUPhone = (digits) => {
+    const d = String(digits || "").replace(/\D/g, "");
+    const core = d.startsWith("8") ? "7" + d.slice(1) : d;
+    const n = core.startsWith("7") ? core : core;
+    const p = n.padEnd(11, "_").slice(0, 11);
+    const a = p.slice(1, 4);
+    const b = p.slice(4, 7);
+    const c = p.slice(7, 9);
+    const e = p.slice(9, 11);
+    return `+7 ${a} ${b} ${c} ${e}`.replace(/_/g, "");
+  };
 
   const openLeadModal = (prefill = {}) => {
     ensureLeadModalStyles();
@@ -1467,11 +1125,8 @@
     modal.setAttribute("aria-modal", "true");
     modal.setAttribute("aria-label", "Оставить заявку");
 
-    if (window.matchMedia("(max-width: 900px)").matches) {
-      modal.style.width = "92vw";
-    } else {
-      modal.style.width = "40vw";
-    }
+    if (window.matchMedia("(max-width: 900px)").matches) modal.style.width = "92vw";
+    else modal.style.width = "40vw";
     modal.style.maxWidth = "760px";
     modal.style.minWidth = "360px";
 
@@ -1587,18 +1242,16 @@
 
     const close = () => {
       document.removeEventListener("keydown", onEsc);
-      if (overlay && overlay.parentNode)
-        overlay.parentNode.removeChild(overlay);
+      if (overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay);
       lockBody(false);
     };
 
     const onEsc = (e) => {
       if (e.key === "Escape") close();
+
       if (e.key === "Tab") {
         const focusables = Array.from(
-          modal.querySelectorAll(
-            `button,input,textarea,[tabindex]:not([tabindex="-1"])`,
-          ),
+          modal.querySelectorAll(`button,input,textarea,[tabindex]:not([tabindex="-1"])`)
         ).filter((x) => x.offsetParent !== null);
 
         if (!focusables.length) return;
@@ -1674,6 +1327,25 @@
     setTimeout(() => nameInput.focus(), 0);
   };
 
+  const bindAdditionalButtonsToLeadModal = () => {
+    const selectors = ".additional-main__banner .button1, .additional-card__button";
+
+    $$(selectors).forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        const cardTitle =
+          btn.closest(".additional-card__top")
+            ?.querySelector(".additional-card__title")
+            ?.textContent?.trim() || "";
+
+        openLeadModal({
+          message: cardTitle ? `Заявка: ${cardTitle}` : (btn.textContent || "").trim(),
+        });
+      });
+    });
+  };
+
   const bindCallLink = () => {
     if (!callLink) return;
     callLink.addEventListener("click", (e) => {
@@ -1682,9 +1354,6 @@
     });
   };
 
-  // =========================
-  // CATALOG BUTTONS
-  // =========================
   const bindCatalogButtons = () => {
     const go = () => smoothScrollTo(".product-top");
     if (mainCatalogBtn) mainCatalogBtn.addEventListener("click", go);
@@ -1697,8 +1366,7 @@
           : e.currentTarget.closest(".product-card");
         if (!card) return;
 
-        const title =
-          $(".product-card__title", card)?.textContent?.trim() || "Категория";
+        const title = $(".product-card__title", card)?.textContent?.trim() || "Категория";
         toast(`Открыть: ${title}`);
       });
     });
@@ -1712,9 +1380,6 @@
     });
   };
 
-  // =========================
-  // TO TOP
-  // =========================
   const bindToTop = () => {
     if (!toTopBtn) return;
     toTopBtn.addEventListener("click", (e) => {
@@ -1723,33 +1388,122 @@
     });
   };
 
-  // =========================
-  // HEADER ICONS
-  // =========================
-  const bindHeaderIcons = () => {
-    $$(".header-icon").forEach((icon, idx) => {
-      icon.addEventListener("click", () => {
-        if (idx === 0) toast("Личный кабинет");
-        if (idx === 1) toast("Избранное");
-        if (idx === 2) toast("Корзина");
-      });
-    });
+  const ensureHeaderBadgeStyles = () => {
+  const ID = "galeon-header-badge-style";
+  if (document.getElementById(ID)) return;
+
+  const st = document.createElement("style");
+  st.id = ID;
+  st.textContent = `
+.header-icon{position:relative;}
+.header-icon .galeon-badge{
+  position:absolute;
+  top:-6px;
+  right:-6px;
+  min-width:18px;
+  height:18px;
+  padding:0 6px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:999px;
+  background:#23A8B3;
+  color:#fff;
+  font-size:12px;
+  font-weight:700;
+  line-height:1;
+  box-shadow:0 8px 18px rgba(0,0,0,.14);
+  pointer-events:none;
+}
+`;
+  document.head.appendChild(st);
+};
+
+const getHeaderFavIcon = () => {
+  return document.querySelector(".header-icon--fav") || document.querySelectorAll(".header-icon")[1] || null;
+};
+
+const getHeaderCartIcon = () => {
+  return document.querySelector(".header-icon--cart") || document.querySelectorAll(".header-icon")[2] || null;
+};
+
+const ensureBadge = (iconEl) => {
+  if (!iconEl) return null;
+  let b = iconEl.querySelector(".galeon-badge");
+  if (!b) {
+    b = document.createElement("span");
+    b.className = "galeon-badge";
+    b.textContent = "0";
+    iconEl.appendChild(b);
+  }
+  return b;
+};
+
+const headerCounters = (() => {
+  ensureHeaderBadgeStyles();
+
+  const favIcon = getHeaderFavIcon();
+  const cartIcon = getHeaderCartIcon();
+
+  const favBadge = ensureBadge(favIcon);
+  const cartBadge = ensureBadge(cartIcon);
+
+  const state2 = { fav: 0, cart: 0 };
+
+  const setBadge = (badgeEl, val) => {
+    if (!badgeEl) return;
+    const n = Math.max(0, Math.round(Number(val) || 0));
+    badgeEl.textContent = String(n);
   };
 
-  // =========================
-  // PHONE MASK
-  // =========================
-  const maskRUPhone = (digits) => {
-    const d = digits.replace(/\D/g, "");
-    const core = d.startsWith("8") ? "7" + d.slice(1) : d;
-    const n = core.startsWith("7") ? core : core;
-    const p = n.padEnd(11, "_").slice(0, 11);
-    const a = p.slice(1, 4);
-    const b = p.slice(4, 7);
-    const c = p.slice(7, 9);
-    const e = p.slice(9, 11);
-    return `+7 ${a} ${b} ${c} ${e}`.replace(/_/g, "");
+  setBadge(favBadge, 0);
+  setBadge(cartBadge, 0);
+
+  return {
+    setFav(n) {
+      state2.fav = Math.max(0, Math.round(Number(n) || 0));
+      setBadge(favBadge, state2.fav);
+    },
+    setCart(n) {
+      state2.cart = Math.max(0, Math.round(Number(n) || 0));
+      setBadge(cartBadge, state2.cart);
+    },
+    bumpFav(delta) {
+      this.setFav(state2.fav + (Number(delta) || 0));
+    },
+    bumpCart(delta) {
+      this.setCart(state2.cart + (Number(delta) || 0));
+    },
+    get() {
+      return { ...state2 };
+    },
   };
+})();
+
+window.GaleonHeaderCounters = window.GaleonHeaderCounters || headerCounters;
+
+document.addEventListener("galeon:fav", (e) => {
+  const d = e?.detail || {};
+  if (typeof d.delta === "number") headerCounters.bumpFav(d.delta);
+  if (typeof d.value === "number") headerCounters.setFav(d.value);
+});
+
+document.addEventListener("galeon:cart", (e) => {
+  const d = e?.detail || {};
+  if (typeof d.delta === "number") headerCounters.bumpCart(d.delta);
+  if (typeof d.value === "number") headerCounters.setCart(d.value);
+});
+
+const bindHeaderIcons = () => {
+  $$(".header-icon").forEach((icon, idx) => {
+    icon.addEventListener("click", () => {
+      if (idx === 0) toast("Личный кабинет");
+      if (idx === 1) toast("Избранное");
+      if (idx === 2) toast("Корзина");
+    });
+  });
+};
+
 
   const bindPhoneMask = () => {
     if (!formTel) return;
@@ -1772,9 +1526,6 @@
     });
   };
 
-  // =========================
-  // FORM
-  // =========================
   const bindForm = () => {
     if (!formSubmit) return;
 
@@ -1787,7 +1538,7 @@
     const validate = () => {
       const name = (formName?.value || "").trim();
       const tel = (formTel?.value || "").trim();
-      const msg = (formMsg?.value || "").trim();
+      const msgv = (formMsg?.value || "").trim();
 
       let ok = true;
 
@@ -1803,7 +1554,7 @@
         setErr(formTel, true);
         ok = false;
       }
-      if (msg.length < 3) {
+      if (msgv.length < 3) {
         setErr(formMsg, true);
         ok = false;
       }
@@ -1852,10 +1603,7 @@
         setTimeout(() => {
           const titles = $$(".product-card__title");
           const hit = titles.find((t) => t.textContent.trim() === txt);
-          if (hit)
-            hit
-              .closest(".product-card")
-              ?.scrollIntoView({ behavior: "smooth", block: "center" });
+          if (hit) hit.closest(".product-card")?.scrollIntoView({ behavior: "smooth", block: "center" });
         }, 250);
       });
     });
@@ -1866,8 +1614,7 @@
         if (text.includes("глав")) smoothScrollTo("#header");
         else if (text.includes("информ")) smoothScrollTo(".about-banner__area");
         else if (text.includes("производ")) smoothScrollTo(".chance-banner");
-        else if (text.includes("контакт"))
-          smoothScrollTo(".contact-banner__area");
+        else if (text.includes("контакт")) smoothScrollTo(".contact-banner__area");
       });
     });
 
@@ -1889,22 +1636,14 @@
     }
   };
 
-  // =========================
-  // MAIN BOTTOM LINK
-  // =========================
   const bindMainBottomLink = () => {
     const link = $(".main-bottom__link");
     if (!link) return;
 
     const scrollToBottom = () => {
-      const footer =
-        document.querySelector("footer") || document.querySelector("#footer");
+      const footer = document.querySelector("footer") || document.querySelector("#footer");
       if (footer) footer.scrollIntoView({ behavior: "smooth", block: "start" });
-      else
-        window.scrollTo({
-          top: document.documentElement.scrollHeight,
-          behavior: "smooth",
-        });
+      else window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "smooth" });
     };
 
     link.addEventListener("click", (e) => {
@@ -1927,15 +1666,11 @@
     updateVisibility();
   };
 
-  // =========================
-  // MAIN ANIMATIONS (RIPPLE + TOOLTIP + POSITIONS)
-  // =========================
   const bindMainAnimations = () => {
     const wrap = $(".main-animations");
     if (!wrap) return;
 
-    const isTabletOrMobile = () =>
-      window.matchMedia("(max-width: 1024px)").matches;
+    const isTabletOrMobile = () => window.matchMedia("(max-width: 1024px)").matches;
 
     if (isTabletOrMobile()) {
       wrap.style.display = "none";
@@ -1952,100 +1687,15 @@
       const st = document.createElement("style");
       st.id = STYLE_ID;
       st.textContent = `
-.main-animations{
-  position: absolute !important;
-  inset: 0 !important;
-  z-index: 6 !important;
-  pointer-events: none !important;
-}
-
-.main-animations .main-animation{
-  position: absolute !important;
-  width: 26px;
-  height: 26px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-  cursor: default;
-  pointer-events: auto !important;
-}
-
-.main-animations .main-animation svg{
-  display: block;
-  position: relative;
-  z-index: 2;
-  cursor:pointer;
-}
-
-.main-animations .main-animation::before,
-.main-animations .main-animation::after{
-  content: "";
-  position: absolute;
-  inset: 50%;
-  width: 26px;
-  height: 26px;
-  border-radius: 999px;
-  transform: translate(-50%, -50%) scale(1);
-  background: rgba(35,168,179,.22);
-  z-index: 1;
-  animation: galeonRipple 2.4s ease-out infinite;
-  pointer-events: none;
-}
-
-.main-animations .main-animation::after{
-  animation-delay: 1.2s;
-  background: rgba(35,168,179,.16);
-}
-
-@keyframes galeonRipple{
-  0%{ transform: translate(-50%, -50%) scale(1); opacity: .9; }
-  70%{ transform: translate(-50%, -50%) scale(2.8); opacity: .15; }
-  100%{ transform: translate(-50%, -50%) scale(3.1); opacity: 0; }
-}
-
-.main-animations .main-animation .galeon-tip{
-  position: absolute;
-  left: 50%;
-  bottom: calc(100% + 10px);
-  transform: translateX(-50%) translateY(6px);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 180ms ease, transform 180ms ease;
-  z-index: 20;
-
-  background: transparent !important;
-  padding: 0 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-
-  color: #fff;
-  font-size: 14px;
-  line-height: 1.25;
-  font-weight: 500;
-
-  text-shadow: 0 10px 24px rgba(0,0,0,.55), 0 2px 6px rgba(0,0,0,.5);
-  min-width: 260px;
-  max-width: 360px;
-
-  white-space: normal;
-  text-align: center;
-}
-
-.main-animations .main-animation:hover .galeon-tip,
-.main-animations .main-animation:focus-within .galeon-tip{
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
-
-@media (max-width: 1024px){
-  .main-animations{
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
-  }
-}
+.main-animations{position:absolute!important;inset:0!important;z-index:6!important;pointer-events:none!important;}
+.main-animations .main-animation{position:absolute!important;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;z-index:10;cursor:default;pointer-events:auto!important;}
+.main-animations .main-animation svg{display:block;position:relative;z-index:2;cursor:pointer;}
+.main-animations .main-animation::before,.main-animations .main-animation::after{content:"";position:absolute;inset:50%;width:26px;height:26px;border-radius:999px;transform:translate(-50%,-50%) scale(1);background:rgba(35,168,179,.22);z-index:1;animation:galeonRipple 2.4s ease-out infinite;pointer-events:none;}
+.main-animations .main-animation::after{animation-delay:1.2s;background:rgba(35,168,179,.16);}
+@keyframes galeonRipple{0%{transform:translate(-50%,-50%) scale(1);opacity:.9;}70%{transform:translate(-50%,-50%) scale(2.8);opacity:.15;}100%{transform:translate(-50%,-50%) scale(3.1);opacity:0;}}
+.main-animations .main-animation .galeon-tip{position:absolute;left:50%;bottom:calc(100% + 10px);transform:translateX(-50%) translateY(6px);opacity:0;pointer-events:none;transition:opacity 180ms ease,transform 180ms ease;z-index:20;background:transparent!important;padding:0!important;border-radius:0!important;box-shadow:none!important;color:#fff;font-size:14px;line-height:1.25;font-weight:500;text-shadow:0 10px 24px rgba(0,0,0,.55),0 2px 6px rgba(0,0,0,.5);min-width:260px;max-width:360px;white-space:normal;text-align:center;}
+.main-animations .main-animation:hover .galeon-tip,.main-animations .main-animation:focus-within .galeon-tip{opacity:1;transform:translateX(-50%) translateY(0);}
+@media (max-width:1024px){.main-animations{display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important;}}
 `;
       document.head.appendChild(st);
     }
@@ -2089,21 +1739,14 @@
     });
 
     const onResize = () => {
-      if (window.matchMedia("(max-width: 1024px)").matches) {
-        wrap.style.display = "none";
-      } else {
-        wrap.style.display = "";
-      }
+      if (window.matchMedia("(max-width: 1024px)").matches) wrap.style.display = "none";
+      else wrap.style.display = "";
     };
     window.addEventListener("resize", onResize);
   };
 
-  // =========================
-  // INIT
-  // =========================
   const init = () => {
     bindMegaMenu();
-
     bindDesktopSearch();
     initSearchModal();
     bindChanceNav();
@@ -2116,16 +1759,13 @@
     bindPhoneMask();
     bindFooterNav();
     bindMainBottomLink();
-
     bindMainAnimations();
-
     stickyHeader();
-
+    bindAdditionalButtonsToLeadModal();
     setMenuBtnUI(false);
     document.body.classList.remove("mega-open");
   };
 
-  if (document.readyState === "loading")
-    document.addEventListener("DOMContentLoaded", init);
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
   else init();
 })();
