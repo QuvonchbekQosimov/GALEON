@@ -21,7 +21,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const toNum = (v) => {
     if (v == null) return NaN;
-    const cleaned = String(v).replace(/\s/g, "").replace(/[^\d.,-]/g, "").replace(",", ".");
+    const cleaned = String(v)
+      .replace(/\s/g, "")
+      .replace(/[^\d.,-]/g, "")
+      .replace(",", ".");
     const n = Number(cleaned);
     return Number.isFinite(n) ? n : NaN;
   };
@@ -167,11 +170,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const chevron = document.createElement("span");
       chevron.setAttribute("aria-hidden", "true");
       chevron.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
-             viewBox="0 0 24 24" fill="none">
-          <path d="M7 10l5 5 5-5" stroke="${BRAND}" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="9" height="5" viewBox="0 0 9 5" fill="none">
+  <path d="M4.16726 4.16663L8.33398 -5.43594e-05L0.000664122 -5.5088e-05L4.16726 4.16663Z" fill="#8E949B"/>
+</svg>
       `;
       chevron.style.display = "inline-flex";
       chevron.style.transition = "transform .15s ease";
@@ -181,12 +182,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const chevron = qs(".js-filter-chevron", title);
-    const contentNodes = Array.from(block.children).filter((el) => el !== title);
+    const contentNodes = Array.from(block.children).filter(
+      (el) => el !== title,
+    );
 
     const setCollapsed = (collapsed) => {
       block.dataset.collapsed = collapsed ? "1" : "0";
       contentNodes.forEach((n) => (n.style.display = collapsed ? "none" : ""));
-      if (chevron) chevron.style.transform = collapsed ? "rotate(-90deg)" : "rotate(0deg)";
+      if (chevron)
+        chevron.style.transform = collapsed ? "rotate(-90deg)" : "rotate(0deg)";
     };
 
     setCollapsed(false);
@@ -197,7 +201,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  function makeDualRange({ blockSelector, rangeId, minMax, placeholders, gap = 0 }) {
+  function makeDualRange({
+    blockSelector,
+    rangeId,
+    minMax,
+    placeholders,
+    gap = 0,
+  }) {
     const block = qs(blockSelector);
     if (!block) return null;
 
@@ -231,8 +241,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!inputMin || !inputMax || !sliderWrap) return null;
 
     if (placeholders) {
-      if (placeholders.min != null) inputMin.placeholder = String(placeholders.min);
-      if (placeholders.max != null) inputMax.placeholder = String(placeholders.max);
+      if (placeholders.min != null)
+        inputMin.placeholder = String(placeholders.min);
+      if (placeholders.max != null)
+        inputMax.placeholder = String(placeholders.max);
     }
 
     const MIN = minMax.min;
@@ -390,7 +402,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const curMin = Number(rangeMin.value);
         const curMax = Number(rangeMax.value);
 
-        if (active === rangeMin) rangeMin.value = String(clamp(v, MIN, curMax - gap));
+        if (active === rangeMin)
+          rangeMin.value = String(clamp(v, MIN, curMax - gap));
         else rangeMax.value = String(clamp(v, curMin + gap, MAX));
 
         paint();
@@ -421,7 +434,10 @@ document.addEventListener("DOMContentLoaded", () => {
     paint();
 
     return {
-      getValues: () => ({ min: Number(rangeMin.value), max: Number(rangeMax.value) }),
+      getValues: () => ({
+        min: Number(rangeMin.value),
+        max: Number(rangeMax.value),
+      }),
       reset: () => {
         rangeMin.value = String(MIN);
         rangeMax.value = String(MAX);
@@ -502,7 +518,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const getSelectedVariants = () => {
     const map = {
-      "пустой": ["пустой"],
+      пустой: ["пустой"],
       "с пропластом": ["пропласт", "пропластом"],
       "с поропластом": ["поропласт", "поропластом"],
       "с делителями": ["делител"],
@@ -599,14 +615,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function cardMatchesVariants(card, selectedVariantKeywords) {
     if (!selectedVariantKeywords.length) return true;
-    const title = (qs(".product-card__title", card)?.textContent || "").trim().toLowerCase();
-    return selectedVariantKeywords.some((keywords) => keywords.some((k) => title.includes(k)));
+    const title = (qs(".product-card__title", card)?.textContent || "")
+      .trim()
+      .toLowerCase();
+    return selectedVariantKeywords.some((keywords) =>
+      keywords.some((k) => title.includes(k)),
+    );
   }
 
   function cardMatchesSearch(card) {
     const q = (searchInput?.value || "").trim().toLowerCase();
     if (!q) return true;
-    const title = (qs(".product-card__title", card)?.textContent || "").trim().toLowerCase();
+    const title = (qs(".product-card__title", card)?.textContent || "")
+      .trim()
+      .toLowerCase();
     return title.includes(q);
   }
 
@@ -633,7 +655,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const okVariants = cardMatchesVariants(card, selectedVariantKeywords);
       const okSearch = cardMatchesSearch(card);
 
-      const visible = okPrice && okLen && okWid && okHei && okVariants && okSearch;
+      const visible =
+        okPrice && okLen && okWid && okHei && okVariants && okSearch;
 
       card.style.display = visible ? "" : "none";
       if (visible) shown += 1;
@@ -665,7 +688,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (categoryItems.length) {
       categoryItems.forEach((i) => i.classList.remove("active"));
-      const all = categoryItems.find((i) => i.textContent.trim().toLowerCase() === "все кейсы");
+      const all = categoryItems.find(
+        (i) => i.textContent.trim().toLowerCase() === "все кейсы",
+      );
       (all || categoryItems[0]).classList.add("active");
     }
 

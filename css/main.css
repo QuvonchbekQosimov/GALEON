@@ -17,15 +17,15 @@ body {
   width: 100%;
 }
 
-@font-face {
-  font-family: "Manrope";
-  src: url("/fonts/Manrope-Regular.ttf");
-}
+  @font-face {
+    font-family: "Manrope";
+    src: url("../fonts/Manrope-Regular.ttf");
+  }
 
-@font-face {
-  font-family: "Montserrat";
-  src: url(/fonts/Montserrat-Light.ttf);
-}
+  @font-face {
+    font-family: "Montserrat";
+    src: url("../fonts/Montserrat-Light.ttf");
+  }
 
 .header-top {
   width: 100%;

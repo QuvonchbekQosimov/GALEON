@@ -3,7 +3,8 @@
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
 
   const header = $("#header");
-  const menuBtn = $(".header-menu button") || $("#menuToggle") || $(".menu-btn");
+  const menuBtn =
+    $(".header-menu button") || $("#menuToggle") || $(".menu-btn");
   const searchInput = $(".header-search input");
   const searchBtn = $(".header-search");
   const callLink = $(".header-top__link");
@@ -43,7 +44,8 @@
   };
 
   const smoothScrollTo = (elOrSelector) => {
-    const el = typeof elOrSelector === "string" ? $(elOrSelector) : elOrSelector;
+    const el =
+      typeof elOrSelector === "string" ? $(elOrSelector) : elOrSelector;
     if (!el) return;
     el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
@@ -82,7 +84,8 @@
   const isPhoneValid = (v) => {
     const n = normalizePhone(v);
     const digits = n.replace(/[^\d]/g, "");
-    if (n.startsWith("+7") || n.startsWith("7") || n.startsWith("8")) return digits.length === 11;
+    if (n.startsWith("+7") || n.startsWith("7") || n.startsWith("8"))
+      return digits.length === 11;
     if (n.startsWith("+")) return digits.length >= 10 && digits.length <= 15;
     return digits.length >= 10 && digits.length <= 15;
   };
@@ -215,7 +218,10 @@
         c.querySelector("h3,h4")?.textContent?.trim() ||
         "Категория";
 
-      const img = c.querySelector("img")?.getAttribute("src") || c.querySelector("img")?.src || "";
+      const img =
+        c.querySelector("img")?.getAttribute("src") ||
+        c.querySelector("img")?.src ||
+        "";
       const href = c.querySelector("a")?.getAttribute("href") || "#";
 
       return { title, img, href };
@@ -236,7 +242,8 @@
   const buildMegaMenu = () => {
     if (state.megaRoot) return state.megaRoot;
 
-    const isTabletOrMobile = () => window.matchMedia("(max-width: 1024px)").matches;
+    const isTabletOrMobile = () =>
+      window.matchMedia("(max-width: 1024px)").matches;
 
     const CATALOG_PAGE_HREF = "./catalog.html";
 
@@ -318,7 +325,9 @@
         left.classList.toggle("is-cat-open");
       });
 
-      const aProd = mkLink("Производство", "./product.html", () => setMegaMenu(false));
+      const aProd = mkLink("Производство", "./product.html", () =>
+        setMegaMenu(false),
+      );
       aProd.classList.add("mega-mob__link--strong");
 
       const aContacts = mkLink("Контакты", "./contact.html", (e) => {
@@ -334,18 +343,29 @@
       <div class="mega-mob__ctitle">Контакты</div>
 
       <a class="mega-mob__citem" href="tel:+74950236793">
-        <span class="mega-mob__icon">📞</span>
+        <span class="mega-mob__icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+  <path d="M10.4216 14C9.3553 14 8.04715 13.509 6.60596 12.5415C3.69206 10.5862 0.282053 6.57326 0.0177589 3.8617C-0.0667661 2.99449 0.150715 2.29473 0.664253 1.78117L2.44545 0L6.07232 3.62687L5.78232 3.91692C5.31969 4.37962 4.56159 5.1361 4.01959 5.67442C4.51819 6.40664 5.48069 7.48869 6.19086 8.19886C6.86308 8.87049 7.64093 9.48187 8.34196 9.95013C8.84697 9.4418 9.52671 8.76 10.0826 8.20286L10.3731 7.91258L14 11.5403L12.2404 13.2998C11.7722 13.7681 11.1541 14 10.4216 14Z" fill="#131A23"/>
+</svg></span>
         <span>+7 495 023 67 93</span>
       </a>
 
       <div class="mega-mob__citem mega-mob__citem--muted">
-        <span class="mega-mob__icon">🕒</span>
+        <span class="mega-mob__icon"></span>
         <span>ПН–ПТ: с 10:00 до 18:00</span>
       </div>
 
       <div class="mega-mob__citem mega-mob__citem--muted">
-        <span class="mega-mob__icon">📍</span>
-        <span>г.Москва ул. Плеханова д.7, эт 1, пом. I ком 25</span>
+        <span class="mega-mob__icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+  <g clip-path="url(#clip0_142_1374)">
+    <path d="M7 0C5.60818 0.00185206 4.2739 0.55557 3.28974 1.53974C2.30557 2.5239 1.75185 3.85818 1.75 5.25C1.75 9.01906 6.64125 13.7397 6.84906 13.9388C6.88948 13.978 6.94363 14 7 14C7.05637 14 7.11052 13.978 7.15094 13.9388C7.35875 13.7397 12.25 9.01906 12.25 5.25C12.2481 3.85818 11.6944 2.5239 10.7103 1.53974C9.7261 0.55557 8.39182 0.00185206 7 0ZM7 7.65625C6.52409 7.65625 6.05887 7.51513 5.66316 7.25072C5.26745 6.98632 4.95904 6.61052 4.77692 6.17083C4.59479 5.73115 4.54714 5.24733 4.63999 4.78056C4.73283 4.3138 4.962 3.88504 5.29852 3.54852C5.63504 3.212 6.0638 2.98283 6.53056 2.88999C6.99733 2.79714 7.48115 2.84479 7.92083 3.02691C8.36052 3.20904 8.73632 3.51745 9.00072 3.91316C9.26513 4.30887 9.40625 4.77409 9.40625 5.25C9.40584 5.88805 9.1522 6.49986 8.70103 6.95103C8.24986 7.4022 7.63805 7.65584 7 7.65625Z" fill="#131A23"/>
+  </g>
+  <defs>
+    <clipPath id="clip0_142_1374">
+      <rect width="14" height="14" fill="white"/>
+    </clipPath>
+  </defs>
+</svg></span>
+        <span color="#131A23">г.Москва ул. Плеханова д.7, эт 1, пом. I ком 25</span>
       </div>
     `;
 
@@ -410,10 +430,19 @@
         { text: "Ложементы любой сложности", target: ".chance-banner" },
         { text: "Кастомные MOLLE-панели", target: ".chance-banner" },
         { text: "Интерьерные (I/O) панели", target: ".chance-banner" },
-        { text: "Приборные панели, Конструктивные элементы из металла", target: ".chance-banner" },
+        {
+          text: "Приборные панели, Конструктивные элементы из металла",
+          target: ".chance-banner",
+        },
         { text: "Пульты управления", target: ".chance-banner" },
-        { text: "Системы охлаждения и системы нагрева", target: ".chance-banner" },
-        { text: "Шкафы металлические и аксессуары для кейсов и панелей", target: ".chance-banner" },
+        {
+          text: "Системы охлаждения и системы нагрева",
+          target: ".chance-banner",
+        },
+        {
+          text: "Шкафы металлические и аксессуары для кейсов и панелей",
+          target: ".chance-banner",
+        },
       ];
 
       prodItems.forEach((it) => {
@@ -480,11 +509,36 @@
       const from = getFromAllProducts();
 
       const fallback = [
-        { title: "Мини кейсы", img: "/img/all-products1.png", href: "#", sizeClass: "mm-card--sm" },
-        { title: "Средние кейсы", img: "/img/all-products2.png", href: "#", sizeClass: "mm-card--sm" },
-        { title: "Большие кейсы", img: "/img/all-products3.png", href: "#", sizeClass: "mm-card--sm" },
-        { title: "Длинные кейсы", img: "/img/all-products4.png", href: "#", sizeClass: "mm-card--md" },
-        { title: "Кейсы для ноутбуков", img: "/img/all-products5.png", href: "#", sizeClass: "mm-card--md" },
+        {
+          title: "Мини кейсы",
+          img: "/img/all-products1.png",
+          href: "#",
+          sizeClass: "mm-card--sm",
+        },
+        {
+          title: "Средние кейсы",
+          img: "/img/all-products2.png",
+          href: "#",
+          sizeClass: "mm-card--sm",
+        },
+        {
+          title: "Большие кейсы",
+          img: "/img/all-products3.png",
+          href: "#",
+          sizeClass: "mm-card--sm",
+        },
+        {
+          title: "Длинные кейсы",
+          img: "/img/all-products4.png",
+          href: "#",
+          sizeClass: "mm-card--md",
+        },
+        {
+          title: "Кейсы для ноутбуков",
+          img: "/img/all-products5.png",
+          href: "#",
+          sizeClass: "mm-card--md",
+        },
         {
           title: "Контейнеры",
           img: "/img/all-products6.png",
@@ -508,7 +562,11 @@
             { ...from.a2, sizeClass: "mm-card--sm" },
             { ...(from.a3 || from.a0), sizeClass: "mm-card--md" },
             { ...(from.a4 || from.a1), sizeClass: "mm-card--md" },
-            { ...(from.a5 || from.a2), sizeClass: "mm-card--lg", sub: fallback[5].sub },
+            {
+              ...(from.a5 || from.a2),
+              sizeClass: "mm-card--lg",
+              sub: fallback[5].sub,
+            },
           ]
         : fallback;
 
@@ -632,7 +690,9 @@
     document.addEventListener("click", (e) => {
       if (!state.megaOpen) return;
       const mega = state.megaRoot;
-      const inside = (mega && mega.contains(e.target)) || (menuBtn && menuBtn.contains(e.target));
+      const inside =
+        (mega && mega.contains(e.target)) ||
+        (menuBtn && menuBtn.contains(e.target));
       if (!inside) setMegaMenu(false);
     });
 
@@ -823,7 +883,7 @@
         }
         moved = false;
       },
-      true
+      true,
     );
 
     const cards = $$(".chance-card");
@@ -840,7 +900,7 @@
           }
         });
       },
-      { root: chanceWrap, threshold: 0.95 }
+      { root: chanceWrap, threshold: 0.95 },
     );
 
     cards.forEach((card) => observer.observe(card));
@@ -920,7 +980,8 @@
         return;
       }
 
-      if (shouldScroll) firstHit.scrollIntoView({ behavior: "smooth", block: "center" });
+      if (shouldScroll)
+        firstHit.scrollIntoView({ behavior: "smooth", block: "center" });
     };
 
     searchInput.addEventListener("input", () => {
@@ -955,8 +1016,8 @@
       const focusables = () =>
         Array.from(
           root.querySelectorAll(
-            `a[href],button:not([disabled]),input:not([disabled]),textarea:not([disabled]),select:not([disabled]),[tabindex]:not([tabindex="-1"])`
-          )
+            `a[href],button:not([disabled]),input:not([disabled]),textarea:not([disabled]),select:not([disabled]),[tabindex]:not([tabindex="-1"])`,
+          ),
         ).filter((x) => x.offsetParent !== null);
 
       const onKey = (e) => {
@@ -1011,7 +1072,9 @@
         if (e.target === o) set(false);
       });
 
-      panel.querySelector(".search-modal__close").addEventListener("click", () => set(false));
+      panel
+        .querySelector(".search-modal__close")
+        .addEventListener("click", () => set(false));
     };
 
     const set = (val) => {
@@ -1125,7 +1188,8 @@
     modal.setAttribute("aria-modal", "true");
     modal.setAttribute("aria-label", "Оставить заявку");
 
-    if (window.matchMedia("(max-width: 900px)").matches) modal.style.width = "92vw";
+    if (window.matchMedia("(max-width: 900px)").matches)
+      modal.style.width = "92vw";
     else modal.style.width = "40vw";
     modal.style.maxWidth = "760px";
     modal.style.minWidth = "360px";
@@ -1242,7 +1306,8 @@
 
     const close = () => {
       document.removeEventListener("keydown", onEsc);
-      if (overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay);
+      if (overlay && overlay.parentNode)
+        overlay.parentNode.removeChild(overlay);
       lockBody(false);
     };
 
@@ -1251,7 +1316,9 @@
 
       if (e.key === "Tab") {
         const focusables = Array.from(
-          modal.querySelectorAll(`button,input,textarea,[tabindex]:not([tabindex="-1"])`)
+          modal.querySelectorAll(
+            `button,input,textarea,[tabindex]:not([tabindex="-1"])`,
+          ),
         ).filter((x) => x.offsetParent !== null);
 
         if (!focusables.length) return;
@@ -1328,19 +1395,23 @@
   };
 
   const bindAdditionalButtonsToLeadModal = () => {
-    const selectors = ".additional-main__banner .button1, .additional-card__button";
+    const selectors =
+      ".additional-main__banner .button1, .additional-card__button";
 
     $$(selectors).forEach((btn) => {
       btn.addEventListener("click", (e) => {
         e.preventDefault();
 
         const cardTitle =
-          btn.closest(".additional-card__top")
+          btn
+            .closest(".additional-card__top")
             ?.querySelector(".additional-card__title")
             ?.textContent?.trim() || "";
 
         openLeadModal({
-          message: cardTitle ? `Заявка: ${cardTitle}` : (btn.textContent || "").trim(),
+          message: cardTitle
+            ? `Заявка: ${cardTitle}`
+            : (btn.textContent || "").trim(),
         });
       });
     });
@@ -1366,7 +1437,8 @@
           : e.currentTarget.closest(".product-card");
         if (!card) return;
 
-        const title = $(".product-card__title", card)?.textContent?.trim() || "Категория";
+        const title =
+          $(".product-card__title", card)?.textContent?.trim() || "Категория";
         toast(`Открыть: ${title}`);
       });
     });
@@ -1389,12 +1461,12 @@
   };
 
   const ensureHeaderBadgeStyles = () => {
-  const ID = "galeon-header-badge-style";
-  if (document.getElementById(ID)) return;
+    const ID = "galeon-header-badge-style";
+    if (document.getElementById(ID)) return;
 
-  const st = document.createElement("style");
-  st.id = ID;
-  st.textContent = `
+    const st = document.createElement("style");
+    st.id = ID;
+    st.textContent = `
 .header-icon{position:relative;}
 .header-icon .galeon-badge{
   position:absolute;
@@ -1416,94 +1488,101 @@
   pointer-events:none;
 }
 `;
-  document.head.appendChild(st);
-};
-
-const getHeaderFavIcon = () => {
-  return document.querySelector(".header-icon--fav") || document.querySelectorAll(".header-icon")[1] || null;
-};
-
-const getHeaderCartIcon = () => {
-  return document.querySelector(".header-icon--cart") || document.querySelectorAll(".header-icon")[2] || null;
-};
-
-const ensureBadge = (iconEl) => {
-  if (!iconEl) return null;
-  let b = iconEl.querySelector(".galeon-badge");
-  if (!b) {
-    b = document.createElement("span");
-    b.className = "galeon-badge";
-    b.textContent = "0";
-    iconEl.appendChild(b);
-  }
-  return b;
-};
-
-const headerCounters = (() => {
-  ensureHeaderBadgeStyles();
-
-  const favIcon = getHeaderFavIcon();
-  const cartIcon = getHeaderCartIcon();
-
-  const favBadge = ensureBadge(favIcon);
-  const cartBadge = ensureBadge(cartIcon);
-
-  const state2 = { fav: 0, cart: 0 };
-
-  const setBadge = (badgeEl, val) => {
-    if (!badgeEl) return;
-    const n = Math.max(0, Math.round(Number(val) || 0));
-    badgeEl.textContent = String(n);
+    document.head.appendChild(st);
   };
 
-  setBadge(favBadge, 0);
-  setBadge(cartBadge, 0);
-
-  return {
-    setFav(n) {
-      state2.fav = Math.max(0, Math.round(Number(n) || 0));
-      setBadge(favBadge, state2.fav);
-    },
-    setCart(n) {
-      state2.cart = Math.max(0, Math.round(Number(n) || 0));
-      setBadge(cartBadge, state2.cart);
-    },
-    bumpFav(delta) {
-      this.setFav(state2.fav + (Number(delta) || 0));
-    },
-    bumpCart(delta) {
-      this.setCart(state2.cart + (Number(delta) || 0));
-    },
-    get() {
-      return { ...state2 };
-    },
+  const getHeaderFavIcon = () => {
+    return (
+      document.querySelector(".header-icon--fav") ||
+      document.querySelectorAll(".header-icon")[1] ||
+      null
+    );
   };
-})();
 
-window.GaleonHeaderCounters = window.GaleonHeaderCounters || headerCounters;
+  const getHeaderCartIcon = () => {
+    return (
+      document.querySelector(".header-icon--cart") ||
+      document.querySelectorAll(".header-icon")[2] ||
+      null
+    );
+  };
 
-document.addEventListener("galeon:fav", (e) => {
-  const d = e?.detail || {};
-  if (typeof d.delta === "number") headerCounters.bumpFav(d.delta);
-  if (typeof d.value === "number") headerCounters.setFav(d.value);
-});
+  const ensureBadge = (iconEl) => {
+    if (!iconEl) return null;
+    let b = iconEl.querySelector(".galeon-badge");
+    if (!b) {
+      b = document.createElement("span");
+      b.className = "galeon-badge";
+      b.textContent = "0";
+      iconEl.appendChild(b);
+    }
+    return b;
+  };
 
-document.addEventListener("galeon:cart", (e) => {
-  const d = e?.detail || {};
-  if (typeof d.delta === "number") headerCounters.bumpCart(d.delta);
-  if (typeof d.value === "number") headerCounters.setCart(d.value);
-});
+  const headerCounters = (() => {
+    ensureHeaderBadgeStyles();
 
-const bindHeaderIcons = () => {
-  $$(".header-icon").forEach((icon, idx) => {
-    icon.addEventListener("click", () => {
-      if (idx === 0) toast("Личный кабинет");
-      if (idx === 1) toast("Избранное");
-      if (idx === 2) toast("Корзина");
-    });
+    const favIcon = getHeaderFavIcon();
+    const cartIcon = getHeaderCartIcon();
+
+    const favBadge = ensureBadge(favIcon);
+    const cartBadge = ensureBadge(cartIcon);
+
+    const state2 = { fav: 0, cart: 0 };
+
+    const setBadge = (badgeEl, val) => {
+      if (!badgeEl) return;
+      const n = Math.max(0, Math.round(Number(val) || 0));
+      badgeEl.textContent = String(n);
+    };
+
+    setBadge(favBadge, 0);
+    setBadge(cartBadge, 0);
+
+    return {
+      setFav(n) {
+        state2.fav = Math.max(0, Math.round(Number(n) || 0));
+        setBadge(favBadge, state2.fav);
+      },
+      setCart(n) {
+        state2.cart = Math.max(0, Math.round(Number(n) || 0));
+        setBadge(cartBadge, state2.cart);
+      },
+      bumpFav(delta) {
+        this.setFav(state2.fav + (Number(delta) || 0));
+      },
+      bumpCart(delta) {
+        this.setCart(state2.cart + (Number(delta) || 0));
+      },
+      get() {
+        return { ...state2 };
+      },
+    };
+  })();
+
+  window.GaleonHeaderCounters = window.GaleonHeaderCounters || headerCounters;
+
+  document.addEventListener("galeon:fav", (e) => {
+    const d = e?.detail || {};
+    if (typeof d.delta === "number") headerCounters.bumpFav(d.delta);
+    if (typeof d.value === "number") headerCounters.setFav(d.value);
   });
-};
 
+  document.addEventListener("galeon:cart", (e) => {
+    const d = e?.detail || {};
+    if (typeof d.delta === "number") headerCounters.bumpCart(d.delta);
+    if (typeof d.value === "number") headerCounters.setCart(d.value);
+  });
+
+  const bindHeaderIcons = () => {
+    $$(".header-icon").forEach((icon, idx) => {
+      icon.addEventListener("click", () => {
+        if (idx === 0) toast("Личный кабинет");
+        if (idx === 1) toast("Избранное");
+        if (idx === 2) toast("Корзина");
+      });
+    });
+  };
 
   const bindPhoneMask = () => {
     if (!formTel) return;
@@ -1603,7 +1682,10 @@ const bindHeaderIcons = () => {
         setTimeout(() => {
           const titles = $$(".product-card__title");
           const hit = titles.find((t) => t.textContent.trim() === txt);
-          if (hit) hit.closest(".product-card")?.scrollIntoView({ behavior: "smooth", block: "center" });
+          if (hit)
+            hit
+              .closest(".product-card")
+              ?.scrollIntoView({ behavior: "smooth", block: "center" });
         }, 250);
       });
     });
@@ -1614,7 +1696,8 @@ const bindHeaderIcons = () => {
         if (text.includes("глав")) smoothScrollTo("#header");
         else if (text.includes("информ")) smoothScrollTo(".about-banner__area");
         else if (text.includes("производ")) smoothScrollTo(".chance-banner");
-        else if (text.includes("контакт")) smoothScrollTo(".contact-banner__area");
+        else if (text.includes("контакт"))
+          smoothScrollTo(".contact-banner__area");
       });
     });
 
@@ -1641,9 +1724,14 @@ const bindHeaderIcons = () => {
     if (!link) return;
 
     const scrollToBottom = () => {
-      const footer = document.querySelector("footer") || document.querySelector("#footer");
+      const footer =
+        document.querySelector("footer") || document.querySelector("#footer");
       if (footer) footer.scrollIntoView({ behavior: "smooth", block: "start" });
-      else window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "smooth" });
+      else
+        window.scrollTo({
+          top: document.documentElement.scrollHeight,
+          behavior: "smooth",
+        });
     };
 
     link.addEventListener("click", (e) => {
@@ -1670,7 +1758,8 @@ const bindHeaderIcons = () => {
     const wrap = $(".main-animations");
     if (!wrap) return;
 
-    const isTabletOrMobile = () => window.matchMedia("(max-width: 1024px)").matches;
+    const isTabletOrMobile = () =>
+      window.matchMedia("(max-width: 1024px)").matches;
 
     if (isTabletOrMobile()) {
       wrap.style.display = "none";
@@ -1739,7 +1828,8 @@ const bindHeaderIcons = () => {
     });
 
     const onResize = () => {
-      if (window.matchMedia("(max-width: 1024px)").matches) wrap.style.display = "none";
+      if (window.matchMedia("(max-width: 1024px)").matches)
+        wrap.style.display = "none";
       else wrap.style.display = "";
     };
     window.addEventListener("resize", onResize);
@@ -1766,6 +1856,7 @@ const bindHeaderIcons = () => {
     document.body.classList.remove("mega-open");
   };
 
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+  if (document.readyState === "loading")
+    document.addEventListener("DOMContentLoaded", init);
   else init();
 })();
