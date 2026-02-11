@@ -23,9 +23,6 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   };
 
-  // =========================
-  // MAIN (Hero) – smooth enter + subtle parallax
-  // =========================
   const banner = $(".product-main__banner");
   const main = $(".product-main");
   const mainTitle = $(".product-main__subtitle");
@@ -224,20 +221,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const isDesktop = window.innerWidth > 992;
     if (!isDesktop) return;
 
-    // Choose max computed height among wrappers then apply
     const heights = wrappers.map((w) => w.getBoundingClientRect().height);
     const maxH = Math.max(...heights, 0);
     wrappers.forEach((w) => (w.style.height = `${maxH}px`));
   };
 
-  // Run after images load
   const onImgReady = () => syncImprovementHeights();
   improvementImgs.forEach((img) => {
     if (img.complete) onImgReady();
     else img.addEventListener("load", onImgReady, { once: true });
   });
   window.addEventListener("resize", rafThrottle(() => {
-    // reset inline height on small screens
     if (window.innerWidth <= 992) {
       $$(".product-improvement__card .improvement-card__img").forEach((w) => (w.style.height = ""));
       return;
@@ -245,7 +239,6 @@ document.addEventListener("DOMContentLoaded", () => {
     syncImprovementHeights();
   }));
 
-  // Modal preview for improvement images (click on image)
   const createModal = () => {
     const overlay = document.createElement("div");
     overlay.style.position = "fixed";

@@ -31,7 +31,7 @@ img {
 .product-main__banner {
   background:
     linear-gradient(0deg, rgba(19, 26, 35, 0.6), rgba(19, 26, 35, 0.6)),
-    url("/img/product-main__banner.png") center/cover no-repeat;
+    url("../img/product-main__banner.png") center/cover no-repeat;
   width: 100%;
   min-height: 500px;
   display: flex;
@@ -84,9 +84,7 @@ img {
   color: #fff;
   cursor: pointer;
   font-weight: 700;
-  border-radius: 4px;
   padding: 12px 30px;
-  border: 1px solid #23a8b3;
   width: fit-content;
   font-size: 14px;
   transition: all 0.5s ease;
@@ -168,7 +166,7 @@ img {
   width: 100%;
   height: 100%;
   position: relative;
-  background: url("/img/product-favourite__img.jpg") center/cover no-repeat;
+  background: url("../img/product-favourite__img.jpg") center/cover no-repeat;
   display: flex;
   align-items: flex-end;
   justify-content: flex-start;
@@ -186,11 +184,9 @@ img {
   color: #fff;
   cursor: pointer;
   font-weight: 700;
-  border-radius: 4px;
   padding: 12px 30px;
-  border: 1px solid #23a8b3;
   width: fit-content;
-  font-size: 14px;
+  font-size: 16px;
   transition: all 0.3s ease;
 }
 
@@ -201,7 +197,7 @@ img {
 
 .product-favourite__subtitle {
   color: #131a23;
-  font-size: 35px;
+  font-size: 44px;
   font-weight: 700;
   line-height: 1.2;
   margin: 50px 0 20px;

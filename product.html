@@ -79,7 +79,7 @@
     <div class="container">
       <header id="header">
         <a href="./index.html" class="header-logo">
-          <img src="../img/logo.png" alt="" />
+          <img src="img/logo.png" alt="" />
         </a>
         <div class="header-menu">
           <button>
@@ -366,7 +366,7 @@
         </div>
 
         <div class="product-favourite__img">
-          <img src="../img/product-favourite__img.jpg" alt="" />
+          <img src="img/product-favourite__img.jpg" alt="" />
           <div class="favourite-img__button">Оставить заявку</div>
         </div>
       </div>
@@ -379,7 +379,7 @@
       <div class="product-improvement__cards">
         <div class="product-improvement__card">
           <div class="improvement-card__img">
-            <img src="../img/product-improvement__img1.jpg" alt="" />
+            <img src="img/product-improvement__img1.jpg" alt="" />
           </div>
           <div class="improvement-card__title">
             Кейсы с интегрированными приборными панелями:
@@ -391,7 +391,7 @@
         </div>
         <div class="product-improvement__card">
           <div class="improvement-card__img">
-            <img src="../img/product-improvement__img2.jpg" alt="" />
+            <img src="img/product-improvement__img2.jpg" alt="" />
           </div>
           <div class="improvement-card__title">
             Кейсы с утопленными панелями разъемов:
@@ -409,13 +409,11 @@
       <div class="container">
         <div class="contact">
           <div class="contact-img">
-            <img src="../img/Галеон 1.svg" alt="" class="contact-svg__img" />
-            <img src="../img/product-contact__img.png" alt="" />
+            <img src="img/Галеон 1.svg" alt="" class="contact-svg__img" />
+            <img src="img/product-contact__img.png" alt="" />
           </div>
           <div class="contact-info">
-            <div class="contact-info__subtitle">
-              Ваша задача требует больше, чем производство кейсов?
-            </div>
+            <div class="contact-info__subtitle">Свяжитесь с нами</div>
             <div class="contact-info__description">
               Заполните форму, мы свяжемся и проконсультируем Вас в кратчайшие
               сроки
@@ -424,46 +422,26 @@
               <input type="text" placeholder="Ваше Имя*" />
             </div>
             <div class="contact-info__number">
-              <div
-                style="
-                  display: flex;
-                  align-items: center;
-                  border: 1px solid #ccc;
-                  padding: 5px;
-                  border-radius: 4px;
-                  width: fit-content;
-                "
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="27"
-                  height="18"
-                  viewBox="0 0 27 18"
-                  fill="none"
-                  style="margin-right: 8px"
-                >
-                  <g clip-path="url(#clip0_105_290)">
+              <div class="phone-input">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27 18">
+                  <g clip-path="url(#clip0)">
                     <path d="M27 0H0V6H27V0Z" fill="white" />
                     <path d="M27 6H0V12H27V6Z" fill="#0039A6" />
                     <path d="M27 12H0V18H27V12Z" fill="#D52B1E" />
                   </g>
                   <defs>
-                    <clipPath id="clip0_105_290">
+                    <clipPath id="clip0">
                       <rect width="27" height="18" fill="white" />
                     </clipPath>
                   </defs>
                 </svg>
 
-                <input
-                  type="tel"
-                  placeholder=" +7 999 999 99 99*"
-                  style="border: none; outline: none; font-size: 14px"
-                  required
-                />
+                <input type="tel" placeholder="+7 999 999 99 99*" required />
               </div>
             </div>
+
             <div class="contact-info__message">
-              <input type="text" placeholder="Сообщение*" />
+              <textarea placeholder="Сообщение*"></textarea>
             </div>
             <div class="button contact-button">
               <button>Оставить заявку</button>
@@ -496,8 +474,11 @@
             <div class="footer-top">
               <div class="footer-top1">
                 <div class="footer-top1__img">
-                  <img src="../img/footer-img.svg" alt="Galeon Case" />
+                  <a href="./index.html">
+                    <img src="img/footer-img.svg" alt="Galeon Case" />
+                  </a>
                 </div>
+
                 <div class="footer-top1__description">
                   Российское производство ударопрочных кейсов для критически
                   важного оборудования
@@ -529,9 +510,7 @@
               <div class="footer-top3">
                 <div class="footer-top3__title">Разделы</div>
                 <div class="footer-top3__items">
-                  <a href="./index.html" class="footer-top3__item"
-                    >Главная</a
-                  >
+                  <a href="./index.html" class="footer-top3__item">Главная</a>
                   <a href="./additional.html" class="footer-top3__item"
                     >Информация</a
                   >
@@ -579,7 +558,7 @@
         </footer>
       </div>
     </div>
-    <script src="../js/script.js"></script>
-    <script src="../js/product.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/product.js"></script>
   </body>
 </html>

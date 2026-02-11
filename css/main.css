@@ -17,15 +17,15 @@ body {
   width: 100%;
 }
 
-  @font-face {
-    font-family: "Manrope";
-    src: url("../fonts/Manrope-Regular.ttf");
-  }
+@font-face {
+  font-family: "Manrope";
+  src: url("../fonts/Manrope-Regular.ttf");
+}
 
-  @font-face {
-    font-family: "Montserrat";
-    src: url("../fonts/Montserrat-Light.ttf");
-  }
+@font-face {
+  font-family: "Montserrat";
+  src: url("../fonts/Montserrat-Light.ttf");
+}
 
 .header-top {
   width: 100%;
@@ -60,7 +60,7 @@ body {
 .header-top__number {
   color: #fff;
   font-family: "Manrope";
-  font-size: 12.8px;
+  font-size: 16px;
   font-weight: 700;
   cursor: pointer;
 }
@@ -68,21 +68,21 @@ body {
 .header-top__date {
   color: #afafaf;
   font-family: "Manrope";
-  font-size: 12.8px;
+  font-size: 16px;
   font-weight: 400;
 }
 
 .header-top__location {
   color: #fff;
   font-family: "Manrope";
-  font-size: 12.8px;
+  font-size: 16px;
   font-weight: 400;
 }
 
 .header-top__link {
   color: #fff;
   font-family: "Manrope";
-  font-size: 12.8px;
+  font-size: 16px;
   font-weight: 400;
   cursor: pointer;
   display: flex;
@@ -110,10 +110,9 @@ body {
 
 #header {
   height: 70px;
-  background: #fff;
+  background: transparent;
   display: flex;
   align-items: center;
-  padding: 0 20px;
   gap: 20px;
   width: 100%;
   box-sizing: border-box;
@@ -143,13 +142,12 @@ body {
   justify-content: center;
   align-items: center;
   gap: 10px;
-  border: 1px solid #23a8b3;
   background: #23a8b3;
   color: #fff;
   cursor: pointer;
-  border-radius: 4px;
+  border: none;
   font-family: "Manrope", sans-serif;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
   transition: all 0.3s ease;
 }
@@ -170,7 +168,7 @@ body {
   padding: 0 16px;
   align-items: center;
   gap: 10px;
-  background: #EFEFEF;
+  background: #efefef;
 }
 
 .header-search input {
@@ -179,7 +177,7 @@ body {
   background: transparent;
   outline: none;
   font-family: "Manrope", sans-serif;
-  font-size: 14px;
+  font-size: 16px;
   color: #142434;
 }
 
@@ -204,12 +202,9 @@ body {
   transition: transform 0.3s ease;
 }
 
-/* =========================
-   MAIN
-========================= */
 .main-banner__area {
   width: 100%;
-  max-width: 1280px;
+  max-width: 1680px;
   margin: 0 auto;
   position: relative;
   background:
@@ -219,7 +214,7 @@ body {
       rgba(19, 26, 35, 0.5) 58.31%,
       rgba(19, 26, 35, 0.8) 100%
     ),
-    url("/img/banner-bacground.png") lightgray 0px -35.4px / 100% 110.241%
+    url("../img/banner-bacground.png") lightgray 0px -35.4px / 100% 110.241%
       no-repeat;
   background-size: cover;
   background-position: center;
@@ -232,7 +227,7 @@ body {
 .main-title {
   color: #fff;
   font-family: "Manrope";
-  font-size: 41.6px;
+  font-size: 52px;
   font-style: normal;
   font-weight: 700;
   line-height: 120%;
@@ -242,7 +237,7 @@ body {
 .main-description {
   color: #fff;
   font-family: "Manrope";
-  font-size: 12.8px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: 144%;
@@ -259,7 +254,7 @@ body {
   background: #fff;
   color: #1f4567;
   font-family: "Manrope";
-  font-size: 12.8px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
@@ -269,14 +264,13 @@ body {
 }
 
 .main-button:hover {
-  background-color: #1f4567;
-  color: #fff;
+  background-color: #d9d9d9;
 }
 
 .main-bottom__link {
   color: #fff;
   font-family: "Manrope";
-  font-size: 11.36px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
@@ -295,7 +289,9 @@ body {
 
 .main-bottom__link svg {
   transform: rotate(90deg);
-  transition: stroke 0.3s ease, fill 0.3s ease;
+  transition:
+    stroke 0.3s ease,
+    fill 0.3s ease;
 }
 
 .main-bottom__link svg path {
@@ -306,9 +302,6 @@ body {
   color: #23a8b3;
 }
 
-/* =========================
-   CHANCE
-========================= */
 .chance-banner {
   background: #f3f6f9;
   width: 100%;
@@ -326,7 +319,7 @@ body {
 .chance-subtitle {
   color: #131a23;
   font-family: "Manrope", sans-serif;
-  font-size: 35px;
+  font-size: 44px;
   font-weight: 700;
   line-height: 120%;
 }
@@ -398,7 +391,7 @@ body {
 .chance-card__title {
   color: #131a23;
   font-family: "Manrope", sans-serif;
-  font-size: 16px;
+  font-size: 20px;
   margin: 10px 0;
   font-weight: 700;
   line-height: 150%;
@@ -407,7 +400,7 @@ body {
 .chance-card__description {
   color: #8d8d8d;
   font-family: "Manrope", sans-serif;
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 400;
   line-height: 150%;
 }
@@ -422,9 +415,11 @@ body {
 .card-3 {
   grid-column: span 2;
 }
+
 .card-2 {
   grid-column: span 3;
 }
+
 .card-1 {
   grid-column: span 6;
 }
@@ -447,7 +442,7 @@ body {
 .product-link {
   color: #23a8b3;
   font-family: "Manrope", sans-serif;
-  font-size: 12.8px;
+  font-size: 16px;
   font-weight: 400;
   cursor: pointer;
   display: inline-flex;
@@ -474,7 +469,10 @@ body {
   flex-direction: column;
   justify-content: space-between;
   overflow: hidden;
-  transition: background-color 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease;
+  transition:
+    background-color 0.4s ease,
+    transform 0.4s ease,
+    box-shadow 0.4s ease;
 }
 
 .product-card__title {
@@ -485,8 +483,15 @@ body {
   line-height: 144%;
   z-index: 2;
 }
+.product-card__description {
+  color: #8d8d8d;
+  font-family: "Manrope", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 150%;
+  margin-top: 12px;
+}
 
-/* link icon button */
 .product-card__link {
   position: absolute;
   left: 30px;
@@ -500,7 +505,9 @@ body {
   justify-content: center;
   cursor: pointer;
   z-index: 5;
-  transition: background-color 0.4s ease, border-color 0.4s ease;
+  transition:
+    background-color 0.4s ease,
+    border-color 0.4s ease;
   overflow: hidden;
 }
 
@@ -528,7 +535,6 @@ body {
   fill: #fff;
 }
 
-/* image */
 .product-card__img {
   align-self: flex-end;
   margin-top: auto;
@@ -549,7 +555,6 @@ body {
   height: 240px;
 }
 
-/* card-1 special */
 .card-1 {
   grid-column: span 6;
   display: flex;
@@ -635,7 +640,7 @@ body {
   margin-top: 56px;
   background:
     linear-gradient(0deg, rgba(19, 26, 35, 0.5), rgba(19, 26, 35, 0.5)),
-    url("/img/about-product__banner.png") center / cover no-repeat;
+    url("../img/about-product__banner.png") center / cover no-repeat;
   background-color: lightgray;
   padding-top: 56px;
   padding-bottom: 56px;
@@ -644,7 +649,7 @@ body {
 .about-subtitle {
   color: #fff;
   font-family: Manrope;
-  font-size: 35px;
+  font-size: 44px;
   font-weight: 700;
   line-height: 120%;
   margin-bottom: 16px;
@@ -653,7 +658,7 @@ body {
 .about-description {
   color: #fff;
   font-family: Manrope;
-  font-size: 13px;
+  font-size: 16px;
   margin-bottom: 40px;
   font-weight: 400;
   line-height: 144%;
@@ -675,7 +680,6 @@ body {
   gap: 16px;
   background: rgba(19, 26, 35, 0.1);
   backdrop-filter: blur(3px);
-  cursor: pointer;
   box-sizing: border-box;
   transition: all 0.4s ease;
 }
@@ -704,7 +708,7 @@ body {
 .about-card__title {
   color: #fff;
   font-family: Manrope;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 700;
   line-height: normal;
   align-self: stretch;
@@ -713,12 +717,11 @@ body {
 .about-card__description {
   color: #dbdbdb;
   font-family: Manrope;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 400;
   line-height: normal;
 }
 
-/* button */
 .button button {
   display: inline-flex;
   padding: 16px 32px;
@@ -729,12 +732,11 @@ body {
   cursor: pointer;
   color: #fff;
   font-family: Manrope, sans-serif;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 700;
   line-height: normal;
   border: none;
   transition: all 0.4s ease;
-  border-radius: 4px;
   width: fit-content;
   margin-top: 8px;
 }
@@ -754,10 +756,11 @@ body {
 .contact {
   display: flex;
   align-items: stretch;
+  gap: 40px;
 }
 
 .contact-img {
-  width: 50%;
+  flex: 1;
   position: relative;
 }
 
@@ -779,8 +782,8 @@ body {
 }
 
 .contact-info {
-  width: 50%;
-  padding: 48px;
+  flex: 1;
+  padding: 0 10px;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -789,7 +792,7 @@ body {
 .contact-info__subtitle {
   color: #131a23;
   font-family: Manrope, sans-serif;
-  font-size: 35px;
+  font-size: 44px;
   font-weight: 700;
   line-height: 120%;
 }
@@ -797,89 +800,127 @@ body {
 .contact-info__description {
   color: #afafaf;
   font-family: Manrope, sans-serif;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 400;
   line-height: 150%;
   margin-bottom: 8px;
 }
 
 .contact-info__name,
-.contact-info__number,
 .contact-info__message {
-  display: flex;
   width: 100%;
   max-width: 568px;
-  padding: 0;
   background: #fff;
-  border: none;
-  font-family: Manrope, sans-serif;
-  font-size: 13px;
-  color: #8d8d8d;
-  outline: none;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  border: none;
+}
+
+.contact-info__number {
+  width: 100%;
+  max-width: 568px;
+  box-sizing: border-box;
+  display: block;
 }
 
 .contact-info__name input,
-.contact-info__message input {
-  padding: 16px;
+.contact-info__message textarea {
   width: 100%;
-  border: none;
+  padding: 16px;
+  border: 1px solid #e5e5e5;
   outline: none;
-  font-family: inherit;
-  font-size: inherit;
-  color: inherit;
-  align-self: flex-start;
+  font-family: Manrope, sans-serif;
+  font-size: 16px;
+  color: #8d8d8d;
+  box-sizing: border-box;
+  background: #fff;
 }
 
 .contact-info__message {
-  height: 100px;
+  height: auto;
+}
+
+.contact-info__message textarea {
+  height: 120px;
+  resize: none;
 }
 
 .contact-info__number > div {
-  display: flex;
-  align-items: center;
-  border: none !important;
-  padding: 4px;
+  position: relative;
   width: 100%;
   box-sizing: border-box;
 }
 
 .contact-info__number svg {
-  width: 21.6px;
-  height: 14.4px;
-  margin-right: 6.4px !important;
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 21px;
+  height: 14px;
+  flex-shrink: 0;
+  pointer-events: none;
 }
 
 .contact-info__number input {
-  padding: 12px 16px 12px 0;
+  width: 100%;
+  padding: 16px 16px 16px 52px;
+  border: 1px solid #e5e5e5;
+  outline: none;
+  font-family: Manrope, sans-serif;
+  font-size: 16px;
+  color: #8d8d8d;
+  box-sizing: border-box;
+  background: #fff;
 }
 
-/* checkbox row */
+.contact-info input:focus,
+.contact-info textarea:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.contact-button {
+  margin-top: 8px;
+}
+
+.contact-button button {
+  padding: 16px 32px;
+  background-color: #23a8b3;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-family: Manrope, sans-serif;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.contact-button button:hover {
+  background-color: #1b8e97;
+}
+
 .contact-info__select {
   display: flex;
   align-items: flex-start;
   gap: 10px;
   font-family: Manrope, sans-serif;
-  font-size: 11px;
+  font-size: 16px;
   color: #afafaf;
   margin-top: 8px;
   cursor: pointer;
   transition: all 0.4s ease;
 }
 
-/* default */
 .contact-info__select svg {
   padding: 2px;
   background-color: #ffffff;
-  border: 1px solid #afafaf;
-  border-radius: 2px;
   transition: all 0.4s ease;
   flex-shrink: 0;
 }
 
 .contact-info__select svg:active {
   transform: scale(0.95);
-  color: #23a8b3;
 }
 
 .contact-info__select svg path {
@@ -887,11 +928,8 @@ body {
   transition: opacity 0.4s ease;
 }
 
-/* active */
 .contact-info__select.active svg {
   background-color: #23a8b3;
-  border-color: #23a8b3;
-  fill: #23a8b3;
 }
 
 .footer-banner__area {
@@ -942,7 +980,7 @@ body {
 .footer-top1__description {
   color: #fff;
   font-family: "Manrope", sans-serif;
-  font-size: 11.2px;
+  font-size: 16px;
   line-height: 140%;
   max-width: 220px;
 }
@@ -952,7 +990,7 @@ body {
 .footer-top4__title {
   color: #fff;
   font-family: "Montserrat", sans-serif;
-  font-size: 12.8px;
+  font-size: 16px;
   font-weight: 700;
   margin-bottom: 13px;
 }
@@ -970,7 +1008,7 @@ body {
 .footer-top4__date {
   color: #afafaf;
   font-family: "Montserrat", sans-serif;
-  font-size: 12.8px;
+  font-size: 16px;
   transition: all 0.4s ease;
   cursor: pointer;
 }
@@ -984,7 +1022,7 @@ body {
 .footer-top4__email {
   color: #259192;
   font-family: "Montserrat", sans-serif;
-  font-size: 12.8px;
+  font-size: 16px;
   font-weight: 700;
   transition: all 0.4s ease;
   cursor: pointer;
@@ -1020,14 +1058,14 @@ body {
 .footer-bottom2 {
   color: #8d8d8d;
   font-family: "Montserrat", sans-serif;
-  font-size: 11.2px;
+  font-size: 14px;
   white-space: nowrap;
 }
 
 .footer-bottom__link {
   color: #8d8d8d;
   font-family: "Montserrat", sans-serif;
-  font-size: 11.2px;
+  font-size: 14px;
   display: flex;
   align-items: center;
   gap: 5px;
@@ -1114,7 +1152,9 @@ body {
     padding: 16px;
     opacity: 0;
     transform: scale(0.98);
-    transition: opacity 0.18s ease, transform 0.18s ease;
+    transition:
+      opacity 0.18s ease,
+      transform 0.18s ease;
   }
 
   .search-modal.open {
@@ -1426,9 +1466,6 @@ body {
   }
 }
 
-/* ===========================
-   RESPONSIVE 768
-=========================== */
 @media (max-width: 768px) {
   #header {
     height: 64px;
@@ -1683,9 +1720,6 @@ body {
   }
 }
 
-/* =========================
-   MEGA MENU OVERLAY
-========================= */
 #galeon-mega-overlay {
   position: fixed;
   inset: 0;
@@ -1864,7 +1898,7 @@ body {
   color: #8d8d8d;
 }
 
-#galeon-mega .mega-right__all{
+#galeon-mega .mega-right__all {
   font-size: 13px;
   color: #23a8b3;
   text-decoration: none;
@@ -1874,8 +1908,6 @@ body {
 #galeon-mega .mega-right__all:hover {
   color: #137780;
 }
-
-
 
 /* =========================
    GRID
@@ -1955,7 +1987,6 @@ body {
   transform: translateY(-1px);
 }
 
-/* sizes */
 .mm-card--sm {
   grid-column: span 2;
 }
@@ -1967,35 +1998,53 @@ body {
 .mm-card--lg {
   grid-column: span 6;
   min-height: 210px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
 }
 
-.mm-card__sub {
+.mm-card--lg .mm-card__title {
+  width: 100%;
+}
+
+.mm-card--lg .mm-card__sub {
+  order: 1;
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  grid-template-rows: repeat(2, auto);
+  gap: 12px 18px;
+  margin-top: 20px;
+  flex: 1;
+}
+
+.mm-card--lg .mm-card__img {
+  order: 2;
+  width: auto;
+  height: 170px;
+  margin: 0 0 0 auto;
   display: flex;
-  gap: 18px;
-  flex-wrap: wrap;
-  margin-top: 8px;
-  z-index: 2;
-  max-width: 60%;
+  align-items: center;
+}
+
+.mm-card--lg .mm-card__img img {
+  max-width: 360px;
+  height: 170px;
+  object-fit: contain;
 }
 
 .mm-card__sub a {
   font-size: 11px;
   color: #8d8d8d;
   text-decoration: none;
+  white-space: nowrap;
+  line-height: 1;
 }
 
 .mm-card__sub a:hover {
   color: #23a8b3;
 }
 
-.mm-card--lg .mm-card__img img {
-  max-width: 360px;
-  height: 170px;
-}
-
-/* =========================
-   WHEN MENU OPEN
-========================= */
 body.mega-open .mm-card {
   min-height: 150px;
   padding: 12px 12px;
@@ -2172,7 +2221,6 @@ body.mega-open .mm-card--lg .mm-card__img img {
     transform: translateY(1px);
   }
 }
-
 
 @media (max-width: 768px) {
   #galeon-mega {

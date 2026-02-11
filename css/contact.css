@@ -58,7 +58,6 @@
   color: #fff;
   cursor: pointer;
   font-weight: 700;
-  border-radius: 4px;
   padding: 12px 30px;
   border: 1px solid #23a8b3;
   width: fit-content;
@@ -157,7 +156,6 @@
 .contact-map__email:focus-visible {
   outline: 3px solid rgba(35, 168, 179, 0.35);
   outline-offset: 3px;
-  border-radius: 4px;
 }
 
 .contact-map::after {
@@ -177,10 +175,8 @@
   }
 }
 
-/* ✅ Tablet (600px–900px): title yonida button turadi, button 100% EMAS */
 @media (max-width: 900px) {
   .contact-main {
-    /* column qilmaymiz! shunda title yonida qoladi */
     flex-direction: row;
     flex-wrap: nowrap;
     padding-top: var(--header-offset-tablet);
@@ -196,13 +192,11 @@
   }
 
   .contact-main__button-link {
-    width: fit-content; /* ✅ 100% emas */
+    width: fit-content; 
   }
 
-  /* maplar tablet-da ham 2ta bo‘lib tursin (xohlasangiz) */
-}
+  }
 
-/* ✅ Mobile: faqat kichik ekranda column + button 100% */
 @media (max-width: 600px) {
   .contact-main {
     flex-direction: column;
