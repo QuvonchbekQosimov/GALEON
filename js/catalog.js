@@ -1,10 +1,43 @@
-const ensureHeaderBadgeStyles = () => {
-  const ID = "galeon-header-badge-style";
-  if (document.getElementById(ID)) return;
+document.addEventListener("DOMContentLoaded", () => {
+  const BRAND = "#23A8B3";
+  const TRACK = "#d9e5ee";
 
-  const st = document.createElement("style");
-  st.id = ID;
-  st.textContent = `
+  const HEART_OFF = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+      <path d="M13.2188 2.05469C15.3172 2.05469 17 3.7589 17 6.24121C16.9999 7.53032 16.4961 8.65655 15.4629 9.90332C14.4041 11.1809 12.8692 12.4934 10.9053 14.167C10.3273 14.6596 9.67856 15.2137 9 15.8037C8.3215 15.2137 7.6724 14.6593 7.09473 14.167C5.13078 12.4934 3.59589 11.1809 2.53711 9.90332C1.50392 8.65653 1.00013 7.5303 1 6.24121C1 3.7589 2.68276 2.05469 4.78125 2.05469C5.53145 2.05469 6.21282 2.2875 6.83105 2.76562C7.44011 3.23665 7.86415 3.85401 8.12305 4.32715L9 5.93066L9.87695 4.32715C10.1359 3.85401 10.5599 3.23664 11.1689 2.76562C11.7872 2.2875 12.4686 2.05469 13.2188 2.05469Z"
+            stroke="#8D8D8D" stroke-width="2"/>
+    </svg>
+  `;
+
+  const HEART_ON = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+      <path d="M13.2188 1.05469C12.242 1.05469 11.3465 1.3642 10.5572 1.97466C9.80044 2.5599 9.29661 3.30532 9 3.84736C8.70339 3.30528 8.19956 2.5599 7.44282 1.97466C6.6535 1.3642 5.758 1.05469 4.78125 1.05469C2.05552 1.05469 0 3.28419 0 6.24073C0 9.43481 2.5644 11.6202 6.44657 14.9285C7.10582 15.4903 7.85306 16.1271 8.62973 16.8063C8.73211 16.896 8.86359 16.9453 9 16.9453C9.13641 16.9453 9.26789 16.896 9.37027 16.8063C10.147 16.1271 10.8942 15.4903 11.5539 14.9281C15.4356 11.6202 18 9.43481 18 6.24073C18 3.28419 15.9445 1.05469 13.2188 1.05469Z"
+            fill="#23A8B3"/>
+    </svg>
+  `;
+
+  const qs = (s, r = document) => r.querySelector(s);
+  const qsa = (s, r = document) => Array.from(r.querySelectorAll(s));
+
+  const toNum = (v) => {
+    if (v == null) return NaN;
+    const cleaned = String(v)
+      .replace(/\s/g, "")
+      .replace(/[^\d.,-]/g, "")
+      .replace(",", ".");
+    const n = Number(cleaned);
+    return Number.isFinite(n) ? n : NaN;
+  };
+
+  const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
+
+  const ensureHeaderBadgeStyles = () => {
+    const ID = "galeon-header-badge-style-catalog";
+    if (document.getElementById(ID)) return;
+
+    const st = document.createElement("style");
+    st.id = ID;
+    st.textContent = `
 .header-icon{position:relative;}
 .header-icon .galeon-badge{
   position:absolute;
@@ -26,81 +59,49 @@ const ensureHeaderBadgeStyles = () => {
   pointer-events:none;
 }
 `;
-  document.head.appendChild(st);
-};
-
-document.addEventListener("DOMContentLoaded", () => {
-  const BRAND = "#23A8B3";
-  const TRACK = "#d9e5ee";
-
-  const HEART_OFF = `
-<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
-  <path d="M13.2188 2.05469C15.3172 2.05469 17 3.7589 17 6.24121C16.9999 7.53032 16.4961 8.65655 15.4629 9.90332C14.4041 11.1809 12.8692 12.4934 10.9053 14.167C10.3273 14.6596 9.67856 15.2137 9 15.8037C8.3215 15.2137 7.6724 14.6593 7.09473 14.167C5.13078 12.4934 3.59589 11.1809 2.53711 9.90332C1.50392 8.65653 1.00013 7.5303 1 6.24121C1 3.7589 2.68276 2.05469 4.78125 2.05469C5.53145 2.05469 6.21282 2.2875 6.83105 2.76562C7.44011 3.23665 7.86415 3.85401 8.12305 4.32715L9 5.93066L9.87695 4.32715C10.1359 3.85401 10.5599 3.23664 11.1689 2.76562C11.7872 2.2875 12.4686 2.05469 13.2188 2.05469Z" stroke="#8D8D8D" stroke-width="2"/>
-</svg>
-`;
-
-  const HEART_ON = `
-<svg xmlns="http://www.w3.org/2000/svg" width="18" height="16" viewBox="0 0 18 16" fill="none">
-  <path d="M13.2188 0C12.242 0 11.3465 0.309516 10.5572 0.919969C9.80044 1.50521 9.29661 2.25063 9 2.79267C8.70339 2.2506 8.19956 1.50521 7.44282 0.919969C6.6535 0.309516 5.758 0 4.78125 0C2.05552 0 0 2.2295 0 5.18604C0 8.38013 2.5644 10.5655 6.44657 13.8738C7.10582 14.4356 7.85306 15.0724 8.62973 15.7516C8.73211 15.8413 8.86359 15.8906 9 15.8906C9.13641 15.8906 9.26789 15.8413 9.37027 15.7517C10.147 15.0724 10.8942 14.4356 11.5539 13.8734C15.4356 10.5655 18 8.38013 18 5.18604C18 2.2295 15.9445 0 13.2188 0Z" fill="#23A8B3"/>
-</svg>
-`;
-
-  const qs = (s, r = document) => r.querySelector(s);
-  const qsa = (s, r = document) => Array.from(r.querySelectorAll(s));
-
-  const toNumber = (value) => {
-    if (value == null) return NaN;
-    const cleaned = String(value)
-      .replace(/\s/g, "")
-      .replace(/[^\d.,-]/g, "")
-      .replace(",", ".");
-    const n = Number(cleaned);
-    return Number.isFinite(n) ? n : NaN;
+    document.head.appendChild(st);
   };
-
-  const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
 
   const getHeaderFavIcon = () =>
     document.querySelector(".header-icon--fav") ||
     document.querySelector(".header-fav") ||
-    document.querySelector("[data-icon='fav']") ||
+    document.querySelectorAll(".header-icon")[1] ||
     null;
 
   const getHeaderCartIcon = () =>
     document.querySelector(".header-icon--cart") ||
     document.querySelector(".header-cart") ||
-    document.querySelector("[data-icon='cart']") ||
+    document.querySelectorAll(".header-icon")[2] ||
     null;
 
   const ensureBadge = (iconEl) => {
     if (!iconEl) return null;
-    const anchor = iconEl.querySelector("a") || iconEl;
-    anchor.style.position = "relative";
-    anchor.style.overflow = "visible";
+    iconEl.style.position = "relative";
+    iconEl.style.overflow = "visible";
 
-    let badgeEl = anchor.querySelector(":scope > .galeon-badge");
-    if (!badgeEl) {
-      badgeEl = document.createElement("span");
-      badgeEl.className = "galeon-badge";
-      badgeEl.textContent = "0";
-      anchor.appendChild(badgeEl);
+    let b = iconEl.querySelector(".galeon-badge");
+    if (!b) {
+      b = document.createElement("span");
+      b.className = "galeon-badge";
+      b.textContent = "0";
+      iconEl.appendChild(b);
     }
-    return badgeEl;
+    return b;
   };
 
   ensureHeaderBadgeStyles();
 
-  const favBadgeEl = ensureBadge(getHeaderFavIcon());
-  const cartBadgeEl = ensureBadge(getHeaderCartIcon());
+  const favIconEl = getHeaderFavIcon();
+  const cartIconEl = getHeaderCartIcon();
+
+  const favBadgeEl = ensureBadge(favIconEl);
+  const cartBadgeEl = ensureBadge(cartIconEl);
 
   const setHeaderBadge = (type, value) => {
     const n = Math.max(0, Math.round(Number(value) || 0));
-    const txt = n > 99 ? "99+" : String(n);
-
     const el = type === "fav" ? favBadgeEl : cartBadgeEl;
     if (!el) return;
-
-    el.textContent = txt;
+    el.textContent = n > 99 ? "99+" : String(n);
     el.style.display = n > 0 ? "inline-flex" : "none";
   };
 
@@ -108,13 +109,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const el = type === "fav" ? favBadgeEl : cartBadgeEl;
     if (!el) return 0;
     const t = String(el.textContent || "0").replace("+", "");
-    const n = Number(t);
+    const n = toNum(t);
     return Number.isFinite(n) ? n : 0;
   };
 
   const bumpHeaderBadge = (type, delta) => {
     setHeaderBadge(type, getHeaderBadge(type) + (Number(delta) || 0));
   };
+
+  const bumpHeaderFav = (delta) => bumpHeaderBadge("fav", delta);
+  const bumpHeaderCart = (delta) => bumpHeaderBadge("cart", delta);
 
   setHeaderBadge("fav", 0);
   setHeaderBadge("cart", 0);
@@ -129,8 +133,8 @@ document.addEventListener("DOMContentLoaded", () => {
     ".products-filter__variant",
   ];
 
-  filterBlocks.forEach((blockSelector) => {
-    const block = qs(blockSelector);
+  filterBlocks.forEach((blockSel) => {
+    const block = qs(blockSel);
     if (!block) return;
 
     const title =
@@ -170,8 +174,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const setCollapsed = (collapsed) => {
       block.dataset.collapsed = collapsed ? "1" : "0";
-      contentNodes.forEach((node) => (node.style.display = collapsed ? "none" : ""));
+      contentNodes.forEach((n) => (n.style.display = collapsed ? "none" : ""));
       if (chevron) chevron.style.transform = collapsed ? "rotate(-90deg)" : "rotate(0deg)";
+
+      const sliders = qsa('input[type="range"]', block);
+      sliders.forEach((r) => {
+        const ev = new Event("input", { bubbles: true });
+        r.dispatchEvent(ev);
+      });
     };
 
     setCollapsed(false);
@@ -203,8 +213,8 @@ document.addEventListener("DOMContentLoaded", () => {
       qs(".filter-height__end", block) ||
       qs(".filter-weight__end", block);
 
-    const inputMin = startWrap ? qs('input[type="number"]', startWrap) : null;
-    const inputMax = endWrap ? qs('input[type="number"]', endWrap) : null;
+    const inputMin = startWrap ? qs('input[type="text"], input[type="number"]', startWrap) : null;
+    const inputMax = endWrap ? qs('input[type="text"], input[type="number"]', endWrap) : null;
 
     const sliderWrap =
       qs(".filter-price__slider", block) ||
@@ -223,77 +233,94 @@ document.addEventListener("DOMContentLoaded", () => {
     const MIN = Number(minMax.min);
     const MAX = Number(minMax.max);
 
+    const THUMB_SIZE = 16;
+    const THUMB_RADIUS = THUMB_SIZE / 2;
+    const TRACK_HEIGHT = 4;
+    const RANGE_HEIGHT = 18;
+
+    rangeMin.type = "range";
     rangeMin.min = String(MIN);
     rangeMin.max = String(MAX);
+    rangeMin.classList.add("slider");
+
+    if (rangeMin.parentElement !== sliderWrap) {
+      sliderWrap.appendChild(rangeMin);
+    }
 
     let rangeMax = qs(`#${rangeId}Max`, block);
     if (!rangeMax) {
       rangeMax = rangeMin.cloneNode(true);
       rangeMax.id = `${rangeId}Max`;
       sliderWrap.appendChild(rangeMax);
+    } else if (rangeMax.parentElement !== sliderWrap) {
+      sliderWrap.appendChild(rangeMax);
     }
 
+    rangeMax.type = "range";
     rangeMax.min = String(MIN);
     rangeMax.max = String(MAX);
+    rangeMax.classList.add("slider");
 
     sliderWrap.style.position = "relative";
-    sliderWrap.style.height = "18px";
+    sliderWrap.style.height = `${RANGE_HEIGHT}px`;
     sliderWrap.style.userSelect = "none";
     sliderWrap.style.webkitUserSelect = "none";
     sliderWrap.style.overflow = "visible";
+    sliderWrap.style.boxSizing = "border-box";
+    sliderWrap.style.paddingLeft = `${THUMB_RADIUS}px`;
+    sliderWrap.style.paddingRight = `${THUMB_RADIUS}px`;
 
-    const ensureTrack = (className) => {
-      let el = qs(`.${className}`, sliderWrap);
+    const ensureTrack = (cls) => {
+      let el = qs(`.${cls}`, sliderWrap);
       if (!el) {
         el = document.createElement("div");
-        el.className = className;
+        el.className = cls;
         sliderWrap.appendChild(el);
       }
       el.style.position = "absolute";
-      el.style.left = "0";
-      el.style.right = "0";
+      el.style.left = `${THUMB_RADIUS}px`;
+      el.style.right = `${THUMB_RADIUS}px`;
       el.style.top = "50%";
-      el.style.height = "4px";
+      el.style.height = `${TRACK_HEIGHT}px`;
       el.style.transform = "translateY(-50%)";
       el.style.borderRadius = "999px";
       el.style.pointerEvents = "none";
       return el;
     };
 
-    const baseTrack = ensureTrack(`${rangeId}-track`);
-    const fillTrack = ensureTrack(`${rangeId}-fill`);
+    const base = ensureTrack(`${rangeId}-track`);
+    const fill = ensureTrack(`${rangeId}-fill`);
 
-    baseTrack.style.background = TRACK;
-    baseTrack.style.zIndex = "1";
+    base.style.background = TRACK;
+    base.style.zIndex = "1";
 
-    fillTrack.style.background = BRAND;
-    fillTrack.style.zIndex = "2";
-    fillTrack.style.left = "0";
-    fillTrack.style.right = "auto";
-    fillTrack.style.width = "0%";
+    fill.style.background = BRAND;
+    fill.style.zIndex = "2";
 
-    const styleRange = (rangeEl, zIndex) => {
-      rangeEl.style.position = "absolute";
-      rangeEl.style.left = "0";
-      rangeEl.style.top = "0";
-      rangeEl.style.width = "100%";
-      rangeEl.style.height = "18px";
-      rangeEl.style.margin = "0";
-      rangeEl.style.background = "transparent";
-      rangeEl.style.pointerEvents = "auto";
-      rangeEl.style.zIndex = String(zIndex);
-      rangeEl.style.outline = "none";
-      rangeEl.style.boxShadow = "none";
-      rangeEl.style.border = "0";
-      rangeEl.style.webkitTapHighlightColor = "transparent";
-      rangeEl.style.appearance = "none";
-      rangeEl.style.webkitAppearance = "none";
-      rangeEl.style.touchAction = "none";
-      rangeEl.style.overflow = "visible";
+    const styleRange = (r, z) => {
+      r.style.position = "absolute";
+      r.style.left = "0";
+      r.style.top = "0";
+      r.style.width = "100%";
+      r.style.height = `${RANGE_HEIGHT}px`;
+      r.style.margin = "0";
+      r.style.padding = "0";
+      r.style.border = "0";
+      r.style.background = "transparent";
+      r.style.pointerEvents = "auto";
+      r.style.zIndex = String(z);
+      r.style.outline = "none";
+      r.style.boxShadow = "none";
+      r.style.webkitTapHighlightColor = "transparent";
+      r.style.appearance = "none";
+      r.style.webkitAppearance = "none";
+      r.style.touchAction = "none";
+      r.style.overflow = "visible";
+      r.style.boxSizing = "border-box";
     };
 
-    styleRange(rangeMin, 3);
-    styleRange(rangeMax, 4);
+    styleRange(rangeMin, 10);
+    styleRange(rangeMax, 11);
 
     const styleThumbs = () => {
       const styleId = `dual-range-style-${rangeId}`;
@@ -302,49 +329,56 @@ document.addEventListener("DOMContentLoaded", () => {
       const styleEl = document.createElement("style");
       styleEl.id = styleId;
       styleEl.textContent = `
-#${rangeId}, #${rangeId}Max { -webkit-appearance:none; appearance:none; background:transparent; overflow:visible; }
-#${rangeId}::-webkit-slider-runnable-track, #${rangeId}Max::-webkit-slider-runnable-track { height:18px; background:transparent; border:0; }
-#${rangeId}::-moz-range-track, #${rangeId}Max::-moz-range-track { height:18px; background:transparent; border:0; }
-
+#${rangeId}, #${rangeId}Max { -webkit-appearance:none; appearance:none; background:transparent; padding:0; border:0; }
+#${rangeId}:focus, #${rangeId}Max:focus { outline:none; }
+#${rangeId}::-webkit-slider-runnable-track, #${rangeId}Max::-webkit-slider-runnable-track { height:${RANGE_HEIGHT}px; background:transparent; }
+#${rangeId}::-moz-range-track, #${rangeId}Max::-moz-range-track { height:${RANGE_HEIGHT}px; background:transparent; }
 #${rangeId}::-webkit-slider-thumb,
 #${rangeId}Max::-webkit-slider-thumb {
   -webkit-appearance:none;
   appearance:none;
-  width:14px;
-  height:14px;
+  width:${THUMB_SIZE}px;
+  height:${THUMB_SIZE}px;
   border-radius:50%;
   background:${BRAND};
-  border:2px solid ${BRAND};
-  box-shadow:0 4px 10px rgba(0,0,0,.12);
+  border:2px solid #fff;
+  box-shadow:0 2px 6px rgba(0,0,0,.2);
   cursor:pointer;
-  margin-top:2px;
+  margin-top:${(RANGE_HEIGHT - THUMB_SIZE) / 2}px;
 }
-
 #${rangeId}::-moz-range-thumb,
 #${rangeId}Max::-moz-range-thumb {
-  width:14px;
-  height:14px;
+  width:${THUMB_SIZE}px;
+  height:${THUMB_SIZE}px;
   border-radius:50%;
   background:${BRAND};
-  border:2px solid ${BRAND};
-  box-shadow:0 4px 10px rgba(0,0,0,.12);
+  border:2px solid #fff;
+  box-shadow:0 2px 6px rgba(0,0,0,.2);
   cursor:pointer;
 }
-
-#${rangeId}::-moz-range-progress, #${rangeId}Max::-moz-range-progress { background:transparent; }
 `;
       document.head.appendChild(styleEl);
     };
 
     styleThumbs();
 
-    const pctByClientX = (clientX) => {
+    const usable = () => {
       const rect = sliderWrap.getBoundingClientRect();
-      const w = rect.width || 1;
-      return clamp((clientX - rect.left) / w, 0, 1);
+      const left = rect.left + THUMB_RADIUS;
+      const right = rect.right - THUMB_RADIUS;
+      const width = Math.max(1, right - left);
+      return { left, right, width };
     };
 
-    const valueByClientX = (clientX) => MIN + pctByClientX(clientX) * (MAX - MIN);
+    const pctByClientX = (clientX) => {
+      const u = usable();
+      return clamp((clientX - u.left) / u.width, 0, 1);
+    };
+
+    const valueByClientX = (clientX) => {
+      const pct = pctByClientX(clientX);
+      return MIN + pct * (MAX - MIN);
+    };
 
     const pickActiveThumb = (clientX) => {
       const v = valueByClientX(clientX);
@@ -352,13 +386,14 @@ document.addEventListener("DOMContentLoaded", () => {
       const vMax = Number(rangeMax.value);
 
       if (Math.abs(v - vMin) <= Math.abs(v - vMax)) {
-        rangeMin.style.zIndex = "6";
-        rangeMax.style.zIndex = "5";
+        rangeMin.style.zIndex = "12";
+        rangeMax.style.zIndex = "11";
         return rangeMin;
+      } else {
+        rangeMax.style.zIndex = "12";
+        rangeMin.style.zIndex = "11";
+        return rangeMax;
       }
-      rangeMax.style.zIndex = "6";
-      rangeMin.style.zIndex = "5";
-      return rangeMax;
     };
 
     const paint = () => {
@@ -372,38 +407,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
         vMin = clamp(vMin, MIN, MAX);
         vMax = clamp(vMax, MIN, MAX);
+
         rangeMin.value = String(vMin);
         rangeMax.value = String(vMax);
       }
 
-      const denom = (MAX - MIN) || 1;
-      const pMin = ((vMin - MIN) / denom) * 100;
-      const pMax = ((vMax - MIN) / denom) * 100;
+      const ratioMin = (vMin - MIN) / (MAX - MIN);
+      const ratioMax = (vMax - MIN) / (MAX - MIN);
 
-      const rect = sliderWrap.getBoundingClientRect();
-      const w = rect.width || 1;
-
-      const THUMB = 14;
-      const R = THUMB / 2;
-
-      const xMin = (pMin / 100) * w;
-      const xMax = (pMax / 100) * w;
-
-      if (xMax - xMin <= 2 * R) {
-        fillTrack.style.left = `calc(${pMin}% + ${R}px)`;
-        fillTrack.style.width = `0px`;
-      } else {
-        fillTrack.style.left = `calc(${pMin}% + ${R}px)`;
-        fillTrack.style.width = `calc(${pMax - pMin}% - ${2 * R}px)`;
-      }
+      fill.style.left = `${ratioMin * 100}%`;
+      fill.style.right = `${(1 - ratioMax) * 100}%`;
 
       inputMin.value = String(Math.round(vMin));
       inputMax.value = String(Math.round(vMax));
     };
 
     const setFromInputs = () => {
-      let vMin = toNumber(inputMin.value);
-      let vMax = toNumber(inputMax.value);
+      let vMin = toNum(inputMin.value);
+      let vMax = toNum(inputMax.value);
 
       if (!Number.isFinite(vMin)) vMin = Number(rangeMin.value);
       if (!Number.isFinite(vMax)) vMax = Number(rangeMax.value);
@@ -418,37 +439,36 @@ document.addEventListener("DOMContentLoaded", () => {
       paint();
     };
 
-    const attachPointerDrag = (rangeEl) => {
-      rangeEl.addEventListener("pointerdown", (e) => {
-        e.preventDefault();
+    const onRangePointerDown = (e) => {
+      e.preventDefault();
+      const active = pickActiveThumb(e.clientX);
 
-        const active = pickActiveThumb(e.clientX);
+      const move = (ev) => {
+        const v = Math.round(valueByClientX(ev.clientX));
+        const curMin = Number(rangeMin.value);
+        const curMax = Number(rangeMax.value);
 
-        const move = (ev) => {
-          const v = Math.round(valueByClientX(ev.clientX));
-          const curMin = Number(rangeMin.value);
-          const curMax = Number(rangeMax.value);
+        if (active === rangeMin) {
+          rangeMin.value = String(clamp(v, MIN, curMax - gap));
+        } else {
+          rangeMax.value = String(clamp(v, curMin + gap, MAX));
+        }
+        paint();
+      };
 
-          if (active === rangeMin) rangeMin.value = String(clamp(v, MIN, curMax - gap));
-          else rangeMax.value = String(clamp(v, curMin + gap, MAX));
+      const up = () => {
+        window.removeEventListener("pointermove", move);
+        window.removeEventListener("pointerup", up);
+        window.removeEventListener("pointercancel", up);
+      };
 
-          paint();
-        };
-
-        const up = () => {
-          window.removeEventListener("pointermove", move);
-          window.removeEventListener("pointerup", up);
-          window.removeEventListener("pointercancel", up);
-        };
-
-        window.addEventListener("pointermove", move);
-        window.addEventListener("pointerup", up);
-        window.addEventListener("pointercancel", up);
-      });
+      window.addEventListener("pointermove", move);
+      window.addEventListener("pointerup", up);
+      window.addEventListener("pointercancel", up);
     };
 
-    attachPointerDrag(rangeMin);
-    attachPointerDrag(rangeMax);
+    rangeMin.addEventListener("pointerdown", onRangePointerDown);
+    rangeMax.addEventListener("pointerdown", onRangePointerDown);
 
     rangeMin.addEventListener("input", paint);
     rangeMax.addEventListener("input", paint);
@@ -460,18 +480,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     rangeMin.value = String(MIN);
     rangeMax.value = String(MAX);
-    inputMin.value = String(MIN);
-    inputMax.value = String(MAX);
+    inputMin.value = String(Math.round(MIN));
+    inputMax.value = String(Math.round(MAX));
 
     requestAnimationFrame(() => paint());
+    setTimeout(() => paint(), 0);
+    setTimeout(() => paint(), 60);
 
     return {
       getValues: () => ({ min: Number(rangeMin.value), max: Number(rangeMax.value) }),
       reset: () => {
         rangeMin.value = String(MIN);
         rangeMax.value = String(MAX);
+        inputMin.value = String(MIN);
+        inputMax.value = String(MAX);
         paint();
       },
+      repaint: () => paint(),
     };
   }
 
@@ -516,6 +541,36 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   const categoryItems = qsa(".filter-category__item");
+
+  const normalize = (s) =>
+    String(s || "")
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, " ");
+
+  const getSelectedCategory = () => {
+    const active = categoryItems.find((i) => i.classList.contains("active"));
+    return normalize(active ? active.textContent : "");
+  };
+
+  const cardMatchesCategory = (card, categoryLabel) => {
+    const label = normalize(categoryLabel);
+    if (!label || label === "все кейсы") return true;
+
+    const title = normalize(qs(".product-card__title", card)?.textContent || "");
+    const sizeText = normalize(qs(".product-card__size", card)?.textContent || "");
+
+    if (label === "мини кейсы") return title.includes("мини") || title.includes("mini");
+    if (label === "средние кейсы") return title.includes("средн") || title.includes("middle") || title.includes("medium");
+    if (label === "большие кейсы") return title.includes("больш") || title.includes("large") || title.includes("big");
+    if (label === "длинные кейсы") return title.includes("длин") || title.includes("long");
+    if (label === "кейсы для ноутбуков") return title.includes("ноут") || title.includes("laptop") || title.includes("macbook");
+    if (label === "контейнеры") return title.includes("контейнер") || title.includes("container");
+
+    if (sizeText) return sizeText.includes(label);
+    return true;
+  };
+
   categoryItems.forEach((item) => {
     item.addEventListener("click", () => {
       categoryItems.forEach((i) => i.classList.remove("active"));
@@ -546,7 +601,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const getSelectedVariants = () => {
     const map = {
-      пустой: ["пустой"],
+      "пустой": ["пустой"],
       "с пропластом": ["пропласт", "пропластом"],
       "с поропластом": ["поропласт", "поропластом"],
       "с делителями": ["делител"],
@@ -563,33 +618,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const cards = qsa(".product-card");
 
-  const initHeartIcons = () => {
-    const likes = qsa(".product-card__like");
-    likes.forEach((like) => {
-      if (like.dataset.liked !== "0" && like.dataset.liked !== "1") like.dataset.liked = "0";
-      like.innerHTML = like.dataset.liked === "1" ? HEART_ON : HEART_OFF;
-    });
-  };
-
-  initHeartIcons();
-
-  document.addEventListener("click", (e) => {
-    const like = e.target.closest(".product-card__like");
+  cards.forEach((card) => {
+    const like = qs(".product-card__like", card);
     if (!like) return;
 
-    e.preventDefault();
-    e.stopPropagation();
+    like.innerHTML = HEART_OFF;
+    like.dataset.liked = "0";
 
-    if (like.dataset.liked !== "0" && like.dataset.liked !== "1") {
-      like.dataset.liked = "0";
-      like.innerHTML = HEART_OFF;
-    }
+    like.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
 
-    const liked = like.dataset.liked === "1";
-    like.dataset.liked = liked ? "0" : "1";
-    like.innerHTML = liked ? HEART_OFF : HEART_ON;
+      const liked = like.dataset.liked === "1";
+      like.dataset.liked = liked ? "0" : "1";
+      like.innerHTML = liked ? HEART_OFF : HEART_ON;
 
-    bumpHeaderBadge("fav", liked ? -1 : 1);
+      bumpHeaderFav(liked ? -1 : 1);
+    });
   });
 
   cards.forEach((card) => {
@@ -611,7 +656,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return el;
       }
 
-      const startVal = toNumber(el.textContent) || toNumber(card.dataset.qty) || 1;
+      const startVal = toNum(el.textContent) || toNum(card.dataset.qty) || 1;
 
       const input = document.createElement("input");
       input.className = el.className;
@@ -640,7 +685,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const readQty = () => {
       if (!valEl) return 1;
-      return toNumber(valEl.value) || 1;
+      return toNum(valEl.value) || 1;
     };
 
     const writeQty = (n) => {
@@ -688,20 +733,26 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.style.transform = "scale(0.98)";
         setTimeout(() => (btn.style.transform = ""), 120);
 
-        bumpHeaderBadge("cart", Number(card.dataset.qty || 1) || 1);
+        const qty = Number(card.dataset.qty || 1) || 1;
+        bumpHeaderCart(qty);
       });
     }
   });
 
-  const searchInput = qs(".catalog-products__area .header-search input") || qs(".header-search input");
+  const searchInput =
+    qs(".catalog-products__area .header-search input") || qs(".header-search input");
 
   function parseCardPrice(card) {
     const priceEl = qs(".product-card__price-value", card);
-    if (!priceEl) return Infinity;
-    const t = priceEl.textContent.trim().toLowerCase();
-    if (t.includes("по запрос")) return Infinity;
-    const n = toNumber(t);
-    return Number.isFinite(n) ? n : Infinity;
+    if (!priceEl) return { value: NaN, isRequest: true };
+
+    const t = String(priceEl.textContent || "").trim().toLowerCase();
+    if (t.includes("по запрос")) return { value: NaN, isRequest: true };
+
+    const n = toNum(t);
+    if (!Number.isFinite(n)) return { value: NaN, isRequest: true };
+
+    return { value: n, isRequest: false };
   }
 
   function parseCardSize(card) {
@@ -732,21 +783,32 @@ document.addEventListener("DOMContentLoaded", () => {
     void weightDual;
 
     const selectedVariantKeywords = getSelectedVariants();
+    const selectedCategory = getSelectedCategory();
+
+    const priceDefaultMax = 100000;
+    const isDefaultPrice = Number(p.min) === 0 && Number(p.max) === priceDefaultMax;
 
     let shown = 0;
+
     cards.forEach((card) => {
-      const price = parseCardPrice(card);
+      const priceObj = parseCardPrice(card);
+      const priceVal = priceObj.value;
+
       const { l, w, h } = parseCardSize(card);
 
-      const okPrice = price >= p.min && price <= p.max;
+      const okPrice = priceObj.isRequest
+        ? isDefaultPrice
+        : priceVal >= p.min && priceVal <= p.max;
+
       const okLen = !Number.isFinite(l) ? true : l >= len.min && l <= len.max;
       const okWid = !Number.isFinite(w) ? true : w >= wid.min && w <= wid.max;
       const okHei = !Number.isFinite(h) ? true : h >= hei.min && h <= hei.max;
 
       const okVariants = cardMatchesVariants(card, selectedVariantKeywords);
       const okSearch = cardMatchesSearch(card);
+      const okCategory = cardMatchesCategory(card, selectedCategory);
 
-      const visible = okPrice && okLen && okWid && okHei && okVariants && okSearch;
+      const visible = okPrice && okLen && okWid && okHei && okVariants && okSearch && okCategory;
 
       card.style.display = visible ? "" : "none";
       if (visible) shown += 1;
@@ -764,11 +826,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const resetBtn = qs(".products-filter__reset");
   if (resetBtn) {
     resetBtn.addEventListener("click", () => {
-      if (priceDual) priceDual.reset();
-      if (lengthDual) lengthDual.reset();
-      if (widthDual) widthDual.reset();
-      if (heightDual) heightDual.reset();
-      if (weightDual) weightDual.reset();
+      priceDual?.reset();
+      lengthDual?.reset();
+      widthDual?.reset();
+      heightDual?.reset();
+      weightDual?.reset();
 
       variantItems.forEach((item) => {
         item.classList.remove("is-selected");
@@ -781,7 +843,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (categoryItems.length) {
         categoryItems.forEach((i) => i.classList.remove("active"));
-        const all = categoryItems.find((i) => i.textContent.trim().toLowerCase() === "все кейсы");
+        const all = categoryItems.find(
+          (i) => i.textContent.trim().toLowerCase() === "все кейсы"
+        );
         (all || categoryItems[0]).classList.add("active");
       }
 
@@ -790,10 +854,26 @@ document.addEventListener("DOMContentLoaded", () => {
       cards.forEach((c) => (c.style.display = ""));
       const foundEl = qs(".products-filter__find .number");
       if (foundEl) foundEl.textContent = `${cards.length} позиций`;
+
+      priceDual?.repaint?.();
+      lengthDual?.repaint?.();
+      widthDual?.repaint?.();
+      heightDual?.repaint?.();
+      weightDual?.repaint?.();
+
+      applyFilters();
     });
   }
 
   cards.forEach((c) => (c.style.display = ""));
   const foundEl = qs(".products-filter__find .number");
   if (foundEl) foundEl.textContent = `${cards.length} позиций`;
+
+  priceDual?.repaint?.();
+  lengthDual?.repaint?.();
+  widthDual?.repaint?.();
+  heightDual?.repaint?.();
+  weightDual?.repaint?.();
+
+  applyFilters();
 });
