@@ -37,21 +37,18 @@
 .additional-card__top {
   display: flex;
   justify-content: space-between;
-  gap: 30px;
   align-items: stretch;
   margin-top: 50px;
   padding-bottom: 28px;
-  border-bottom: 1px solid #dce3ec;
 }
 
 .additional-card__left,
 .additional-card__right {
   min-width: 0;
-  margin: 20px 0;
 }
 
 .additional-card__left {
-  width: 46%;
+  width: 47%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -59,7 +56,7 @@
 }
 
 .additional-card__right {
-  width: 54%;
+  width: 46%;
   display: flex;
   justify-content: flex-end;
   align-items: stretch;
@@ -119,7 +116,6 @@
   flex-wrap: wrap;
   gap: 20px;
   width: 100%;
-  margin-top: 30px;
   margin-bottom: 0;
   padding-bottom: 30px;
   border-bottom: 1px solid #dce3ec;
@@ -132,7 +128,6 @@
   align-items: flex-start;
   gap: 10px;
   background: #ebeff4;
-  border-radius: 10px;
   box-sizing: border-box;
   width: calc((100% - 40px) / 3);
   margin-bottom: 20px;

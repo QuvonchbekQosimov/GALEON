@@ -10,9 +10,9 @@ body {
 }
 
 .container {
-  max-width: 1280px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 0 12px;
+  padding: 0;
   box-sizing: border-box;
   width: 100%;
 }
@@ -275,7 +275,7 @@ body {
   font-weight: 700;
   line-height: normal;
   position: absolute;
-  right: 20px;
+  right: 200px;
   bottom: 200px;
   transform: rotate(-90deg);
   transform-origin: right bottom;
@@ -516,8 +516,6 @@ body {
 }
 
 .product-card__link svg {
-  width: 18px;
-  height: 18px;
   display: block;
   transform-box: fill-box;
   transform-origin: center;
@@ -547,12 +545,7 @@ body {
 }
 
 .card-2 .product-card__img img {
-  width: 250px;
-}
-
-.card-1 .product-card__img img {
-  width: 436px;
-  height: 240px;
+  width: 300px;
 }
 
 .card-1 {
@@ -602,7 +595,7 @@ body {
 }
 
 .card-1 .product-card__img img {
-  width: 420px;
+  width: 460px;
   height: auto;
   object-fit: contain;
   display: block;
@@ -756,7 +749,7 @@ body {
 .contact {
   display: flex;
   align-items: stretch;
-  gap: 40px;
+  gap: 70px;
 }
 
 .contact-img {
@@ -779,10 +772,11 @@ body {
   z-index: 10;
   width: auto !important;
   height: auto !important;
+  flex: 0.9;
 }
 
 .contact-info {
-  flex: 1;
+  flex: 1.1;
   padding: 0 10px;
   display: flex;
   flex-direction: column;
@@ -814,7 +808,6 @@ body {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  border: none;
 }
 
 .contact-info__number {
@@ -822,13 +815,14 @@ body {
   max-width: 568px;
   box-sizing: border-box;
   display: block;
+  border: 1px solid #ffffff;
 }
 
 .contact-info__name input,
 .contact-info__message textarea {
   width: 100%;
   padding: 16px;
-  border: 1px solid #e5e5e5;
+  border: 1px solid #ffffff;
   outline: none;
   font-family: Manrope, sans-serif;
   font-size: 16px;
@@ -866,7 +860,7 @@ body {
 .contact-info__number input {
   width: 100%;
   padding: 16px 16px 16px 52px;
-  border: 1px solid #e5e5e5;
+  border: 1px solid #ffffff;
   outline: none;
   font-family: Manrope, sans-serif;
   font-size: 16px;
@@ -982,7 +976,7 @@ body {
   font-family: "Manrope", sans-serif;
   font-size: 16px;
   line-height: 140%;
-  max-width: 220px;
+  max-width: 320px;
 }
 
 .footer-top2__title,
@@ -1871,9 +1865,6 @@ body {
   transform: rotate(180deg);
 }
 
-/* =========================
-   RIGHT SIDE
-========================= */
 #galeon-mega .mega-right {
   flex: 1;
   min-width: 0;
@@ -1903,15 +1894,13 @@ body {
   color: #23a8b3;
   text-decoration: none;
   transition: all 0.3s ease;
+  border-bottom: 1px dashed;
 }
 
 #galeon-mega .mega-right__all:hover {
   color: #137780;
 }
 
-/* =========================
-   GRID
-========================= */
 #galeon-mega-grid {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -1925,9 +1914,6 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
-/* =========================
-   CARD BASE
-========================= */
 .mm-card {
   background: #f2f2f2;
   border-radius: 0;

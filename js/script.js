@@ -133,28 +133,25 @@
   };
 
   const ensureMegaOverlay = () => {
-  if (state.megaOverlay) return state.megaOverlay;
+    if (state.megaOverlay) return state.megaOverlay;
 
-  const o = document.createElement("div");
-  o.id = "galeon-mega-overlay";
+    const o = document.createElement("div");
+    o.id = "galeon-mega-overlay";
 
-  o.style.position = "fixed";
-  o.style.left = "0";
-  o.style.right = "0";
-  o.style.bottom = "0";
-  o.style.background = "rgba(0,0,0,.35)";
-  o.style.opacity = "0";
-  o.style.pointerEvents = "none";
-  o.style.transition = "opacity 0.2s ease";
-  o.style.zIndex = "9998";
+    o.style.position = "fixed";
+    o.style.left = "0";
+    o.style.right = "0";
+    o.style.bottom = "0";
+    o.style.background = "rgba(0,0,0,.35)";
+    o.style.opacity = "0";
+    o.style.pointerEvents = "none";
+    o.style.transition = "opacity 0.2s ease";
+    o.style.zIndex = "9998";
 
-  document.body.appendChild(o);
-  state.megaOverlay = o;
-  return o;
-};
-
-
-
+    document.body.appendChild(o);
+    state.megaOverlay = o;
+    return o;
+  };
 
   const buildCard = (cfg) => {
     const card = document.createElement("a");
@@ -660,54 +657,52 @@
   };
 
   const setMegaMenu = (open) => {
-  const overlay = ensureMegaOverlay();
-  const mega = buildMegaMenu();
+    const overlay = ensureMegaOverlay();
+    const mega = buildMegaMenu();
 
-  state.megaOpen = !!open;
+    state.megaOpen = !!open;
 
-  const headerRect = header ? header.getBoundingClientRect() : { bottom: 0 };
-  const topPx = Math.max(0, Math.round(headerRect.bottom));
+    const headerRect = header ? header.getBoundingClientRect() : { bottom: 0 };
+    const topPx = Math.max(0, Math.round(headerRect.bottom));
 
-  if (state.megaOpen) {
-    mega.style.top = `${topPx}px`;
-    mega.style.height = `calc(100vh - ${topPx}px)`;
-    mega.style.display = "block";
+    if (state.megaOpen) {
+      mega.style.top = `${topPx}px`;
+      mega.style.height = `calc(100vh - ${topPx}px)`;
+      mega.style.display = "block";
 
-    overlay.style.top = `${topPx}px`;
-    overlay.style.height = `calc(100vh - ${topPx}px)`;
-    overlay.style.opacity = "1";
-    overlay.style.pointerEvents = "auto";
+      overlay.style.top = `${topPx}px`;
+      overlay.style.height = `calc(100vh - ${topPx}px)`;
+      overlay.style.opacity = "1";
+      overlay.style.pointerEvents = "auto";
 
-    lockBody(true);
-    setMenuBtnUI(true);
-    document.body.classList.add("mega-open");
-  } else {
-    mega.style.display = "none";
+      lockBody(true);
+      setMenuBtnUI(true);
+      document.body.classList.add("mega-open");
+    } else {
+      mega.style.display = "none";
 
-    overlay.style.opacity = "0";
-    overlay.style.pointerEvents = "none";
+      overlay.style.opacity = "0";
+      overlay.style.pointerEvents = "none";
 
-    lockBody(false);
-    setMenuBtnUI(false);
-    document.body.classList.remove("mega-open");
-  }
-};
-
+      lockBody(false);
+      setMenuBtnUI(false);
+      document.body.classList.remove("mega-open");
+    }
+  };
 
   const bindMegaMenu = () => {
-  if (!menuBtn) return;
+    if (!menuBtn) return;
 
-  menuBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    setMegaMenu(!state.megaOpen);
-  });
+    menuBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      setMegaMenu(!state.megaOpen);
+    });
 
-  window.addEventListener("resize", () => {
-    if (!state.megaOpen) return;
-    setMegaMenu(true);
-  });
-};
-
+    window.addEventListener("resize", () => {
+      if (!state.megaOpen) return;
+      setMegaMenu(true);
+    });
+  };
 
   const bindChanceNav = () => {
     if (!chanceWrap || !chancePrev || !chanceNext) return;
@@ -1134,7 +1129,7 @@
     st.id = STYLE_ID;
     st.textContent = `
 .galeon-lead-overlay{position:fixed;inset:0;z-index:100000;background:rgba(0,0,0,.45);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);display:flex;align-items:center;justify-content:center;padding:18px;}
-.galeon-lead-modal{width:min(660px,82vw);background:#fff;box-shadow:0 10px 30px rgba(0,0,0,.15);position:relative;padding:10px 15px;box-sizing:border-box;height:auto;display:flex;flex-direction:column;gap:8px;}
+.galeon-lead-modal{width:min(660px,82vw);background:#fff;box-shadow:0 10px 30px rgba(0,0,0,.15);position:relative;padding:10px 15px;box-sizing:border-box;height:auto;display:flex;flex-direction:column;gap:10px;}
 .galeon-lead-modal *{margin-top:0!important;margin-bottom:0!important;}
 .galeon-lead-close{position:absolute;top:18px;right:18px;width:34px;height:34px;border-radius:50%;border:1px solid #e9eef2;background:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:transform 120ms ease,box-shadow 120ms ease;}
 .galeon-lead-close:hover{}
@@ -1181,230 +1176,228 @@
   };
 
   const openLeadModal = (prefill = {}) => {
-  ensureLeadModalStyles();
+    ensureLeadModalStyles();
 
-  const overlay = document.createElement("div");
-  overlay.className = "galeon-lead-overlay";
+    const overlay = document.createElement("div");
+    overlay.className = "galeon-lead-overlay";
 
-  const modal = document.createElement("div");
-  modal.className = "galeon-lead-modal";
-  modal.setAttribute("role", "dialog");
-  modal.setAttribute("aria-modal", "true");
-  modal.setAttribute("aria-label", "Оставить заявку");
+    const modal = document.createElement("div");
+    modal.className = "galeon-lead-modal";
+    modal.setAttribute("role", "dialog");
+    modal.setAttribute("aria-modal", "true");
+    modal.setAttribute("aria-label", "Оставить заявку");
+    const isMobile = window.matchMedia("(max-width: 900px)").matches;
 
-  // ✅ SIZE SETTINGS (desktop: 580px, padding: 40px)
-  const isMobile = window.matchMedia("(max-width: 900px)").matches;
+    if (isMobile) {
+      modal.style.width = "92vw";
+      modal.style.maxWidth = "92vw";
+      modal.style.minWidth = "0";
+    } else {
+      modal.style.width = "580px";
+      modal.style.maxWidth = "580px";
+      modal.style.minWidth = "580px";
+      modal.style.padding = "40px";
+    }
 
-  if (isMobile) {
-    modal.style.width = "92vw";
-    modal.style.maxWidth = "92vw";
-    modal.style.minWidth = "0";
-    // mobile padding xohlasangiz:
-    // modal.style.padding = "20px 18px 16px";
-  } else {
-    modal.style.width = "580px";
-    modal.style.maxWidth = "580px";
-    modal.style.minWidth = "580px";
-    modal.style.padding = "40px";
-  }
-
-  const closeBtn = document.createElement("button");
-  closeBtn.type = "button";
-  closeBtn.className = "galeon-lead-close";
-  closeBtn.setAttribute("aria-label", "Close");
-  closeBtn.innerHTML = `
+    const closeBtn = document.createElement("button");
+    closeBtn.type = "button";
+    closeBtn.className = "galeon-lead-close";
+    closeBtn.setAttribute("aria-label", "Close");
+    closeBtn.innerHTML = `
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
   <path d="M12.5 3.5L3.5 12.5" stroke="#8FA0AE" stroke-width="2" stroke-linecap="round"/>
   <path d="M3.5 3.5L12.5 12.5" stroke="#8FA0AE" stroke-width="2" stroke-linecap="round"/>
 </svg>`;
 
-  const title = document.createElement("h2");
-  title.className = "galeon-lead-title";
-  title.textContent = "Оставить заявку";
+    const title = document.createElement("h2");
+    title.className = "galeon-lead-title";
+    title.textContent = "Оставить заявку";
 
-  const subtitle = document.createElement("p");
-  subtitle.className = "galeon-lead-subtitle";
-  subtitle.textContent =
-    "Заполните форму – мы свяжемся с вами в кратчайшие сроки и предоставим консультацию";
+    const subtitle = document.createElement("p");
+    subtitle.className = "galeon-lead-subtitle";
+    subtitle.textContent =
+      "Заполните форму – мы свяжемся с вами в кратчайшие сроки и предоставим консультацию";
 
-  const nameInput = document.createElement("input");
-  nameInput.className = "galeon-lead-field";
-  nameInput.type = "text";
-  nameInput.placeholder = "Ваше имя*";
-  nameInput.value = prefill.name || "";
+    const nameInput = document.createElement("input");
+    nameInput.className = "galeon-lead-field";
+    nameInput.type = "text";
+    nameInput.placeholder = "Ваше имя*";
+    nameInput.value = prefill.name || "";
 
-  const phoneWrap = document.createElement("div");
-  phoneWrap.className = "galeon-lead-phone";
+    const phoneWrap = document.createElement("div");
+    phoneWrap.className = "galeon-lead-phone";
 
-  const flag = document.createElement("div");
-  flag.className = "galeon-lead-flag";
-  flag.innerHTML = ruFlagSvg;
+    const flag = document.createElement("div");
+    flag.className = "galeon-lead-flag";
+    flag.innerHTML = ruFlagSvg;
 
-  const phoneInput = document.createElement("input");
-  phoneInput.type = "tel";
-  phoneInput.placeholder = "+7 999 999 99 99*";
-  phoneInput.value = prefill.phone || "";
+    const phoneInput = document.createElement("input");
+    phoneInput.type = "tel";
+    phoneInput.placeholder = "+7 999 999 99 99*";
+    phoneInput.value = prefill.phone || "";
 
-  phoneWrap.appendChild(flag);
-  phoneWrap.appendChild(phoneInput);
+    phoneWrap.appendChild(flag);
+    phoneWrap.appendChild(phoneInput);
 
-  const msg = document.createElement("textarea");
-  msg.className = "galeon-lead-field galeon-lead-textarea";
-  msg.placeholder = "Комментарий";
-  msg.value = prefill.message || "";
+    const msg = document.createElement("textarea");
+    msg.className = "galeon-lead-field galeon-lead-textarea";
+    msg.placeholder = "Комментарий";
+    msg.value = prefill.message || "";
 
-  const submit = document.createElement("button");
-  submit.type = "button";
-  submit.className = "galeon-lead-submit";
-  submit.textContent = "Оставить заявку";
+    const submit = document.createElement("button");
+    submit.type = "button";
+    submit.className = "galeon-lead-submit";
+    submit.textContent = "Оставить заявку";
 
-  let consentOn = true;
+    let consentOn = true;
 
-  const consentRow = document.createElement("div");
-  consentRow.className = "galeon-lead-consent";
+    const consentRow = document.createElement("div");
+    consentRow.className = "galeon-lead-consent";
 
-  const check = document.createElement("div");
-  check.className = "galeon-lead-check is-on";
-  check.setAttribute("role", "checkbox");
-  check.setAttribute("tabindex", "0");
-  check.setAttribute("aria-checked", "true");
-  check.innerHTML = `
+    const check = document.createElement("div");
+    check.className = "galeon-lead-check is-on";
+    check.setAttribute("role", "checkbox");
+    check.setAttribute("tabindex", "0");
+    check.setAttribute("aria-checked", "true");
+    check.innerHTML = `
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none">
   <path d="M3 8.5L6.2 11.7L13 4.9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>`;
 
-  const consentText = document.createElement("div");
-  consentText.innerHTML = `Нажимая кнопку «Отправить», вы даете согласие на <a href="#" onclick="return false;">обработку персональных данных</a>`;
+    const consentText = document.createElement("div");
+    consentText.innerHTML = `Нажимая кнопку «Отправить», вы даете согласие на <a href="#" onclick="return false;">обработку персональных данных</a>`;
 
-  const setConsentUI = (on) => {
-    consentOn = !!on;
-    check.classList.toggle("is-on", consentOn);
-    check.setAttribute("aria-checked", consentOn ? "true" : "false");
-  };
+    const setConsentUI = (on) => {
+      consentOn = !!on;
+      check.classList.toggle("is-on", consentOn);
+      check.setAttribute("aria-checked", consentOn ? "true" : "false");
+    };
 
-  const toggleConsent = () => setConsentUI(!consentOn);
+    const toggleConsent = () => setConsentUI(!consentOn);
 
-  check.addEventListener("click", toggleConsent);
-  check.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      toggleConsent();
-    }
-  });
-
-  consentRow.appendChild(check);
-  consentRow.appendChild(consentText);
-
-  const setErr = (el, on) => {
-    if (!el) return;
-    el.style.outline = on ? "2px solid rgba(213,43,30,.55)" : "none";
-    el.style.borderRadius = "6px";
-  };
-
-  const onPhoneInput = () => {
-    const digits = phoneInput.value.replace(/\D/g, "");
-    if (!digits) return;
-
-    let out = "";
-    if (digits[0] === "7" || digits[0] === "8") out = maskRUPhone(digits);
-    else out = "+" + digits;
-
-    phoneInput.value = out;
-  };
-
-  phoneInput.addEventListener("input", onPhoneInput);
-  phoneInput.addEventListener("blur", onPhoneInput);
-  phoneInput.addEventListener("focus", () => {
-    if (!phoneInput.value) phoneInput.value = "+7 ";
-  });
-
-  const close = () => {
-    document.removeEventListener("keydown", onEsc);
-    if (overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay);
-    lockBody(false);
-  };
-
-  const onEsc = (e) => {
-    if (e.key === "Escape") close();
-
-    if (e.key === "Tab") {
-      const focusables = Array.from(
-        modal.querySelectorAll(`button,input,textarea,[tabindex]:not([tabindex="-1"])`),
-      ).filter((x) => x.offsetParent !== null);
-
-      if (!focusables.length) return;
-      const first = focusables[0];
-      const last = focusables[focusables.length - 1];
-
-      if (e.shiftKey && document.activeElement === first) {
+    check.addEventListener("click", toggleConsent);
+    check.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
-        last.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault();
-        first.focus();
+        toggleConsent();
       }
-    }
+    });
+
+    consentRow.appendChild(check);
+    consentRow.appendChild(consentText);
+
+    const setErr = (el, on) => {
+      if (!el) return;
+      el.style.outline = on ? "2px solid rgba(213,43,30,.55)" : "none";
+      el.style.borderRadius = "6px";
+    };
+
+    const onPhoneInput = () => {
+      const digits = phoneInput.value.replace(/\D/g, "");
+      if (!digits) return;
+
+      let out = "";
+      if (digits[0] === "7" || digits[0] === "8") out = maskRUPhone(digits);
+      else out = "+" + digits;
+
+      phoneInput.value = out;
+    };
+
+    phoneInput.addEventListener("input", onPhoneInput);
+    phoneInput.addEventListener("blur", onPhoneInput);
+    phoneInput.addEventListener("focus", () => {
+      if (!phoneInput.value) phoneInput.value = "+7 ";
+    });
+
+    const close = () => {
+      document.removeEventListener("keydown", onEsc);
+      if (overlay && overlay.parentNode)
+        overlay.parentNode.removeChild(overlay);
+      lockBody(false);
+    };
+
+    const onEsc = (e) => {
+      if (e.key === "Escape") close();
+
+      if (e.key === "Tab") {
+        const focusables = Array.from(
+          modal.querySelectorAll(
+            `button,input,textarea,[tabindex]:not([tabindex="-1"])`,
+          ),
+        ).filter((x) => x.offsetParent !== null);
+
+        if (!focusables.length) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    };
+
+    submit.addEventListener("click", () => {
+      const n = (nameInput.value || "").trim();
+      const p = (phoneInput.value || "").trim();
+
+      setErr(nameInput, false);
+      setErr(phoneWrap, false);
+      setErr(msg, false);
+
+      let ok = true;
+
+      if (n.length < 2) {
+        setErr(nameInput, true);
+        ok = false;
+      }
+      if (!isPhoneValid(p)) {
+        setErr(phoneWrap, true);
+        ok = false;
+      }
+
+      if (!consentOn) ok = false;
+
+      if (!ok) {
+        if (!consentOn) toast("Нужно согласие на обработку данных");
+        else toast("Заполните все поля корректно");
+        return;
+      }
+
+      toast("Заявка отправлена");
+      close();
+    });
+
+    modal.appendChild(closeBtn);
+    modal.appendChild(title);
+    modal.appendChild(subtitle);
+
+    modal.appendChild(nameInput);
+    modal.appendChild(document.createElement("div")).style.height = "14px";
+
+    modal.appendChild(phoneWrap);
+    modal.appendChild(document.createElement("div")).style.height = "14px";
+
+    modal.appendChild(msg);
+    modal.appendChild(submit);
+    modal.appendChild(consentRow);
+
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) close();
+    });
+    closeBtn.addEventListener("click", close);
+
+    document.addEventListener("keydown", onEsc);
+
+    lockBody(true);
+    setTimeout(() => nameInput.focus(), 0);
   };
-
-  submit.addEventListener("click", () => {
-    const n = (nameInput.value || "").trim();
-    const p = (phoneInput.value || "").trim();
-
-    setErr(nameInput, false);
-    setErr(phoneWrap, false);
-    setErr(msg, false);
-
-    let ok = true;
-
-    if (n.length < 2) {
-      setErr(nameInput, true);
-      ok = false;
-    }
-    if (!isPhoneValid(p)) {
-      setErr(phoneWrap, true);
-      ok = false;
-    }
-
-    if (!consentOn) ok = false;
-
-    if (!ok) {
-      if (!consentOn) toast("Нужно согласие на обработку данных");
-      else toast("Заполните все поля корректно");
-      return;
-    }
-
-    toast("Заявка отправлена");
-    close();
-  });
-
-  modal.appendChild(closeBtn);
-  modal.appendChild(title);
-  modal.appendChild(subtitle);
-
-  modal.appendChild(nameInput);
-  modal.appendChild(document.createElement("div")).style.height = "14px";
-
-  modal.appendChild(phoneWrap);
-  modal.appendChild(document.createElement("div")).style.height = "14px";
-
-  modal.appendChild(msg);
-  modal.appendChild(submit);
-  modal.appendChild(consentRow);
-
-  overlay.appendChild(modal);
-  document.body.appendChild(overlay);
-
-  overlay.addEventListener("click", (e) => {
-    if (e.target === overlay) close();
-  });
-  closeBtn.addEventListener("click", close);
-
-  document.addEventListener("keydown", onEsc);
-
-  lockBody(true);
-  setTimeout(() => nameInput.focus(), 0);
-};
-
 
   const bindAdditionalButtonsToLeadModal = () => {
     const selectors =
@@ -1835,12 +1828,11 @@
     }
 
     const pos = [
-  { top: "18%", left: "78%" },
-  { top: "70%", left: "78%" },
-  { top: "75%", left: "60%" },
-  { top: "63%", left: "54%" },
-];
-
+      { top: "25%", left: "75%" },
+      { top: "75%", left: "75%" },
+      { top: "84%", left: "58%" },
+      { top: "63%", left: "57%" },
+    ];
 
     const texts2Lines = [
       "Мягкий поропласт<br>для надежной фиксации груза",

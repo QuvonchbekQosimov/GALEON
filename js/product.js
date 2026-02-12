@@ -1,8 +1,4 @@
-// /js/script.js
 document.addEventListener("DOMContentLoaded", () => {
-  // =========================
-  // Helpers
-  // =========================
   const $ = (s, root = document) => root.querySelector(s);
   const $$ = (s, root = document) => Array.from(root.querySelectorAll(s));
 
